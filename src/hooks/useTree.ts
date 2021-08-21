@@ -12,7 +12,7 @@ export const useTree = () => {
     url?: string
   }
 
-  const currentSha = 'main'
+  const currentSha = process.env.shaBranch || 'main'
   const threePath = `https://api.github.com/repos/lguibr/luisguilher.me/git/trees/${currentSha}?recursive=1`
   const [tree, setTree] = useState<NodeTree[]>([])
 
