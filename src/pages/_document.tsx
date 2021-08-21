@@ -6,6 +6,7 @@ import Document, {
   Main,
   NextScript
 } from 'next/document'
+
 import { ServerStyleSheet } from 'styled-components'
 
 export default class MyDocument extends Document {
@@ -13,16 +14,14 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <body>
-            <Main />
-            <NextScript />
-            <meta charSet="utf-8" />
-            <link
-              href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700&display=optional"
-              rel="stylesheet"
-            />
-          </body>
+          <link rel="shortcut icon" href="/favicon.ico" />
+          <meta name="description" content="Luis Guilherme Page" />
+          <meta charSet="utf-8" />
         </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
       </Html>
     )
   }
