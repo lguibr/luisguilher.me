@@ -29,7 +29,8 @@ const FileView: React.FC = () => {
 
   const fetchFileByPath = async (path: string) => {
     setLoading(true)
-    const filePath = `https://api.github.com/repos/lguibr/luisguilher.me/contents/${path}?ref=main`
+    const branchSha = process.env.shaBranch
+    const filePath = `https://api.github.com/repos/lguibr/luisguilher.me/contents/${path}?ref=${branchSha}`
     const res = await fetch(filePath)
     const data = await res.json()
 
