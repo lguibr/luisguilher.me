@@ -1,11 +1,13 @@
 import P5 from 'p5'
+
 import Sketch from '../Sketch'
 import { useEffect, useRef, useState } from 'react'
 import { Container, Canvas } from './styled'
-const Engine = () => {
-  const p5Ref = useRef(null)
-  const parentRef = useRef(null)
-  const [canvas, setCanvas] = useState()
+
+const Engine: React.FC = () => {
+  const p5Ref = useRef<HTMLDivElement | null>(null)
+  const parentRef = useRef<HTMLDivElement | null>(null)
+  const [canvas, setCanvas] = useState<P5 | null>(null)
 
   const height = parentRef?.current?.clientHeight || 200
   const width = parentRef?.current?.clientWidth || 200
@@ -16,7 +18,7 @@ const Engine = () => {
     const newWidth = contentRect?.width
     const newHeight = contentRect?.height
 
-    canvas && canvas.resize(newWidth - 20, newHeight - 20)
+    canvas && canvas?.resizeCanvas(newWidth - 20, newHeight - 20)
   })
 
   if (parentRef && parentRef.current && typeof window !== 'undefined') {
@@ -26,12 +28,12 @@ const Engine = () => {
   const sketch = Sketch(setCanvas)
 
   useEffect(() => {
-    return new P5(sketch, p5Ref.current)
+    p5Ref?.current && setCanvas(new P5(sketch, p5Ref?.current))
   }, [])
 
   useEffect(() => {
     const debounce = setTimeout(() => {
-      canvas && canvas.resize(width, height)
+      canvas && canvas?.resizeCanvas(width, height)
     }, 500)
     return () => clearTimeout(debounce)
   }, [height, width])

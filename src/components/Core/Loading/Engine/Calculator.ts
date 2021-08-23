@@ -1,5 +1,10 @@
+type Vector = {
+  x: number
+  y: number
+}
+
 export default class Calculator {
-  sumVector(vector1, vector2) {
+  sumVector(vector1: Vector, vector2: Vector): Vector {
     const vector1Entries = Object.entries(vector1)
     const vector2Entries = Object.entries(vector2)
 
@@ -22,7 +27,7 @@ export default class Calculator {
     return Object.fromEntries(sumOfEntries)
   }
 
-  divideVectorByNumber(vector1, number) {
+  divideVectorByNumber(vector1: Vector, number: number): Vector {
     const vectorEntries = Object.entries(vector1)
     const vectorDivided = vectorEntries.map(([key, value]) => [
       key,
@@ -31,11 +36,11 @@ export default class Calculator {
     return Object.fromEntries(vectorDivided)
   }
 
-  randomInteger(min, max) {
+  randomInteger(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
-  createRandomVector(vectorBluePrint) {
+  createRandomVector(vectorBluePrint: Array<[number, number]>): Vector {
     const [xTemplate, yTemplate] = vectorBluePrint
     return {
       x: this.randomInteger(...xTemplate),
