@@ -25,30 +25,7 @@ export default {
       queryString: '#F0C1A3',
       inputBackground: '#FFF',
       selectedBlue: '#CCE9FC',
-      subString: '#99999A',
-
-      editorForeground: '#000000',
-      editorInactiveSelectionBackground: '#E5EBF1',
-      editorIndentGuideBackground: '#D3D3D3',
-      editorIndentGuideActiveBackground: '#939393',
-      editorSelectionHighlightBackground: '#ADD6FF80',
-      editorSuggestWidgetBackground: '#F3F3F3',
-      activityBarBadgeBackground: '#007ACC',
-      sideBarTitleForeground: '#6F6F6F',
-      listHoverBackground: '#E8E8E8',
-      inputPlaceholderForeground: '#767676',
-      searchEditorTextInputBorder: '#CECECE',
-      settingsTextInputBorder: '#CECECE',
-      settingsNumberInputBorder: '#CECECE',
-      statusBarItemRemoteForeground: '#FFF',
-      statusBarItemRemoteBackground: '#16825D',
-      sideBarSectionHeaderBackground: '#0000',
-      sideBarSectionHeaderBorder: 'P#61616130',
-      tabLastPinnedBorder: '#61616130',
-      notebookCellBorderColor: '#E8E8E8',
-      notebookSelectedCellBackground: '#c8ddf150',
-      statusBarItemErrorBackground: '#c72e0f',
-      listActiveSelectionIconForeground: '#FFF'
+      subString: '#99999A'
     },
     breakpoints
   },
@@ -70,23 +47,7 @@ export default {
       queryString: '#66371A',
       inputBackground: '#3C3C3C',
       selectedBlue: '#245779',
-      subString: '#99999A',
-
-      editorForeground: '#D4D4D4',
-      editorInactiveSelectionBackground: '#3A3D41',
-      editorIndentGuideBackground: '#404040',
-      editorIndentGuideActiveBackground: '#707070',
-      editorSelectionHighlightBackground: '#ADD6FF26',
-      activityBarBadgeBackground: '#007ACC',
-      sideBarTitleForeground: '#BBBBBB',
-      inputPlaceholderForeground: '#A6A6A6',
-      menuForeground: '#CCCCCC',
-      statusBarItemRemoteForeground: '#FFF',
-      statusBarItemRemoteBackground: '#16825D',
-      sideBarSectionHeaderBackground: '#0000',
-      sideBarSectionHeaderBorder: '#ccc3',
-      tabLastPinnedBorder: '#ccc3',
-      listActiveSelectionIconForeground: '#FFF'
+      subString: '#99999A'
     },
     breakpoints
   }
