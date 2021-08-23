@@ -20,7 +20,6 @@ export const MatchBody = styled.div`
 `
 export const MatchHeader = styled.div`
   padding: 0px 8px;
-  border: 2px dotted red;
   display: flex;
   box-sizing: border-box;
   svg {
@@ -63,6 +62,7 @@ interface PropsCaseSensitiveContainer {
 }
 
 export const CaseSensitiveContainer = styled.div<PropsCaseSensitiveContainer>`
+  cursor: pointer;
   background-color: ${({ theme, caseInsensitive }) =>
     !caseInsensitive
       ? theme.colors.inputBackground
