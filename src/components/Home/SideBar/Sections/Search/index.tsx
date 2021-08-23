@@ -70,23 +70,36 @@ const Search: React.FC = () => {
     if (match && match?.lines) totalLinesMatched += match?.lines?.length
   })
 
-  const formatLabel = (label, value) => {
+  interface FormattedLabelProps {
+    label: string
+    value: string
+  }
+
+  const FormattedLabel = ({ label, value }: FormattedLabelProps) => {
     if (!value) {
-      return label
+      return <> </>
     }
+    const splitedString = label && value ? label?.split(value) : ['']
+    const splitedLabel = splitedString.map((s, i) => <div key={s + i}>{s}</div>)
     return (
       <span>
-        {label.split(value).reduce((prev, current, i) => {
-          if (!i) {
-            return [current]
-          }
-          return prev.concat(
-            <Highlight as="span" key={value + current}>
-              {value}
-            </Highlight>,
-            current
-          )
-        }, [])}
+        {splitedLabel.reduce<JSX.Element | JSX.Element[]>(
+          (prev, current, i) => {
+            if (!i) {
+              return [current]
+            }
+            return (
+              <div>
+                {prev}
+                <Highlight as="span" key={value + current}>
+                  {value}
+                </Highlight>
+                {current}
+              </div>
+            )
+          },
+          <div />
+        )}
       </span>
     )
   }
@@ -132,7 +145,9 @@ const Search: React.FC = () => {
                 {lines &&
                   lines.map((line, j) => (
                     <Match key={i + j}>
-                      <Text size={12}>{formatLabel(line, query)}</Text>
+                      <Text size={12}>
+                        <FormattedLabel label={line} value={query} />
+                      </Text>
                     </Match>
                   ))}
               </MatchBody>
