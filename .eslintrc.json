@@ -12,6 +12,11 @@
     "plugin:@next/next/recommended",
     "prettier"
   ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
