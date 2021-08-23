@@ -160,6 +160,7 @@ const FileView: React.FC = () => {
 
     const selectedLanguage =
       languages.find(({ regex }) => ext && ext.match(regex))?.name || 'json'
+    console.log({ selectedLanguage })
 
     setCurrentExt(selectedLanguage)
   }, [currentFile])
@@ -170,7 +171,6 @@ const FileView: React.FC = () => {
         {currentFile && (
           <MonacoEditor
             options={options}
-            defaultLanguage="json"
             language={currentExt}
             value={currentContent}
             theme={selectedTheme}
