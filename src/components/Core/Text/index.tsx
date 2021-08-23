@@ -1,10 +1,13 @@
+import theme from 'src/styles/theme'
 import styled from 'styled-components'
+
+const colors = theme?.['vs-dark'].colors
 
 export type TextProps = {
   weight?: string
   font?: string
   size?: number
-  color?: string
+  color?: keyof typeof colors
   children?: JSX.Element | JSX.Element[] | string
   capitalize?: string
   uppercase?: string
