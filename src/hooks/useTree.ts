@@ -21,14 +21,11 @@ export const useTree = () => {
     depth = 1,
     containDirectory = ''
   ): NodeTree[] => {
-    console.log(`checking for containDirectory "${containDirectory}"`)
-
     const fileToCreate = files.filter(
       file =>
         file.path.split('/').length === depth &&
         file.path.includes(containDirectory)
     )
-    console.log(`files to create ${fileToCreate.map(f => f.path)}`)
 
     if (fileToCreate.length) {
       return fileToCreate.map((file: NodeTree) => {
@@ -39,7 +36,7 @@ export const useTree = () => {
         const newNode = {
           ...file,
           name,
-          children: build(files, depth + 1, name)
+          children: !name.includes('.') ? build(files, depth + 1, name) : []
         }
         return newNode
       })
@@ -52,6 +49,7 @@ export const useTree = () => {
     const res = await fetch(threePath)
     const data = await res.json()
     const rawTree = data.tree
+
     const tree: NodeTree[] = build(rawTree)
 
     setTree(tree)
