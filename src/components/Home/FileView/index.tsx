@@ -160,8 +160,6 @@ const FileView: React.FC = () => {
 
     const selectedLanguage =
       languages.find(({ regex }) => ext && ext.match(regex))?.name || 'json'
-    console.log({ selectedLanguage })
-
     setCurrentExt(selectedLanguage)
   }, [currentFile])
   return (
