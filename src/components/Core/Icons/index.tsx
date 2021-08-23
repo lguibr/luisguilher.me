@@ -14,7 +14,13 @@ const Icon: React.FC<IconProps> = ({
   const path = `/icons/${variant}.svg`
   return (
     <Container>
-      <Image src={path} width={width} height={height} />
+      <Image
+        alt={variant}
+        title={variant}
+        src={path}
+        width={width}
+        height={height}
+      />
     </Container>
   )
 }
