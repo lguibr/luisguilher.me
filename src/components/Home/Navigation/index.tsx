@@ -12,7 +12,7 @@ const Navigation: React.FC = () => {
         <Row
           isCurrent={file?.name === currentFile?.name}
           onClick={() => openFile(file)}
-          key={file.name}
+          key={file.path}
         >
           <FileTile folder={false} open={false} file={file} />
           <Close

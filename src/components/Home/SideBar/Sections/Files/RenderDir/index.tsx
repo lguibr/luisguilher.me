@@ -37,7 +37,7 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
           <Container
             embedded={embedded}
             isHighLighted={file?.name === highLighted?.name}
-            key={file.name}
+            key={file.path}
           >
             <File
               embedded={embedded}
