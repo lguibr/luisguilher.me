@@ -52,11 +52,7 @@ const NavBar: React.FC = () => {
       </Section>
       <Section>
         {menuExtras.map(option => (
-          <Option
-            isSelectedSection={false}
-            onClick={() => console.log(option.variant)}
-            key={option.variant}
-          >
+          <Option isSelectedSection={false} key={option.variant}>
             <div>a</div>
             <Icon variant={option.variant} height="30px" width="30px" />
           </Option>
