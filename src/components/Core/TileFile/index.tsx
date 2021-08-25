@@ -15,6 +15,7 @@ import JavascriptIcon from 'public/icons/javascript.svg'
 import PrettierIcon from 'public/icons/prettier.svg'
 import ReactIcon from 'public/icons/react.svg'
 import YarnIcon from 'public/icons/yarn.svg'
+import YamlIcon from 'public/icons/yaml.svg'
 import NodeIcon from 'public/icons/nodejs.svg'
 import FileIcon from 'public/icons/file.svg'
 
@@ -26,6 +27,7 @@ export type FileTileProps = {
 
 const FileTile: React.FC<FileTileProps> = ({ file, folder, open }) => {
   const icons = [
+    { expression: /.png|.jpg|.jpeg|.svg|.ico/, icon: ImageIcon },
     { expression: 'package.json', icon: NodeIcon },
     { expression: 'git', icon: GitIcon },
     { expression: 'eslint', icon: EslintIcon },
@@ -37,7 +39,7 @@ const FileTile: React.FC<FileTileProps> = ({ file, folder, open }) => {
     { expression: /.(t|j)sx/, icon: ReactIcon },
     { expression: '.js', icon: JavascriptIcon },
     { expression: '.ts', icon: TypescriptIcon },
-    { expression: /.png|.jpg|.svg/, icon: ImageIcon },
+    { expression: /.yml|.yaml/, icon: YamlIcon },
     { expression: /./, icon: FileIcon },
     { expression: /./, icon: OpenFolderIcon },
     { expression: /./, icon: FolderIcon }
