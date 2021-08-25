@@ -1,7 +1,7 @@
 import P5 from 'p5'
 
 import Sketch from '../Sketchs'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Container, Canvas } from './styled'
 let i = 0
 const CanvasComponent: React.FC = () => {
