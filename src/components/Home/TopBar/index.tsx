@@ -1,12 +1,14 @@
 import { Container } from './styled'
 import Text from 'src/components/Core/Text'
-import { useContextTheme } from 'src/hooks/useContextTheme'
-
+import Image from 'next/image'
+import { useWindowSize } from 'src/hooks/useWindow'
 const TopBar: React.FC = () => {
-  const { toggleTheme } = useContextTheme()
+  const { isMedium } = useWindowSize()
   return (
-    <Container onClick={toggleTheme}>
-      <Text>Change Theme</Text>
+    <Container>
+      <Image height="14" width="14" src="/favicon.png" />
+      <Text size={13}>luisguilher.me - Visual Profile Code</Text>
+      {!isMedium && <Text size={13}>Luís Guilherme Pelin Martins</Text>}
     </Container>
   )
 }
