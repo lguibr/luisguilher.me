@@ -5,7 +5,7 @@ import TopBar from './TopBar'
 import { Container, Content, Main, FileContainer } from './styled'
 import Loading from 'src/components/Core/Loading'
 import { SideBarProvider } from 'src/contexts/SideBarContext'
-
+import Footer from './Footer'
 const Home: React.FC = () => {
   return (
     <SideBarProvider>
@@ -21,6 +21,7 @@ const Home: React.FC = () => {
             </FileContainer>
           </Main>
         </Content>
+        <Footer />
       </Container>
     </SideBarProvider>
   )

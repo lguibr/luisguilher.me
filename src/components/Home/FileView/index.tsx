@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import useWindow from 'src/hooks/useWindow'
@@ -15,17 +16,16 @@ const FileView: React.FC = () => {
   const { setLoading } = useContextLoading()
 
   const LoadingEditor = () => {
-    useEffect(() => {
-      setLoading(true)
-    }, [])
     return <div />
   }
   const [currentContent, setCurrentContent] = useState<string>('')
   const [currentExt, setCurrentExt] = useState<string>('json')
 
-  const { currentFile, setContent, setNewContent } = useContextFile()
+  const { currentFile, setContent, setNewContent, setImage } = useContextFile()
   const { selectedTheme } = useContextTheme()
   const { isMedium } = useWindow()
+
+  const currentImage = currentFile?.image
 
   const fetchFileByPath = async (path: string) => {
     setLoading(true)
@@ -34,27 +34,62 @@ const FileView: React.FC = () => {
     const res = await fetch(filePath)
     const data = await res.json()
 
-    const rawFile = await decodeURIComponent(escape(window.atob(data.content)))
-    currentFile && setContent(currentFile, rawFile)
+    const regex = /\.png|\.jpg|\.jpeg|\.ico/gi
+
+    const currentImage = currentFile?.image
+    if (regex.test(path)) {
+      currentFile &&
+        !currentImage &&
+        setImage(
+          currentFile,
+          <div
+            style={{
+              position: 'absolute',
+              top: '0%',
+              left: '0%',
+              height: '100%',
+              width: '100%',
+              zIndex: 9,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <img
+              placeholder="blur"
+              src={`data:image/png;base64, ${data.content}`}
+            />
+          </div>
+        )
+    } else {
+      const rawFile = await decodeURIComponent(
+        escape(window.atob(data.content))
+      )
+      currentFile && setContent(currentFile, rawFile)
+    }
   }
 
   useEffect(() => {
-    if (currentContent) {
+    if (currentContent || currentFile?.image) {
       const debounce = setTimeout(() => {
-        currentContent && setLoading(false)
+        const shouldStopLoading = currentContent || currentFile?.image
+
+        shouldStopLoading && setLoading(false)
       }, 1500)
       return () => clearTimeout(debounce)
     }
-  }, [currentContent])
+  }, [currentContent, currentImage])
 
   useEffect(() => {
     const currentContent = currentFile?.content
     const currentNewContent = currentFile?.newContent
     const currentPath = currentFile?.path
+    console.log({ currentFile })
 
-    if (currentContent) {
+    if (currentContent || currentImage) {
       currentContent && setCurrentContent(currentNewContent || currentContent)
-    } else if (currentPath) {
+      currentImage && setCurrentContent('')
+    } else if (currentPath && (!currentFile?.content || !currentFile?.image)) {
       fetchFileByPath(currentPath)
     }
   }, [currentFile])
@@ -104,6 +139,7 @@ const FileView: React.FC = () => {
   const showLineNumberOptions = {
     lineNumbers: 'on',
     glyphMargin: true,
+    wordWrap: 'on',
     folding: true,
     ...agnosticConfig,
     minimap: {
@@ -135,6 +171,7 @@ const FileView: React.FC = () => {
   useEffect(() => {
     const splittedPath = currentFile?.path?.split('.')
     const ext = !!splittedPath?.length && splittedPath[splittedPath.length - 1]
+
     const languages = [
       {
         name: 'json',
@@ -154,14 +191,24 @@ const FileView: React.FC = () => {
       },
       {
         name: 'markdown',
-        regex: /md/
+        regex: /\.md/
+      },
+      {
+        name: 'html',
+        regex: /html/
+      },
+      {
+        name: 'xml',
+        regex: /xml|svg/
       }
     ]
 
     const selectedLanguage =
       languages.find(({ regex }) => ext && ext.match(regex))?.name || 'json'
+
     setCurrentExt(selectedLanguage)
   }, [currentFile])
+
   return (
     <Container>
       <Background />
@@ -179,6 +226,7 @@ const FileView: React.FC = () => {
             }}
           />
         )}
+        {currentFile?.image && currentImage}
       </EditorContainer>
     </Container>
   )
