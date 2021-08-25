@@ -1,10 +1,12 @@
 export default [
   {
-    name: 'UFMG',
-    Date: new Date().toDateString()
+    School: 'Universidade Federal de Minas Gerais',
+    Degree: 'Bachelor of Physics',
+    Dates: '2018 – 2022'
   },
   {
-    name: 'CEFET',
-    Date: new Date().toDateString()
+    School: 'Centro Federal de Educação Tecnológica de Minas Gerais',
+    Degree: 'Technical Information Technology ',
+    Dates: '2006 – 2008'
   }
 ]
