@@ -5,7 +5,6 @@ interface Props {
 }
 
 export const LoadingContainer = styled.div`
-  border: 2px none/ red;
   position: absolute;
   top: 0px;
   left: 0px;
@@ -15,7 +14,6 @@ export const LoadingContainer = styled.div`
 
 export const Container = styled.div`
   position: relative;
-  border: 5px none/ gray;
   height: 100%;
   max-height: 100%;
   width: 100%;
@@ -24,7 +22,6 @@ export const Container = styled.div`
 
 export const EditorContainer = styled.div<Pick<Props, 'currentFile'>>`
   display: ${({ currentFile }) => (currentFile ? 'flex' : 'none')};
-  border: 2px none/ red;
   position: absolute;
   top: 0px;
   left: 0px;
