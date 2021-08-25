@@ -1,6 +1,10 @@
 import { createContext, useState, useEffect } from 'react'
+import YAML from 'yaml'
 import education from 'src/assets/education'
 import experiences from 'src/assets/experiences'
+import coverLetter from 'src/assets/coverLetter'
+import contacts from 'src/assets/contacts'
+import skills from 'src/assets/skills'
 import useTree from 'src/hooks/useTree'
 
 export type File = {
@@ -11,6 +15,7 @@ export type File = {
   open?: boolean
   highLighted?: boolean
   current?: boolean
+  image?: JSX.Element
   children?: File[]
   index?: number
 }
@@ -22,10 +27,13 @@ export type FileContextType = {
   highLighted: File | undefined
   openedFiles: File[]
   setCurrentFile: (file: File) => void
+  closeAllFiles: () => void
   setHighLighted: (file: File) => void
+  setFiles: (files: File[]) => void
   closeFile: (file: File) => void
   openFile: (file: File) => void
   setContent: (file: File, content: string) => void
+  setImage: (file: File, content: JSX.Element) => void
   setNewContent: (file: File, content: string) => void
 }
 
@@ -33,8 +41,24 @@ export const FileContext = createContext({} as FileContextType)
 export const FileProvider: React.FC = ({ children }) => {
   const repoName = process.env.REPO || 'luisguilher.me'
   const { tree } = useTree()
+
+  const coverLetterText = JSON.stringify(coverLetter.join(''), null, 2)
+  const skillsText = JSON.stringify(skills, null, 2)
   const educationText = JSON.stringify(education, null, 2)
   const experiencesText = JSON.stringify(experiences, null, 2)
+  const contactsText = JSON.stringify(contacts, null, 2)
+
+  const completeResumeText = YAML.stringify({
+    'Cover Letter': coverLetter.join(''),
+    Contacts: contacts,
+    Education: education,
+    Experiences: experiences,
+    Skills: skills
+  }).replace(
+    /(Education:|Experiences:|Contacts:|- Company:|- School:|Skills:|Languages:|Programming Language:|Development Tools:|Front-end:|Back-end:|Cloud\/Infra:)/g,
+    '\n$&'
+  )
+
   useEffect(() => {
     if (tree) {
       const newFiles = treeFiles.map(file => ({
@@ -48,18 +72,41 @@ export const FileProvider: React.FC = ({ children }) => {
   }, [tree])
   const resumeFiles = [
     {
+      path: 'resume/cover-letter.json',
+      name: 'cover-letter.json',
+      content: coverLetterText,
+      newContent: coverLetterText
+    },
+    {
       path: 'resume/education.json',
       name: 'education.json',
-      content: educationText
+      content: educationText,
+      newContent: educationText
     },
     {
       path: 'resume/experience.json',
       name: 'experience.json',
-      content: experiencesText
+      content: experiencesText,
+      newContent: experiencesText
     },
-    { path: 'resume/teste3', name: 'teste3', content: `{ name: 'teste3' }` },
-    { path: 'resume/teste4', name: 'teste4', content: `{ name: 'teste4' }` },
-    { path: 'resume/teste5', name: 'teste5', content: `{ name: 'teste5' }` }
+    {
+      path: 'resume/skills.json',
+      name: 'skills.json',
+      content: skillsText,
+      newContent: skillsText
+    },
+    {
+      path: 'resume/contacts.json',
+      name: 'contacts.json',
+      content: contactsText,
+      newContent: contactsText
+    },
+    {
+      path: 'resume/complete-resume.yml',
+      name: 'complete-resume.yml',
+      content: completeResumeText,
+      newContent: completeResumeText
+    }
   ]
 
   type treeFile = {
@@ -146,6 +193,15 @@ export const FileProvider: React.FC = ({ children }) => {
     }
     onSetHighLighted(file)
   }
+
+  const setImage = (selected: File, image: JSX.Element) => {
+    const newFiles = files.map(file => ({
+      ...file,
+      image: file?.path === selected.path ? image : file?.image
+    }))
+    setFiles(newFiles)
+  }
+
   const closeFile = (file: File): void => {
     const { path } = file
     const newFilesOpenFixed = files.map(newFile => ({
@@ -178,7 +234,8 @@ export const FileProvider: React.FC = ({ children }) => {
   const setContent = (selected: File, content: string) => {
     const newFiles = files.map(file => ({
       ...file,
-      content: file?.path === selected.path ? content : file?.content
+      content: file?.path === selected.path ? content : file?.content,
+      newContent: file?.path === selected.path ? content : file?.newContent
     }))
     setFiles(newFiles)
   }
@@ -189,17 +246,30 @@ export const FileProvider: React.FC = ({ children }) => {
     }))
     setFiles(newFiles)
   }
+  const closeAllFiles = () => {
+    const newFiles = files.map(file => ({
+      ...file,
+      open: false,
+      highLighted: false,
+      current: false
+    }))
+    setFiles(newFiles)
+  }
+
   return (
     <FileContext.Provider
       value={{
         files,
+        setFiles,
         treeFiles,
         setContent,
+        setImage,
         setNewContent,
         closeFile,
         openFile,
         currentFile,
         openedFiles,
+        closeAllFiles,
         highLighted,
         setCurrentFile: onSetCurrentFile,
         setHighLighted: onSetHighlight

@@ -13,7 +13,8 @@ export const UIProvider: React.FC = ({ children }) => {
   const [selectedTheme, setTheme] = useState<SelectedThemeType>('vs-dark')
 
   const toggleTheme = () => {
-    setTheme(selectedTheme === 'light' ? 'vs-dark' : 'light')
+    const newTheme = selectedTheme === 'light' ? 'vs-dark' : 'light'
+    setTheme(newTheme)
   }
   return (
     <ThemeContext.Provider
