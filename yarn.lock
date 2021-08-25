@@ -1233,10 +1233,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.6.1.tgz"
   integrity sha512-Sr7BhXEAer9xyGuCN3Ek9eg9xPviCF2gfu9kTfuU2HkTVAMYSDeX40fvpmo72n5nansg3nsBjuQBrsS28r+NUw==
 
-"@types/p5@0.9.1":
-  version "0.9.1"
-  resolved "https://registry.yarnpkg.com/@types/p5/-/p5-0.9.1.tgz#920c6cd6ee30b5d9e5cc04cb9b11bb762c333bc5"
-  integrity sha512-4glOKdqdBiRWDFZwi/MjHudPV2U4t2L4fTTSacGapfFxyNXzZcAshAjqmrJkCIZcFlhRBEAL7AM95xRDMfrIwg==
+"@types/p5@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@types/p5/-/p5-1.3.0.tgz#7c3254961b176d7f87060c5352ec25ddb2478f9c"
+  integrity sha512-Bdaq60LErR9DD8083HpSFs7EoNcrsIZTp7xm7tCn4f7frT83gaeAR31tMFIdX02IS1oCKuKOHOadQvbYXHwZPg==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -1275,6 +1275,13 @@
     "@types/hoist-non-react-statics" "*"
     "@types/react" "*"
     csstype "^3.0.2"
+
+"@types/yaml@^1.9.7":
+  version "1.9.7"
+  resolved "https://registry.yarnpkg.com/@types/yaml/-/yaml-1.9.7.tgz#2331f36e0aac91311a63d33eb026c21687729679"
+  integrity sha512-8WMXRDD1D+wCohjfslHDgICd2JtMATZU8CkhH8LVJqcJs6dyYj5TGptzP8wApbmEullGBSsCEzzap73DQ1HJaA==
+  dependencies:
+    yaml "*"
 
 "@typescript-eslint/eslint-plugin@^4.29.1":
   version "4.29.1"
@@ -3799,11 +3806,6 @@ once@^1.3.0, once@^1.3.1, once@^1.4.0:
   dependencies:
     wrappy "1"
 
-opencollective-postinstall@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
-  integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
-
 optionator@^0.9.1:
   version "0.9.1"
   resolved "https://registry.yarnpkg.com/optionator/-/optionator-0.9.1.tgz"
@@ -3866,12 +3868,7 @@ p-try@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
 
-p5@1.1.9:
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/p5/-/p5-1.1.9.tgz#b33692100f991b993128fd8e3324cc56adad68b2"
-  integrity sha512-gU+UBEAXLGt3RQFzTtsKijF+eBidweIqRrg51AniuLG8LKHzylrB5ilIOzyDgcR1/hWt6danWPArjaVtXHWfWg==
-
-p5@^1.3.1, p5@^1.4.0:
+p5@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/p5/-/p5-1.4.0.tgz#d4d0f001c297525831861af5e017cdb5ef517a75"
   integrity sha512-U888W2ChcIzPhRhnv4FkNhaa4f5BDIWZfLhzvx9ZrQ5KtkZr/+o1UPIicV3yWTRy0HEG23NviHyDR3kgjaJ9wA==
@@ -4212,22 +4209,6 @@ react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
-
-react-p5-wrapper@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/react-p5-wrapper/-/react-p5-wrapper-2.4.1.tgz#412bde8a4dbe81b3ccc3d5a1b2f42d420955c718"
-  integrity sha512-sCxG5LTK7qymrr7mK2OE5KRpcbEybpz2SFBK4RM+eCfTjwgRjc/o9MqXz9qgM/W7/eISTCycRT9S1WdBIiQPEg==
-  dependencies:
-    p5 "^1.3.1"
-
-react-p5@^1.3.19:
-  version "1.3.19"
-  resolved "https://registry.yarnpkg.com/react-p5/-/react-p5-1.3.19.tgz#7a66165211678ab3aa109c8f57ff933306776f4b"
-  integrity sha512-jA/xmFOHiy6pIjlwMVu3hfcD9brB9pbfl5BSF0SCiruye6xjzv4jkcmTUKP0lgiTdcdEgu2CpAI7VFH05eaFJg==
-  dependencies:
-    "@types/p5" "0.9.1"
-    opencollective-postinstall "2.0.2"
-    p5 "1.1.9"
 
 react-refresh@0.8.3:
   version "0.8.3"
@@ -5229,7 +5210,7 @@ yallist@^4.0.0:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
-yaml@^1.10.0:
+yaml@*, yaml@^1.10.0, yaml@^1.10.2:
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
