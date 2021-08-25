@@ -8,7 +8,7 @@ const sketch =
     const calculator = new Calculator()
     const bodies: Body[] = []
 
-    const maxBodies = 1000
+    const maxBodies = 100
 
     const forceField = { x: 0, y: 0 }
 
