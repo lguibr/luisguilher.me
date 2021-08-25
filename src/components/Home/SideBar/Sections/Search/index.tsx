@@ -13,27 +13,22 @@ import {
   Match,
   FileMatch,
   MatchBody,
-  ArrowIcon
+  ArrowIcon,
+  Form
 } from './styled'
 import CaseSensitive from 'public/icons/case-sensitive.svg'
 
 const Search: React.FC = () => {
-  const { openFile } = useContextFile()
-
-  const { files } = useContextFile()
+  const { files, setFiles, openFile } = useContextFile()
   const [query, setQuery] = useState('')
+  const [replacer, setReplacer] = useState('')
   const [caseInsensitive, setCaseInsensitive] = useState(false)
 
   const filesThatContainSearch = !caseInsensitive
-    ? files.filter(
-        ({ newContent, content }) =>
-          newContent?.includes(query) || content?.includes(query)
-      )
+    ? files.filter(({ newContent }) => newContent?.includes(query))
     : files
-        .filter(
-          ({ newContent, content }) =>
-            newContent?.toLowerCase().includes(query.toLowerCase()) ||
-            content?.toLowerCase().includes(query.toLowerCase())
+        .filter(({ newContent }) =>
+          newContent?.toLowerCase().includes(query.toLowerCase())
         )
         .map(file => ({
           ...file,
@@ -64,8 +59,10 @@ const Search: React.FC = () => {
         }
       })) ||
     []
+
   const totalFilesMatched = matches.length
   let totalLinesMatched = 0
+
   matches?.forEach(match => {
     if (match && match?.lines) totalLinesMatched += match?.lines?.length
   })
@@ -73,6 +70,18 @@ const Search: React.FC = () => {
   interface FormattedLabelProps {
     label: string
     value: string
+  }
+
+  const replace = (): void => {
+    const newFiles = files.map(file => {
+      const { path } = file
+      const queryRegex = new RegExp(query, `g${caseInsensitive ? 'i' : ''}`)
+      const newContent = file?.newContent
+        ? file?.newContent.replace(queryRegex, replacer)
+        : file?.content?.replace(queryRegex, replacer)
+      return { ...file, path, newContent }
+    })
+    setFiles(newFiles)
   }
 
   const FormattedLabel = ({ label, value }: FormattedLabelProps) => {
@@ -111,20 +120,34 @@ const Search: React.FC = () => {
       <Title>
         <Text size={12}>SEARCH</Text>
       </Title>
-      <InputContainer>
-        <InputText
-          onChange={e => setQuery(e?.target?.value)}
-          value={query}
-          id="query"
-          name="query"
-        ></InputText>
-        <CaseSensitiveContainer
-          caseInsensitive={caseInsensitive}
-          onClick={() => setCaseInsensitive(!caseInsensitive)}
-        >
-          <CaseSensitive />
-        </CaseSensitiveContainer>
-      </InputContainer>
+      <Form>
+        <InputContainer>
+          <InputText
+            onChange={e => setQuery(e?.target?.value)}
+            value={query}
+            id="query"
+            name="query"
+          ></InputText>
+          <CaseSensitiveContainer
+            caseInsensitive={caseInsensitive}
+            onClick={() => setCaseInsensitive(!caseInsensitive)}
+          >
+            <CaseSensitive />
+          </CaseSensitiveContainer>
+        </InputContainer>
+        <InputContainer>
+          <InputText
+            onChange={e => setReplacer(e?.target?.value)}
+            value={replacer}
+            id="replacer"
+            name="replacer"
+          ></InputText>
+          <CaseSensitiveContainer onClick={() => replace()}>
+            replace
+          </CaseSensitiveContainer>
+        </InputContainer>
+      </Form>
+
       <>
         <Text>
           {totalLinesMatched > 0

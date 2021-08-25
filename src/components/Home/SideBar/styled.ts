@@ -5,29 +5,29 @@ export const Container = styled.div`
   grid-template-columns: max-content 1fr;
   background-color: ${({ theme }) => theme.colors.menuBackground};
   height: 100%;
-  max-height: 100%;
+  max-height: calc(100vh - 36px);
   box-sizing: border-box;
-  border: 10px none/ green;
-  z-index: 999;
+  z-index: 99;
 `
 
 export const ModalContent = styled.div`
   position: fixed;
   background-color: ${({ theme }) => theme.colors.menuBackground};
   width: max-content;
-  min-width: 200px;
+  min-width: 300px;
+
   left: 52px;
-  height: 100%;
+  box-sizing: border-box;
   overflow: hidden;
+  height: calc(100% - 36px);
 `
 
 export const Main = styled.div`
-  border: 5px none/ green;
   height: 100%;
   box-sizing: border-box;
   resize: horizontal;
   overflow: hidden;
-  min-width: 200px;
+  min-width: 300px;
   position: relative;
 
   background-color: ${({ theme }) => theme.colors.menuBackground};
