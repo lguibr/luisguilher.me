@@ -25,7 +25,10 @@ export default {
       queryString: '#F0C1A3',
       inputBackground: '#FFF',
       selectedBlue: '#CCE9FC',
-      subString: '#99999A'
+      subString: '#99999A',
+      vsBlue: '#1E88D0',
+      white: '#FFF',
+      shortCut: '#F3F3F3'
     },
     breakpoints
   },
@@ -47,7 +50,10 @@ export default {
       queryString: '#66371A',
       inputBackground: '#3C3C3C',
       selectedBlue: '#245779',
-      subString: '#99999A'
+      subString: '#99999A',
+      vsBlue: '#1E88D0',
+      white: '#FFF',
+      shortCut: '#2B2B2B'
     },
     breakpoints
   }
