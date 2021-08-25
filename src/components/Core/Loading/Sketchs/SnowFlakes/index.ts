@@ -40,7 +40,7 @@ const sketch =
       }
 
       bodies.forEach(body => {
-        body.color = [255, 255, 255]
+        body.color = [220, 220, 220]
         body.UpdateCoordinates()
         body.update(forceField)
         body.draw(p5)
