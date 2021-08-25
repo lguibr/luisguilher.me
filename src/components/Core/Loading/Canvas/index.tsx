@@ -1,10 +1,13 @@
 import P5 from 'p5'
 
-import Sketch from '../Sketch'
+import Sketch from '../Sketchs'
 import { useEffect, useRef, useState } from 'react'
 import { Container, Canvas } from './styled'
+let i = 0
+const CanvasComponent: React.FC = () => {
+  i++
+  console.log('i', i)
 
-const Engine: React.FC = () => {
   const p5Ref = useRef<HTMLDivElement | null>(null)
   const parentRef = useRef<HTMLDivElement | null>(null)
   const [canvas, setCanvas] = useState<P5 | null>(null)
@@ -14,6 +17,7 @@ const Engine: React.FC = () => {
 
   const resizeObserver = new ResizeObserver(([entry]) => {
     const { contentRect } = entry
+    console.log('s')
 
     const newWidth = contentRect?.width
     const newHeight = contentRect?.height
@@ -25,9 +29,15 @@ const Engine: React.FC = () => {
     resizeObserver.observe(parentRef.current)
   }
 
-  const sketch = Sketch(setCanvas)
-
   useEffect(() => {
+    const randomIntFromInterval = (max = 1, min = 0) => {
+      return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
+    const randomNumberSketchIndex = randomIntFromInterval(Sketch.length - 1)
+
+    console.log({ randomNumberSketchIndex })
+    const sketch = Sketch[randomNumberSketchIndex](setCanvas)
     p5Ref?.current && setCanvas(new P5(sketch, p5Ref?.current))
   }, [])
 
@@ -45,4 +55,4 @@ const Engine: React.FC = () => {
   )
 }
 
-export default Engine
+export default CanvasComponent

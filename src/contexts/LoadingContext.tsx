@@ -4,7 +4,7 @@ type Loading = boolean
 
 export type LoadingContextType = {
   loading: Loading
-  toggleLoading: () => void
+  flashLoading: () => void
   setLoading: (loading: boolean) => void
 }
 
@@ -13,15 +13,16 @@ export const LoadingContext = createContext({} as LoadingContextType)
 export const LoadingProvider: React.FC = ({ children }) => {
   const [loading, setLoading] = useState<Loading>(false)
 
-  const toggleLoading = () => {
-    setLoading(!loading)
+  const flashLoading = () => {
+    setLoading(true)
+    setTimeout(() => setLoading(false), 3500)
   }
 
   return (
     <LoadingContext.Provider
       value={{
         loading,
-        toggleLoading,
+        flashLoading,
         setLoading
       }}
     >

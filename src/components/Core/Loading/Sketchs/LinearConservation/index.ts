@@ -8,16 +8,13 @@ const sketch =
     const calculator = new Calculator()
     const bodies: Body[] = []
 
-    const maxBodies = 1000
+    const maxBodies = 1
 
-    const forceField = { x: 0, y: 0 }
+    const forceField = { x: 0, y: 1 }
 
     const addNewRandomBody = () => {
       const newBody = new Body(
-        calculator.createRandomVector([
-          [0, p5.width],
-          [0, p5.height]
-        ]),
+        { x: p5.width, y: 20 },
         calculator.createRandomVector([
           [-10, 10],
           [-10, 10]

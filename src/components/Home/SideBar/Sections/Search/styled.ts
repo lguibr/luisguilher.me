@@ -57,6 +57,11 @@ export const Title = styled.div`
   padding: 4px 0px;
 `
 
+export const Form = styled.div`
+  display: grid;
+  grid-gap: 1em;
+`
+
 interface PropsCaseSensitiveContainer {
   caseInsensitive?: boolean
 }

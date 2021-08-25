@@ -5,14 +5,12 @@ interface Props {
 }
 
 export const Container = styled.div`
-  border: 2px none/ yellow;
   display: flex;
   max-width: 100%;
   overflow-x: auto;
 `
 export const Row = styled.div<Pick<Props, 'isCurrent'>>`
   cursor: pointer;
-  border: 5px none/ orange;
   display: grid;
   place-items: center;
   grid-template-columns: 1fr 10px;
