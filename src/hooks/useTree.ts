@@ -2,16 +2,15 @@
 
 import { useState, useEffect } from 'react'
 
-export const useTree = () => {
-  type NodeTree = {
-    path: string
-    mode?: string
-    type?: string
-    sha?: string
-    size?: number
-    url?: string
-  }
-
+type NodeTree = {
+  path: string
+  mode?: string
+  type?: string
+  sha?: string
+  size?: number
+  url?: string
+}
+export const useTree = (): { tree: NodeTree[] } => {
   const currentSha = process.env.shaBranch || 'main'
   const threePath = `https://api.github.com/repos/lguibr/luisguilher.me/git/trees/${currentSha}?recursive=1`
   const [tree, setTree] = useState<NodeTree[]>([])
