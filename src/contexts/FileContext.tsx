@@ -54,10 +54,13 @@ export const FileProvider: React.FC = ({ children }) => {
     Education: education,
     Experiences: experiences,
     Skills: skills
-  }).replace(
-    /(Education:|Experiences:|Contacts:|- Company:|- School:|Skills:|Languages:|Programming Language:|Development Tools:|Front-end:|Back-end:|Cloud\/Infra:)/g,
-    '\n$&'
-  )
+  })
+    .replace(
+      /(Education:|Experiences:|Contacts:|- Company:|- School:|Skills:|- Languages:|- Programming Language:|- Development Tools:|- Front-end:|- Back-end:|- Cloud\/Infra:)/g,
+      '\n$&'
+    )
+    .replace(/(Cover Letter:|Contacts:)/g, '$&\n')
+    .replace(/Cover Letter:/, '$&\n')
 
   useEffect(() => {
     if (tree) {
