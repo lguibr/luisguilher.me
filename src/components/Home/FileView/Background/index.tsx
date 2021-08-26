@@ -4,9 +4,11 @@ import useContextFile from 'src/hooks/useContextFile'
 import useContextTheme from 'src/hooks/useContextTheme'
 import useContextLoading from 'src/hooks/useLoading'
 import { Container, Content, VS, SpanHighlighted } from './styled'
+import { useContextPrint } from 'src/hooks/useContextPrint'
 
 const Background: React.FC = () => {
   const { closeAllFiles } = useContextFile()
+  const { print, Printable } = useContextPrint()
   const { toggleTheme, selectedTheme } = useContextTheme()
   const { flashLoading, loading } = useContextLoading()
   useEffect(() => {
@@ -19,9 +21,8 @@ const Background: React.FC = () => {
       console.log({ key })
       key === '$' && closeAllFiles()
       key === 'q' && toggleTheme()
-      key === 'i' && console.log('print!')
-      key === '!' && console.log('restart tour')
-      key === '!' && console.log('restart tour')
+      key === 'P' && print && print()
+      key === '@' && console.log('restart tour')
       key === ' ' && !loading && flashLoading()
     }
   }
@@ -34,12 +35,21 @@ const Background: React.FC = () => {
   return (
     <Container>
       <VS />
+      <Printable />
       <Content>
+        <Text size={13}>
+          <span>
+            Toggle Theme
+            <SpanHighlighted as="span">CTRL</SpanHighlighted>+
+            <SpanHighlighted as="span">Q</SpanHighlighted>
+          </span>
+        </Text>
         <Text size={13}>
           <span>
             Print / Download Resume
             <SpanHighlighted as="span">CTRL</SpanHighlighted>+
-            <SpanHighlighted as="span">i</SpanHighlighted>
+            <SpanHighlighted as="span">ALT</SpanHighlighted>+
+            <SpanHighlighted as="span">P</SpanHighlighted>
           </span>
         </Text>
         <Text size={13}>
@@ -50,20 +60,13 @@ const Background: React.FC = () => {
             <SpanHighlighted as="span">4</SpanHighlighted>
           </span>
         </Text>
-        <Text size={13}>
-          <span>
-            Toggle Theme
-            <SpanHighlighted as="span">CTRL</SpanHighlighted>+
-            <SpanHighlighted as="span">Q</SpanHighlighted>
-          </span>
-        </Text>
 
         <Text size={13}>
           <span>
             Restart Tour
             <SpanHighlighted as="span">CTRL</SpanHighlighted>+
             <SpanHighlighted as="span">SHIFT</SpanHighlighted>+
-            <SpanHighlighted as="span">1</SpanHighlighted>
+            <SpanHighlighted as="span">2</SpanHighlighted>
           </span>
         </Text>
         <Text size={13}>

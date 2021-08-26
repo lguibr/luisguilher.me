@@ -4,6 +4,7 @@ import { Section, Option, Container } from './styled'
 import useSideBar from 'src/hooks/useSideBar'
 import FloatMenu from 'src/components/Core/FloatMenu'
 import useContextTheme from 'src/hooks/useContextTheme'
+import { useContextPrint } from 'src/hooks/useContextPrint'
 
 type Variant =
   | 'files'
@@ -37,6 +38,7 @@ const NavBar: React.FC = () => {
     { variant: 'debug' },
     { variant: 'extensions' }
   ]
+  const { print } = useContextPrint()
 
   const menuExtras: OptionMenu[] = [
     {
@@ -73,7 +75,7 @@ const NavBar: React.FC = () => {
         {
           labels: ['Print / Download Resume'],
           onClick: () => {
-            console.log('print')
+            print && print()
           }
         }
       ]
