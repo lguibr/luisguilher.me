@@ -3,7 +3,6 @@ import Icon from 'src/components/Core/Icons'
 import { Section, Option, Container } from './styled'
 import useSideBar from 'src/hooks/useSideBar'
 import FloatMenu from 'src/components/Core/FloatMenu'
-
 import useContextTheme from 'src/hooks/useContextTheme'
 
 type Variant =
@@ -47,7 +46,7 @@ const NavBar: React.FC = () => {
           labels: ['Send me a Whatsapp'],
           onClick: () => {
             window.open(
-              'https://api.whatsapp.com/send?phone=5537991640818&lang=en'
+              'https://web.whatsapp.com/send?phone=5537991640818&lang=en'
             )
           }
         },
@@ -72,9 +71,9 @@ const NavBar: React.FC = () => {
           }
         },
         {
-          labels: ['Download Resume'],
+          labels: ['Print / Download Resume'],
           onClick: () => {
-            console.log('')
+            console.log('print')
           }
         }
       ]
