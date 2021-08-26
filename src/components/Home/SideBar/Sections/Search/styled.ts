@@ -1,16 +1,15 @@
 import styled from 'styled-components'
-import Text from 'src/components/Core/Text'
 import Arrow from 'public/icons/arrow.svg'
 
-export const Highlight = styled(Text)`
-  background-color: ${({ theme }) => theme.colors.queryString};
-`
 export const FileMatch = styled.div`
   cursor: pointer;
+  max-width: 100%;
 `
 export const Match = styled.div`
   padding: 3px;
+
   padding-left: 20px;
+  box-sizing: border-box;
   :hover {
     background-color: ${({ theme }) => theme.colors.sideHighlightHover};
   }
@@ -22,6 +21,12 @@ export const MatchHeader = styled.div`
   padding: 0px 8px;
   display: flex;
   box-sizing: border-box;
+  pre {
+    font-family: sans-serif;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
   svg {
     width: 10px;
     height: 10px;
@@ -31,11 +36,12 @@ export const MatchHeader = styled.div`
   }
 `
 export const Container = styled.div`
-  margin: 8px;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding: 8px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 100%;
+  padding-bottom: 36px;
 `
 
 export const InputContainer = styled.div`

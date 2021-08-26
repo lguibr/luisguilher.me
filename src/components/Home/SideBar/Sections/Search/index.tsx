@@ -3,8 +3,10 @@ import Text from 'src/components/Core/Text'
 import InputText from 'src/components/Core/InputText'
 import useContextFile from 'src/hooks/useContextFile'
 import FileTile from 'src/components/Core/TileFile'
+
+import FormattedLabel from './FormattedLabel'
+
 import {
-  Highlight,
   InputContainer,
   CaseSensitiveContainer,
   Container,
@@ -17,6 +19,7 @@ import {
   Form
 } from './styled'
 import CaseSensitive from 'public/icons/case-sensitive.svg'
+import Replace from 'public/icons/replace.svg'
 
 const Search: React.FC = () => {
   const { files, setFiles, openFile } = useContextFile()
@@ -67,11 +70,6 @@ const Search: React.FC = () => {
     if (match && match?.lines) totalLinesMatched += match?.lines?.length
   })
 
-  interface FormattedLabelProps {
-    label: string
-    value: string
-  }
-
   const replace = (): void => {
     const newFiles = files.map(file => {
       const { path } = file
@@ -82,37 +80,6 @@ const Search: React.FC = () => {
       return { ...file, path, newContent }
     })
     setFiles(newFiles)
-  }
-
-  const FormattedLabel = ({ label, value }: FormattedLabelProps) => {
-    if (!value) {
-      return <> </>
-    }
-    const splitedString = label && value ? label?.split(value) : ['']
-    const splitedLabel = splitedString.map((s, i) => (
-      <span key={s + i}>{s}</span>
-    ))
-    return (
-      <span>
-        {splitedLabel.reduce<JSX.Element | JSX.Element[]>(
-          (prev, current, i) => {
-            if (!i) {
-              return [current]
-            }
-            return (
-              <span>
-                {prev}
-                <Highlight as="span" key={value + current}>
-                  {value}
-                </Highlight>
-                {current}
-              </span>
-            )
-          },
-          <span />
-        )}
-      </span>
-    )
   }
 
   return (
@@ -143,7 +110,7 @@ const Search: React.FC = () => {
             name="replacer"
           ></InputText>
           <CaseSensitiveContainer onClick={() => replace()}>
-            replace
+            <Replace />
           </CaseSensitiveContainer>
         </InputContainer>
       </Form>
@@ -162,7 +129,7 @@ const Search: React.FC = () => {
                   <ArrowIcon />
                 </div>
                 <FileTile folder={false} open={false} file={file} />
-                <Text color="subString" size={13}>
+                <Text as="pre" color="subString" size={13}>
                   {path}
                 </Text>
               </MatchHeader>
