@@ -84,14 +84,12 @@ type EditorProps = {
   // | 'yaml'
   currentContent: string
   currentNewContent: string
-  onChange: (value?: string | undefined) => void
 }
 
 const DiffEditorComponent: React.FC<EditorProps> = ({
   currentExt,
   currentContent,
-  currentNewContent,
-  onChange
+  currentNewContent
 }) => {
   const LoadingEditor = () => {
     return <div />
