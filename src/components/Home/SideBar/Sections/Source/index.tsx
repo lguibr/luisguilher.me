@@ -3,16 +3,20 @@ import RenderDir from './RenderDir'
 import Text from 'src/components/Core/Text'
 import { Container, Title } from './styled'
 const Files: React.FC = () => {
-  const { treeFiles } = useContextFile()
+  const { files } = useContextFile()
+
+  const diffFiles = files.filter(({ diff }) => diff)
+
+  console.log({ diffFiles })
 
   return (
-    treeFiles && (
+    diffFiles && (
       <Container>
         <Title>
           <Text size={12}>EXPLORER</Text>
         </Title>
 
-        <RenderDir embedded={0} files={treeFiles} />
+        <RenderDir embedded={0} files={diffFiles} />
       </Container>
     )
   )

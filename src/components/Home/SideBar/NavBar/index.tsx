@@ -5,6 +5,7 @@ import useSideBar from 'src/hooks/useSideBar'
 import FloatMenu from 'src/components/Core/FloatMenu'
 import useContextTheme from 'src/hooks/useContextTheme'
 import { useContextPrint } from 'src/hooks/useContextPrint'
+import { useContextLoading } from 'src/hooks/useLoading'
 
 type Variant =
   | 'files'
@@ -17,6 +18,7 @@ type Variant =
 
 type Option = {
   variant: Variant
+  onClick?: () => void
 }
 
 interface OptionMenu extends Option {
@@ -27,6 +29,7 @@ interface OptionMenu extends Option {
 }
 
 const NavBar: React.FC = () => {
+  const { flashLoading, loading } = useContextLoading()
   const { toggleTheme } = useContextTheme()
 
   const { selectedSection, setSelectedSection, setOpen, open } = useSideBar()
@@ -35,7 +38,7 @@ const NavBar: React.FC = () => {
     { variant: 'files' },
     { variant: 'search' },
     { variant: 'source' },
-    { variant: 'debug' },
+    { variant: 'debug', onClick: () => !loading && flashLoading(5000) },
     { variant: 'extensions' }
   ]
   const { print } = useContextPrint()
@@ -102,7 +105,11 @@ const NavBar: React.FC = () => {
   ]
 
   const handleClick = (selection: Variant): void => {
+    console.log({ selection })
+    console.log({ selectedSection })
+
     const isSameSection = selectedSection === selection
+    console.log(isSameSection)
 
     isSameSection && setOpen(!open)
     !isSameSection && setOpen(true)
@@ -115,7 +122,10 @@ const NavBar: React.FC = () => {
         {menuOptions.map(option => (
           <Option
             isSelectedSection={selectedSection === option.variant}
-            onClick={() => handleClick(option.variant)}
+            onClick={() => {
+              handleClick(option.variant)
+              option?.onClick && option?.onClick()
+            }}
             key={option.variant}
           >
             <Icon variant={option.variant} height="30px" width="30px" />

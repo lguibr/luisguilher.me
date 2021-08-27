@@ -2,27 +2,20 @@ import { useState } from 'react'
 import Text from 'src/components/Core/Text'
 import InputText from 'src/components/Core/InputText'
 import useContextFile from 'src/hooks/useContextFile'
-import FileTile from 'src/components/Core/TileFile'
-
-import FormattedLabel from './FormattedLabel'
+import FileMatch from './FileMatch'
 
 import {
   InputContainer,
   CaseSensitiveContainer,
   Container,
   Title,
-  MatchHeader,
-  Match,
-  FileMatch,
-  MatchBody,
-  ArrowIcon,
   Form
 } from './styled'
 import CaseSensitive from 'public/icons/case-sensitive.svg'
 import Replace from 'public/icons/replace.svg'
 
 const Search: React.FC = () => {
-  const { files, setFiles, openFile } = useContextFile()
+  const { files, setFiles } = useContextFile()
   const [query, setQuery] = useState('')
   const [replacer, setReplacer] = useState('')
   const [caseInsensitive, setCaseInsensitive] = useState(false)
@@ -123,27 +116,14 @@ const Search: React.FC = () => {
         </Text>
         {matches &&
           matches?.map(({ path, lines, file }, i) => (
-            <FileMatch key={path + i}>
-              <MatchHeader>
-                <div>
-                  <ArrowIcon />
-                </div>
-                <FileTile folder={false} open={false} file={file} />
-                <Text as="pre" color="subString" size={13}>
-                  {path}
-                </Text>
-              </MatchHeader>
-              <MatchBody onClick={() => openFile(file)}>
-                {lines &&
-                  lines.map((line, j) => (
-                    <Match key={i + j}>
-                      <Text size={12}>
-                        <FormattedLabel label={line} value={query} />
-                      </Text>
-                    </Match>
-                  ))}
-              </MatchBody>
-            </FileMatch>
+            <FileMatch
+              query={query}
+              path={path}
+              lines={lines}
+              file={file}
+              i={i}
+              key={path + i}
+            ></FileMatch>
           ))}
       </>
     </Container>

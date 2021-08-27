@@ -2,7 +2,7 @@ import { useState } from 'react'
 import useContextFile from 'src/hooks/useContextFile'
 import { RealContainer, Container, Children, File } from './styled'
 import FileTile from 'src/components/Core/TileFile'
-import { File as FileType } from 'src/contexts/FileContext'
+import { FileType } from 'src/contexts/FileContext'
 
 export type RenderDirectoryProps = {
   files: FileType[]

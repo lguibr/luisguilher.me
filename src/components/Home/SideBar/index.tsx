@@ -22,35 +22,39 @@ const SideBar: React.FC = () => {
   const { isMedium } = useWindowSize()
 
   const sections: {
-    [name in SelectedSectionType]: React.FC | undefined
+    [name in SelectedSectionType]: {
+      component?: React.FC | undefined
+      onClick?: () => void
+    }
   } = {
-    files: Files, // NOTE : Core/Editor
-    source: Source, // NOTE : Releases/Features/Commits
-    debug: Debug, // NOTE :  Play the sketchs
-    search: Search, // NOTE : Search on downloaded files
-    extensions: Extensions
+    files: { component: Files }, // NOTE : Core/Editor
+    source: { component: Source }, // NOTE : Releases/Features/Commits
+    debug: {}, // NOTE :  Play the sketchs
+    extensions: { component: Extensions },
+    search: { component: Search } // NOTE : Search on downloaded files
   }
 
   const Section =
-    (selectedSection !== 'profile' &&
-      selectedSection !== 'settings' &&
-      sections[selectedSection]) ||
-    Files
+    selectedSection !== 'profile' &&
+    selectedSection !== 'settings' &&
+    sections[selectedSection].component
 
   return (
     <Container>
       <NavBar />
 
-      {!isMedium ? (
+      {!isMedium && Section ? (
         <Main>
           <Section />
         </Main>
       ) : (
-        <Modal setClose={() => setOpen(false)} open={open}>
-          <ModalContent onClick={e => e.stopPropagation()}>
-            <Section />
-          </ModalContent>
-        </Modal>
+        Section && (
+          <Modal setClose={() => setOpen(false)} open={open}>
+            <ModalContent onClick={e => e.stopPropagation()}>
+              <Section />
+            </ModalContent>
+          </Modal>
+        )
       )}
     </Container>
   )
