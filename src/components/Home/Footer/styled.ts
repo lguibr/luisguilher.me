@@ -6,6 +6,7 @@ export const Container = styled.div`
   justify-content: space-between;
   padding: 0px 20px;
   height: 20px;
+  z-index: 999;
 `
 
 export const Info = styled.div`

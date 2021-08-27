@@ -3,7 +3,7 @@ import Arrow from 'public/icons/arrow.svg'
 
 export const Container = styled.div`
   display: grid;
-  grid-template-columns: max-content max-content max-content;
+  grid-template-columns: max-content max-content max-content max-content;
   grid-gap: 5px;
   padding: 1px;
   padding-right: 10px;

@@ -3,11 +3,7 @@ import P5 from 'p5'
 import Sketch from '../Sketchs'
 import { useEffect, useRef, useState } from 'react'
 import { Container, Canvas } from './styled'
-let i = 0
 const CanvasComponent: React.FC = () => {
-  i++
-  console.log('i', i)
-
   const p5Ref = useRef<HTMLDivElement | null>(null)
   const parentRef = useRef<HTMLDivElement | null>(null)
   const [canvas, setCanvas] = useState<P5 | null>(null)
@@ -17,7 +13,6 @@ const CanvasComponent: React.FC = () => {
 
   const resizeObserver = new ResizeObserver(([entry]) => {
     const { contentRect } = entry
-    console.log('s')
 
     const newWidth = contentRect?.width
     const newHeight = contentRect?.height
@@ -30,13 +25,11 @@ const CanvasComponent: React.FC = () => {
   }
 
   useEffect(() => {
-    const randomIntFromInterval = (max = 1, min = 0) => {
-      return Math.floor(Math.random() * (max - min + 1) + min)
-    }
+    const randomIntFromInterval = (max = 1, min = 0) =>
+      Math.floor(Math.random() * (max - min + 1) + min)
 
     const randomNumberSketchIndex = randomIntFromInterval(Sketch.length - 1)
 
-    console.log({ randomNumberSketchIndex })
     const sketch = Sketch[randomNumberSketchIndex](setCanvas)
     p5Ref?.current && setCanvas(new P5(sketch, p5Ref?.current))
   }, [])

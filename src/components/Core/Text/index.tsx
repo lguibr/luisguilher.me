@@ -16,7 +16,7 @@ export type TextProps = {
   opacity?: string
   fontStyle?: string
   clickable?: string
-  as?: 'p' | 'h1' | 'h2' | 'h3' | 'span'
+  as?: 'p' | 'h1' | 'h2' | 'h3' | 'span' | 'pre'
 }
 
 const Text = styled.p<TextProps>`

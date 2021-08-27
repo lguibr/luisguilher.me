@@ -28,6 +28,7 @@ export default {
       subString: '#99999A',
       vsBlue: '#1E88D0',
       white: '#FFF',
+      black: '#000',
       shortCut: '#F3F3F3'
     },
     breakpoints
@@ -53,6 +54,7 @@ export default {
       subString: '#99999A',
       vsBlue: '#1E88D0',
       white: '#FFF',
+      black: '#000',
       shortCut: '#2B2B2B'
     },
     breakpoints

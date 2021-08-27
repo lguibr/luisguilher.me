@@ -3,8 +3,9 @@ import Icon from 'src/components/Core/Icons'
 import { Section, Option, Container } from './styled'
 import useSideBar from 'src/hooks/useSideBar'
 import FloatMenu from 'src/components/Core/FloatMenu'
-
 import useContextTheme from 'src/hooks/useContextTheme'
+import { useContextPrint } from 'src/hooks/useContextPrint'
+import { useContextLoading } from 'src/hooks/useLoading'
 
 type Variant =
   | 'files'
@@ -17,6 +18,7 @@ type Variant =
 
 type Option = {
   variant: Variant
+  onClick?: () => void
 }
 
 interface OptionMenu extends Option {
@@ -27,6 +29,7 @@ interface OptionMenu extends Option {
 }
 
 const NavBar: React.FC = () => {
+  const { flashLoading, loading } = useContextLoading()
   const { toggleTheme } = useContextTheme()
 
   const { selectedSection, setSelectedSection, setOpen, open } = useSideBar()
@@ -35,9 +38,10 @@ const NavBar: React.FC = () => {
     { variant: 'files' },
     { variant: 'search' },
     { variant: 'source' },
-    { variant: 'debug' },
+    { variant: 'debug', onClick: () => !loading && flashLoading(5000) },
     { variant: 'extensions' }
   ]
+  const { print } = useContextPrint()
 
   const menuExtras: OptionMenu[] = [
     {
@@ -47,7 +51,7 @@ const NavBar: React.FC = () => {
           labels: ['Send me a Whatsapp'],
           onClick: () => {
             window.open(
-              'https://api.whatsapp.com/send?phone=5537991640818&lang=en'
+              'https://web.whatsapp.com/send?phone=5537991640818&lang=en'
             )
           }
         },
@@ -72,9 +76,9 @@ const NavBar: React.FC = () => {
           }
         },
         {
-          labels: ['Download Resume'],
+          labels: ['Print / Download Resume'],
           onClick: () => {
-            console.log('')
+            print && print()
           }
         }
       ]
@@ -101,7 +105,11 @@ const NavBar: React.FC = () => {
   ]
 
   const handleClick = (selection: Variant): void => {
+    console.log({ selection })
+    console.log({ selectedSection })
+
     const isSameSection = selectedSection === selection
+    console.log(isSameSection)
 
     isSameSection && setOpen(!open)
     !isSameSection && setOpen(true)
@@ -114,7 +122,10 @@ const NavBar: React.FC = () => {
         {menuOptions.map(option => (
           <Option
             isSelectedSection={selectedSection === option.variant}
-            onClick={() => handleClick(option.variant)}
+            onClick={() => {
+              handleClick(option.variant)
+              option?.onClick && option?.onClick()
+            }}
             key={option.variant}
           >
             <Icon variant={option.variant} height="30px" width="30px" />

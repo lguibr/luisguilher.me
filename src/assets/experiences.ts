@@ -15,7 +15,7 @@ export default [
     Duration: '11 mos',
     Dates: 'Jul 2019 – May 2020',
     Description: `Full stack developer working on the development of a platform for managing legal documents and their lifecycle. Working on functional and technical definition, implementation and provision in the cloud for features.`,
-    Techs: ['Javascript', 'React', 'GraphQL', 'Docker']
+    Techs: 'Javascript, React, GraphQL, Docker'
   },
   {
     Company: 'netLex',

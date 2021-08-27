@@ -5,7 +5,7 @@ export const Container = styled.div`
   grid-template-columns: max-content 1fr;
   background-color: ${({ theme }) => theme.colors.menuBackground};
   height: 100%;
-  max-height: calc(100vh - 36px);
+  max-height: calc(100vh);
   box-sizing: border-box;
   z-index: 99;
 `
@@ -14,19 +14,22 @@ export const ModalContent = styled.div`
   position: fixed;
   background-color: ${({ theme }) => theme.colors.menuBackground};
   width: max-content;
-  min-width: 300px;
-
+  min-width: 150px;
+  width: 100%;
+  max-width: calc(100vw - 52px);
   left: 52px;
   box-sizing: border-box;
   overflow: hidden;
-  height: calc(100% - 36px);
+  height: calc(100%);
+  padding-bottom: 36px;
 `
 
 export const Main = styled.div`
-  height: 100%;
+  height: calc(100% - 10px);
   box-sizing: border-box;
   resize: horizontal;
   overflow: hidden;
+  width: 300px;
   min-width: 300px;
   position: relative;
 

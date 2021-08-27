@@ -27,7 +27,6 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
     const isFile = !file?.children?.length
 
     isFile && openFile(file)
-
     setOpen({ ...open, [file?.path]: !open[file?.path] })
   }
   return (

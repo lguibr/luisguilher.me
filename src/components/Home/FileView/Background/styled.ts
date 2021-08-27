@@ -55,7 +55,7 @@ export const VS = styled.div`
     29% 62%
   );
   @media (max-width: ${({ theme }) => theme.breakpoints.medium}) {
-    height: 120px;
-    width: 120px;
+    height: 200px;
+    width: 200px;
   }
 `

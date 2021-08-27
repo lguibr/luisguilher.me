@@ -23,12 +23,19 @@ export const Row = styled.div<Pick<Props, 'isCurrent'>>`
   border-right: 1px solid ${({ theme }) => theme.colors.tileBorder};
   border-bottom: ${({ isCurrent, theme }) =>
     isCurrent ? `1px solid ${theme.colors.accentColor}` : 'none'};
+
   div :last-child {
     display: none;
   }
 
   :hover {
     background-color: ${({ theme }) => theme.colors.selectedNavigationFile};
+    div :last-child {
+      display: grid;
+    }
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.medium}) {
     div :last-child {
       display: grid;
     }
@@ -45,6 +52,10 @@ export const Close = styled.div`
   :hover {
     background-color: ${({ theme }) => theme.colors.negativeHighlight};
   }
+  @media (max-width: ${({ theme }) => theme.breakpoints.medium}) {
+    background-color: ${({ theme }) => theme.colors.negativeHighlight};
+  }
+
   svg {
     fill: ${({ theme }) => theme.colors.text};
     height: 8px;

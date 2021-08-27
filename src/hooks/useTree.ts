@@ -1,19 +1,15 @@
-// eslint-disable-next-line  @typescript-eslint/no-explicit-any
-
 import { useState, useEffect } from 'react'
-
-export const useTree = () => {
-  type NodeTree = {
-    path: string
-    mode?: string
-    type?: string
-    sha?: string
-    size?: number
-    url?: string
-  }
-
-  const currentSha = process.env.shaBranch || 'main'
-  const threePath = `https://api.github.com/repos/lguibr/luisguilher.me/git/trees/${currentSha}?recursive=1`
+import githubService from 'services/github'
+type NodeTree = {
+  path: string
+  mode?: string
+  type?: string
+  sha?: string
+  size?: number
+  url?: string
+}
+export const useTree = (): { tree: NodeTree[] } => {
+  const { fetchRepoTree } = githubService
   const [tree, setTree] = useState<NodeTree[]>([])
 
   const build = (
@@ -30,9 +26,7 @@ export const useTree = () => {
     if (fileToCreate.length) {
       return fileToCreate.map((file: NodeTree) => {
         const splittedPath = file.path.split('/')
-
         const name = splittedPath[depth - 1]
-
         const newNode = {
           ...file,
           name,
@@ -46,12 +40,8 @@ export const useTree = () => {
   }
 
   const fetchTree = async () => {
-    const res = await fetch(threePath)
-    const data = await res.json()
-    const rawTree = data.tree
-
+    const rawTree = await fetchRepoTree()
     const tree: NodeTree[] = build(rawTree)
-
     setTree(tree)
   }
 
