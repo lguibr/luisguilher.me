@@ -2,7 +2,6 @@ import { Container, Main, ModalContent } from './styled'
 import Files from './Sections/Files'
 import Search from './Sections/Search'
 import Source from './Sections/Source'
-import Debug from './Sections/Debug'
 import Extensions from './Sections/Extensions'
 
 import NavBar from './NavBar'
