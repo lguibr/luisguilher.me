@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from 'react'
-
+import githubService from 'services/github'
 import useContextFile from 'src/hooks/useContextFile'
 import useContextLoading from 'src/hooks/useLoading'
 import useExtension from 'src/hooks/useExtension'
@@ -8,6 +8,7 @@ import useExtension from 'src/hooks/useExtension'
 import CoreEditor from 'src/components/Core/Editor'
 
 const Editor: React.FC = () => {
+  const { fetchFileContent } = githubService
   const { extractExtension } = useExtension()
   const { setLoading } = useContextLoading()
   const { currentFile, setContent, setNewContent, setImage } = useContextFile()
@@ -18,10 +19,7 @@ const Editor: React.FC = () => {
 
   const fetchFileByPath = async (path: string) => {
     setLoading(true)
-    const branchSha = process.env.shaBranch
-    const filePath = `https://api.github.com/repos/lguibr/luisguilher.me/contents/${path}?ref=${branchSha}`
-    const res = await fetch(filePath)
-    const data = await res.json()
+    const data = await fetchFileContent(path)
     const regex = /\.png|\.jpg|\.jpeg|\.ico/gi
     const currentImage = currentFile?.image
     if (regex.test(path)) {
@@ -70,7 +68,6 @@ const Editor: React.FC = () => {
     const currentContent = currentFile?.content
     const currentNewContent = currentFile?.newContent
     const currentPath = currentFile?.path
-    console.log({ currentFile })
     if (currentContent || currentImage) {
       currentContent && setCurrentContent(currentNewContent || currentContent)
       currentImage && setCurrentContent('')
@@ -83,7 +80,6 @@ const Editor: React.FC = () => {
     const selectedLanguage = currentFile
       ? extractExtension(currentFile)
       : 'json'
-    console.log({ selectedLanguage })
     setCurrentExt(selectedLanguage)
   }, [currentFile])
 
