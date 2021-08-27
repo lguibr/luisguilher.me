@@ -5,24 +5,22 @@ import useContextTheme from 'src/hooks/useContextTheme'
 import useContextLoading from 'src/hooks/useLoading'
 import { Container, Content, VS, SpanHighlighted } from './styled'
 import { useContextPrint } from 'src/hooks/useContextPrint'
-
+import { useWindowSize } from 'src/hooks/useWindow'
 const Background: React.FC = () => {
+  const { isMedium } = useWindowSize()
   const { closeAllFiles } = useContextFile()
   const { print, Printable } = useContextPrint()
   const { toggleTheme, selectedTheme } = useContextTheme()
   const { flashLoading, loading } = useContextLoading()
-  useEffect(() => {
-    console.log({ loading })
-  }, [loading])
+
   const handleKeyUp = (event: KeyboardEvent) => {
     const { ctrlKey, key } = event
 
     if (ctrlKey) {
-      console.log({ key })
       key === '$' && closeAllFiles()
       key === 'q' && toggleTheme()
       key === 'P' && print && print()
-      key === '@' && console.log('restart tour')
+      // key === '@' &&
       key === ' ' && !loading && flashLoading()
     }
   }
@@ -36,47 +34,49 @@ const Background: React.FC = () => {
     <Container>
       <VS />
       <Printable />
-      <Content>
-        <Text size={13}>
-          <span>
-            Toggle Theme
-            <SpanHighlighted as="span">CTRL</SpanHighlighted>+
-            <SpanHighlighted as="span">Q</SpanHighlighted>
-          </span>
-        </Text>
-        <Text size={13}>
-          <span>
-            Print / Download Resume
-            <SpanHighlighted as="span">CTRL</SpanHighlighted>+
-            <SpanHighlighted as="span">ALT</SpanHighlighted>+
-            <SpanHighlighted as="span">P</SpanHighlighted>
-          </span>
-        </Text>
-        <Text size={13}>
-          <span>
-            Close All Tabs
-            <SpanHighlighted as="span">CTRL</SpanHighlighted>+
-            <SpanHighlighted as="span">SHIFT</SpanHighlighted>+
-            <SpanHighlighted as="span">4</SpanHighlighted>
-          </span>
-        </Text>
+      {!isMedium && (
+        <Content>
+          <Text size={13}>
+            <span>
+              Toggle Theme
+              <SpanHighlighted as="span">CTRL</SpanHighlighted>+
+              <SpanHighlighted as="span">Q</SpanHighlighted>
+            </span>
+          </Text>
+          <Text size={13}>
+            <span>
+              Print / Download Resume
+              <SpanHighlighted as="span">CTRL</SpanHighlighted>+
+              <SpanHighlighted as="span">ALT</SpanHighlighted>+
+              <SpanHighlighted as="span">P</SpanHighlighted>
+            </span>
+          </Text>
+          <Text size={13}>
+            <span>
+              Close All Tabs
+              <SpanHighlighted as="span">CTRL</SpanHighlighted>+
+              <SpanHighlighted as="span">SHIFT</SpanHighlighted>+
+              <SpanHighlighted as="span">4</SpanHighlighted>
+            </span>
+          </Text>
 
-        <Text size={13}>
-          <span>
-            Restart Tour
-            <SpanHighlighted as="span">CTRL</SpanHighlighted>+
-            <SpanHighlighted as="span">SHIFT</SpanHighlighted>+
-            <SpanHighlighted as="span">2</SpanHighlighted>
-          </span>
-        </Text>
-        <Text size={13}>
-          <span>
-            Flash a Loading Sketch
-            <SpanHighlighted as="span">CTRL</SpanHighlighted>+
-            <SpanHighlighted as="span">SPACE</SpanHighlighted>
-          </span>
-        </Text>
-      </Content>
+          <Text size={13}>
+            <span>
+              Restart Tour
+              <SpanHighlighted as="span">CTRL</SpanHighlighted>+
+              <SpanHighlighted as="span">SHIFT</SpanHighlighted>+
+              <SpanHighlighted as="span">2</SpanHighlighted>
+            </span>
+          </Text>
+          <Text size={13}>
+            <span>
+              Flash a Loading Sketch
+              <SpanHighlighted as="span">CTRL</SpanHighlighted>+
+              <SpanHighlighted as="span">SPACE</SpanHighlighted>
+            </span>
+          </Text>
+        </Content>
+      )}
     </Container>
   )
 }
