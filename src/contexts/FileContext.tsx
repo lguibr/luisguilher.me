@@ -73,6 +73,7 @@ export const FileProvider: React.FC = ({ children }) => {
       setFiles(flatTree(newFiles))
     }
   }, [tree])
+
   const resumeFiles = [
     {
       path: 'resume/cover-letter.json',
@@ -133,6 +134,7 @@ export const FileProvider: React.FC = ({ children }) => {
     flatADepth(tree)
     return flattedTree
   }
+
   const [treeFiles, setTreeFiles] = useState([
     {
       path: 'resume',
@@ -141,9 +143,10 @@ export const FileProvider: React.FC = ({ children }) => {
     },
     { path: repoName, name: repoName, children: tree }
   ])
+
   const [files, setFiles] = useState<File[]>(flatTree(treeFiles))
 
-  const onSetCurrentFile = (selectedFile: File | undefined) => {
+  const setCurrentFile = (selectedFile: File | undefined) => {
     const newFiles = files.map(file => ({
       ...file,
       current: selectedFile?.path === file?.path,
@@ -151,6 +154,7 @@ export const FileProvider: React.FC = ({ children }) => {
     }))
     setFiles(newFiles)
   }
+
   const openFile = (selectedFile: File | undefined) => {
     const indexes: number[] = files
       .filter(({ index }) => index)
@@ -168,33 +172,13 @@ export const FileProvider: React.FC = ({ children }) => {
     }))
     setFiles(newFiles)
   }
-  const onSetHighLighted = (selectedFile: File | undefined) => {
+
+  const setHighLighted = (selectedFile: File | undefined) => {
     const newFiles = files.map(file => ({
       ...file,
       highLighted: selectedFile?.path === file?.path
     }))
     setFiles(newFiles)
-  }
-  const compare = (a: File, b: File) => {
-    if (!a?.index || !b?.index) {
-      return 0
-    }
-    if (a?.index < b?.index) {
-      return -1
-    }
-    if (a?.index > b?.index) {
-      return 1
-    }
-    return 0
-  }
-  const openedFiles = files.filter(({ open }) => open).sort(compare)
-  const highLighted = files.find(({ highLighted }) => highLighted)
-  const currentFile = files.find(({ current }) => current)
-  const onSetHighlight = (file: File): void => {
-    if (highLighted?.name === file?.name && !file?.children?.length) {
-      onSetCurrentFile(file)
-    }
-    onSetHighLighted(file)
   }
 
   const setImage = (selected: File, image: JSX.Element) => {
@@ -234,6 +218,7 @@ export const FileProvider: React.FC = ({ children }) => {
     }))
     setFiles(newFiles)
   }
+
   const setContent = (selected: File, content: string) => {
     const newFiles = files.map(file => ({
       ...file,
@@ -242,6 +227,7 @@ export const FileProvider: React.FC = ({ children }) => {
     }))
     setFiles(newFiles)
   }
+
   const setNewContent = (selected: File, content: string) => {
     const newFiles = files.map(file => ({
       ...file,
@@ -249,6 +235,7 @@ export const FileProvider: React.FC = ({ children }) => {
     }))
     setFiles(newFiles)
   }
+
   const closeAllFiles = () => {
     const newFiles = files.map(file => ({
       ...file,
@@ -259,6 +246,28 @@ export const FileProvider: React.FC = ({ children }) => {
     setFiles(newFiles)
   }
 
+  const compare = (a: File, b: File) => {
+    if (!a?.index || !b?.index) {
+      return 0
+    }
+    if (a?.index < b?.index) {
+      return -1
+    }
+    if (a?.index > b?.index) {
+      return 1
+    }
+    return 0
+  }
+
+  const openedFiles = files.filter(({ open }) => open).sort(compare)
+  const highLighted = files.find(({ highLighted }) => highLighted)
+  const currentFile = files.find(({ current }) => current)
+  const onSetHighlight = (file: File): void => {
+    if (highLighted?.name === file?.name && !file?.children?.length) {
+      setCurrentFile(file)
+    }
+    setHighLighted(file)
+  }
   return (
     <FileContext.Provider
       value={{
@@ -274,7 +283,7 @@ export const FileProvider: React.FC = ({ children }) => {
         openedFiles,
         closeAllFiles,
         highLighted,
-        setCurrentFile: onSetCurrentFile,
+        setCurrentFile,
         setHighLighted: onSetHighlight
       }}
     >
