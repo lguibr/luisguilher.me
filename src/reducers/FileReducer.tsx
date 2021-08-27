@@ -7,15 +7,22 @@ export type FileType = {
   highLighted?: boolean
   current?: boolean
   image?: JSX.Element
-  children?: File[]
+  children?: FileType[]
   index?: number
+  diff?: boolean
+  diffOpen?: boolean
+  diffIndex?: boolean
 }
 
-type action = {
+type SingleTargetAction = {
   type:
     | 'SET_CURRENT'
+    | 'CLEAN_CURRENT'
     | 'OPEN_FILE'
+    | 'OPEN_FILE_DIFF'
+    | 'CLEAN_OPEN'
     | 'SET_HIGHLIGHTED'
+    | 'CLEAN_HIGHLIGHTED'
     | 'SET_IMAGE'
     | 'CLOSE_FILE'
     | 'SET_CONTENT'
@@ -25,16 +32,23 @@ type action = {
   payload: FileType
 }
 
-const fileReducer = (
-  state: FileType[],
-  { type, payload }: action
-): FileType[] => {
-  switch (type) {
+type MultipleTargetAction = { type: 'SET_FILES'; payload: FileType[] }
+
+export type ActionType = SingleTargetAction | MultipleTargetAction
+
+const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
+  switch (action.type) {
     case 'SET_CURRENT':
       return state.map(file => ({
         ...file,
-        current: payload?.path === file?.path,
-        highLighted: payload?.path === file?.path
+        current: action?.payload?.path === file?.path,
+        highLighted: action?.payload?.path === file?.path
+      }))
+    case 'CLEAN_CURRENT':
+      return state.map(file => ({
+        ...file,
+        current: false,
+        highLighted: false
       }))
     case 'OPEN_FILE': {
       const indexes: number[] = state
@@ -45,25 +59,41 @@ const fileReducer = (
 
       return state.map(file => ({
         ...file,
-        current: payload?.path === file?.path,
-        highLighted: payload?.path === file?.path,
-        open: payload?.path === file?.path ? true : !!file?.open,
+        current: action?.payload?.path === file?.path,
+        highLighted: action?.payload?.path === file?.path,
+        open: action?.payload?.path === file?.path ? true : !!file?.open,
         index:
-          payload?.path === file?.path && !file?.open ? max + 1 : file?.index
+          action?.payload?.path === file?.path && !file?.open
+            ? max + 1
+            : file?.index
       }))
     }
+
+    case 'CLEAN_OPEN':
+      return state.map(file => ({
+        ...file,
+        open: false
+      }))
     case 'SET_HIGHLIGHTED':
       return state.map(file => ({
         ...file,
-        highLighted: payload?.path === file?.path
+        highLighted: action?.payload?.path === file?.path
       }))
-    case 'SET_IMAGE': // NOTE CAREFUL TO PLUGIN IMAGE ON PAYLOAD FILE !!
+    case 'CLEAN_HIGHLIGHTED':
       return state.map(file => ({
         ...file,
-        image: file?.path === payload.path ? payload.image : file?.image
+        highLighted: false
+      }))
+    case 'SET_IMAGE':
+      return state.map(file => ({
+        ...file,
+        image:
+          file?.path === action.payload.path
+            ? action.payload.image
+            : file?.image
       }))
     case 'CLOSE_FILE': {
-      const { path } = payload
+      const { path } = action.payload
       const newFilesOpenFixed = state.map(newFile => ({
         ...newFile,
         open: newFile?.path === path ? false : newFile?.open,
@@ -93,19 +123,31 @@ const fileReducer = (
         highLighted: lastFileOpened?.path === newFile.path
       }))
     }
-    case 'SET_CONTENT': // NOTE CAREFUL TO PLUGIN CONTENT ON PAYLOAD FILE !!
+    case 'SET_CONTENT':
       return state.map(file => ({
         ...file,
-        content: file?.path === payload.path ? payload.content : file?.content,
+        content:
+          file?.path === action.payload.path
+            ? action.payload.content
+            : file?.content,
         newContent:
-          file?.path === payload.path ? payload.content : file?.newContent
+          file?.path === action.payload.path
+            ? action.payload.content
+            : file?.newContent
       }))
-    case 'SET_NEW_CONTENT': // NOTE CAREFUL TO PLUGIN NEW CONTENT ON PAYLOAD FILE !!
+    case 'SET_NEW_CONTENT': {
       return state.map(file => ({
         ...file,
+        diff:
+          file?.path === action.payload.path
+            ? !!(file.newContent && file.content !== action.payload.newContent)
+            : file.diff,
         newContent:
-          file?.path === payload.path ? payload.content : file?.newContent
+          file?.path === action.payload.path
+            ? action.payload.newContent
+            : file?.newContent
       }))
+    }
     case 'CLOSE_FILES':
       return state.map(file => ({
         ...file,
@@ -113,6 +155,10 @@ const fileReducer = (
         highLighted: false,
         current: false
       }))
+    case 'SET_FILES':
+      return action.payload
+    default:
+      return state
   }
 }
 

@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState, useEffect, useReducer, Dispatch } from 'react'
 import YAML from 'yaml'
 import education from 'src/assets/education'
 import experiences from 'src/assets/experiences'
@@ -6,35 +6,30 @@ import coverLetter from 'src/assets/coverLetter'
 import contacts from 'src/assets/contacts'
 import skills from 'src/assets/skills'
 import useTree from 'src/hooks/useTree'
+import fileReducer, {
+  FileType as FileT,
+  ActionType
+} from 'src/reducers/FileReducer'
 
-export type File = {
-  name?: string
-  content?: string
-  newContent?: string
-  path: string
-  open?: boolean
-  highLighted?: boolean
-  current?: boolean
-  image?: JSX.Element
-  children?: File[]
-  index?: number
-}
+export type FileType = FileT
 
 export type FileContextType = {
-  files: File[]
-  treeFiles: File[]
-  currentFile: File | undefined
-  highLighted: File | undefined
-  openedFiles: File[]
-  setCurrentFile: (file: File) => void
+  files: FileType[]
+  treeFiles: FileType[]
+  currentFile: FileType | undefined
+  highLighted: FileType | undefined
+  openedFiles: FileType[]
+  diffFiles: FileType[]
+  setCurrentFile: (file: FileType) => void
   closeAllFiles: () => void
-  setHighLighted: (file: File) => void
-  setFiles: (files: File[]) => void
-  closeFile: (file: File) => void
-  openFile: (file: File) => void
-  setContent: (file: File, content: string) => void
-  setImage: (file: File, content: JSX.Element) => void
-  setNewContent: (file: File, content: string) => void
+  setHighLighted: (file: FileType) => void
+  setFiles: (files: FileType[]) => void
+  closeFile: (file: FileType) => void
+  openFile: (file: FileType) => void
+  openFileDiff: (file: FileType) => void
+  setContent: (file: FileType, content: string) => void
+  setImage: (file: FileType, content: JSX.Element) => void
+  setNewContent: (file: FileType, content: string) => void
 }
 
 export const FileContext = createContext({} as FileContextType)
@@ -61,18 +56,6 @@ export const FileProvider: React.FC = ({ children }) => {
     )
     .replace(/(Cover Letter:|Contacts:)/g, '$&\n')
     .replace(/Cover Letter:/, '$&\n')
-
-  useEffect(() => {
-    if (tree) {
-      const newFiles = treeFiles.map(file => ({
-        ...file,
-        children: file.path === repoName ? tree : file?.children
-      }))
-
-      setTreeFiles(newFiles)
-      setFiles(flatTree(newFiles))
-    }
-  }, [tree])
 
   const resumeFiles = [
     {
@@ -113,29 +96,32 @@ export const FileProvider: React.FC = ({ children }) => {
     }
   ]
 
-  type treeFile = {
-    path: string
-    name?: string
-    content?: string
-    children?: treeFile[]
-  }
-
-  const flatTree = (tree: treeFile[]) => {
-    const flattedTree: treeFile[] = []
-    const flatADepth = (tree: treeFile[]) => {
+  const flatTree = (tree: FileType[]): FileType[] => {
+    const rawFlattedTree: FileType[] = []
+    const flatADepth = (tree: FileType[]) => {
       tree.forEach(node => {
         const { children } = node
-        flattedTree.push(node)
+        rawFlattedTree.push(node)
         if (children?.length) {
           flatADepth(children)
         }
       })
     }
     flatADepth(tree)
+
+    const flattedTree: FileType[] = rawFlattedTree.map(
+      ({ path, name, content, newContent }) => ({
+        path,
+        name,
+        content,
+        newContent
+      })
+    )
+
     return flattedTree
   }
 
-  const [treeFiles, setTreeFiles] = useState([
+  const [treeFiles, setTreeFiles] = useState<FileType[]>([
     {
       path: 'resume',
       name: 'resume',
@@ -144,109 +130,59 @@ export const FileProvider: React.FC = ({ children }) => {
     { path: repoName, name: repoName, children: tree }
   ])
 
-  const [files, setFiles] = useState<File[]>(flatTree(treeFiles))
+  const initialState = flatTree(treeFiles)
 
-  const setCurrentFile = (selectedFile: File | undefined) => {
-    const newFiles = files.map(file => ({
-      ...file,
-      current: selectedFile?.path === file?.path,
-      highLighted: selectedFile?.path === file?.path
-    }))
-    setFiles(newFiles)
+  const [files, dispatch]: [files: FileType[], dispatch: Dispatch<ActionType>] =
+    useReducer(fileReducer, initialState)
+
+  const setCurrentFile = (selectedFile: FileType | undefined) => {
+    selectedFile && dispatch({ type: 'SET_CURRENT', payload: selectedFile })
+    !selectedFile && dispatch({ type: 'SET_CURRENT', payload: { path: '/' } })
   }
 
-  const openFile = (selectedFile: File | undefined) => {
-    const indexes: number[] = files
-      .filter(({ index }) => index)
-      .map(({ index }) => index || 0)
-
-    const max = indexes.length && Math.max(...indexes)
-
-    const newFiles = files.map(file => ({
-      ...file,
-      current: selectedFile?.path === file?.path,
-      highLighted: selectedFile?.path === file?.path,
-      open: selectedFile?.path === file?.path ? true : !!file?.open,
-      index:
-        selectedFile?.path === file?.path && !file?.open ? max + 1 : file?.index
-    }))
-    setFiles(newFiles)
+  const openFile = (selectedFile: FileType | undefined) => {
+    selectedFile && dispatch({ type: 'OPEN_FILE', payload: selectedFile })
+    !selectedFile && dispatch({ type: 'CLEAN_OPEN', payload: { path: '/' } })
   }
 
-  const setHighLighted = (selectedFile: File | undefined) => {
-    const newFiles = files.map(file => ({
-      ...file,
-      highLighted: selectedFile?.path === file?.path
-    }))
-    setFiles(newFiles)
+  const openFileDiff = (selectedFile: FileType) => {
+    dispatch({ type: 'OPEN_FILE_DIFF', payload: selectedFile })
   }
 
-  const setImage = (selected: File, image: JSX.Element) => {
-    const newFiles = files.map(file => ({
-      ...file,
-      image: file?.path === selected.path ? image : file?.image
-    }))
-    setFiles(newFiles)
+  const setHighLighted = (selectedFile: FileType | undefined) => {
+    selectedFile && dispatch({ type: 'SET_HIGHLIGHTED', payload: selectedFile })
+    !selectedFile &&
+      dispatch({ type: 'CLEAN_HIGHLIGHTED', payload: { path: '/' } })
   }
 
-  const closeFile = (file: File): void => {
-    const { path } = file
-    const newFilesOpenFixed = files.map(newFile => ({
-      ...newFile,
-      open: newFile?.path === path ? false : newFile?.open,
-      index: newFile?.path === path ? undefined : newFile?.index
-    }))
-    const newOpenedFiles = newFilesOpenFixed.filter(({ open }) => open)
-    const maxCallback = (previousFile?: File, currentFile?: File) => {
-      if (
-        !previousFile ||
-        !currentFile ||
-        !previousFile?.index ||
-        !currentFile?.index
-      )
-        return undefined
-      return previousFile?.index > currentFile?.index
-        ? previousFile
-        : currentFile
-    }
-
-    const lastFileOpened = newOpenedFiles.reduce(maxCallback, newOpenedFiles[0])
-    const newFiles = newFilesOpenFixed.map(newFile => ({
-      ...newFile,
-      current: lastFileOpened?.path === newFile.path,
-      highLighted: lastFileOpened?.path === newFile.path
-    }))
-    setFiles(newFiles)
+  const setImage = (selectedFile: FileType, image: JSX.Element) => {
+    dispatch({ type: 'SET_IMAGE', payload: { ...selectedFile, image } })
   }
 
-  const setContent = (selected: File, content: string) => {
-    const newFiles = files.map(file => ({
-      ...file,
-      content: file?.path === selected.path ? content : file?.content,
-      newContent: file?.path === selected.path ? content : file?.newContent
-    }))
-    setFiles(newFiles)
+  const closeFile = (selectedFile: FileType): void => {
+    dispatch({ type: 'CLOSE_FILE', payload: selectedFile })
   }
 
-  const setNewContent = (selected: File, content: string) => {
-    const newFiles = files.map(file => ({
-      ...file,
-      newContent: file?.path === selected.path ? content : file?.content
-    }))
-    setFiles(newFiles)
+  const setContent = (selectedFile: FileType, content: string) => {
+    dispatch({ type: 'SET_CONTENT', payload: { ...selectedFile, content } })
+  }
+
+  const setNewContent = (selectedFile: FileType, newContent: string) => {
+    dispatch({
+      type: 'SET_NEW_CONTENT',
+      payload: { ...selectedFile, newContent }
+    })
   }
 
   const closeAllFiles = () => {
-    const newFiles = files.map(file => ({
-      ...file,
-      open: false,
-      highLighted: false,
-      current: false
-    }))
-    setFiles(newFiles)
+    dispatch({ type: 'CLOSE_FILES', payload: { path: '/' } })
   }
 
-  const compare = (a: File, b: File) => {
+  const setFiles = (files: FileType[]) => {
+    dispatch({ type: 'SET_FILES', payload: files })
+  }
+
+  const compare = (a: FileType, b: FileType) => {
     if (!a?.index || !b?.index) {
       return 0
     }
@@ -260,14 +196,30 @@ export const FileProvider: React.FC = ({ children }) => {
   }
 
   const openedFiles = files.filter(({ open }) => open).sort(compare)
+  const diffFiles = files.filter(({ diff }) => diff)
   const highLighted = files.find(({ highLighted }) => highLighted)
   const currentFile = files.find(({ current }) => current)
-  const onSetHighlight = (file: File): void => {
+  const onSetHighlight = (file: FileType): void => {
     if (highLighted?.name === file?.name && !file?.children?.length) {
       setCurrentFile(file)
     }
     setHighLighted(file)
   }
+
+  useEffect(() => {
+    if (tree) {
+      const newTreeFiles = treeFiles.map(file => ({
+        ...file,
+        children: file.path === repoName ? tree : file?.children
+      }))
+
+      const newFiles: FileType[] = flatTree(newTreeFiles)
+
+      setTreeFiles(newTreeFiles)
+      setFiles(newFiles)
+    }
+  }, [tree])
+
   return (
     <FileContext.Provider
       value={{
@@ -279,8 +231,10 @@ export const FileProvider: React.FC = ({ children }) => {
         setNewContent,
         closeFile,
         openFile,
+        openFileDiff,
         currentFile,
         openedFiles,
+        diffFiles,
         closeAllFiles,
         highLighted,
         setCurrentFile,

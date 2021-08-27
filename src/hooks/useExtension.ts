@@ -14,7 +14,7 @@ import YarnIcon from 'public/icons/yarn.svg'
 import YamlIcon from 'public/icons/yaml.svg'
 import NodeIcon from 'public/icons/nodejs.svg'
 import FileIcon from 'public/icons/file.svg'
-import { File as FileType } from 'src/contexts/FileContext'
+import { FileType } from 'src/contexts/FileContext'
 import React from 'react'
 
 export type useExtension = {
