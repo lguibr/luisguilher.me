@@ -1,8 +1,6 @@
 import styled from 'styled-components'
 import Arrow from 'public/icons/arrow.svg'
-import TextComponent from '../Text'
 
-export const Span = styled(TextComponent)``
 export const Container = styled.div`
   display: grid;
   grid-template-columns: max-content max-content max-content max-content;

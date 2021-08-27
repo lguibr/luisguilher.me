@@ -1,5 +1,5 @@
 import { FileType } from 'src/contexts/FileContext'
-import { Container, ArrowIcon, ArrowContainer, Span } from './styled'
+import { Container, ArrowIcon, ArrowContainer } from './styled'
 import Text from 'src/components/Core/Text'
 import { useExtension } from 'src/hooks/useExtension'
 
