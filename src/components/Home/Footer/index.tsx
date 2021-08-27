@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
           </Text>
         </Info>
       </Content>
-      {/* {!isMedium && (
+      {!isMedium && (
         <Content>
           <Info>
             <CheckIcon />
@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
             </Text>
           </Info>
         </Content>
-      )} */}
+      )}
     </Container>
   )
 }
