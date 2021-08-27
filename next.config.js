@@ -3,8 +3,9 @@
 module.exports = {
   env: {
     REPO: 'luisguilher.me',
-    RESUME: 'resume',
-    shaBranch: 'main'
+    OWNER: 'lguibr',
+    SHA_BRANCH: 'main',
+    RESUME: 'resume'
   },
   reactStrictMode: true,
   webpack(config) {
