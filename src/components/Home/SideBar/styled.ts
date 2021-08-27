@@ -14,8 +14,10 @@ export const ModalContent = styled.div`
   position: fixed;
   background-color: ${({ theme }) => theme.colors.menuBackground};
   width: max-content;
-  min-width: 300px;
-
+  min-width: 150px;
+  width: 100%;
+  max-width: calc(100vw - 52px);
+  border: 2px dotted red;
   left: 52px;
   box-sizing: border-box;
   overflow: hidden;
