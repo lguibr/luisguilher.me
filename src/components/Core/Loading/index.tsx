@@ -10,10 +10,10 @@ const Canvas = dynamic(import('./Canvas'), {
 const Loading: React.FC = () => {
   const engineRef = useRef<HTMLDivElement | null>(null)
 
-  const { loading } = useContextLoading()
+  const { loading, index } = useContextLoading()
   return (
     <Container ref={engineRef} isLoading={!!loading}>
-      {loading && <Canvas />}
+      {loading && <Canvas index={index} />}
     </Container>
   )
 }
