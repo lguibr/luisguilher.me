@@ -5,12 +5,11 @@ import CloseIcon from 'public/icons/close-line.svg'
 
 const Navigation: React.FC = () => {
   const { openedFiles, currentFile, openFile, closeFile } = useContextFile()
-
   return (
     <Container>
       {openedFiles.map(file => (
         <Row
-          isCurrent={file?.name === currentFile?.name}
+          isCurrent={file?.path === currentFile?.path}
           onClick={() => openFile(file)}
           key={file.path}
         >
