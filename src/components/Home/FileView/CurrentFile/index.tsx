@@ -6,6 +6,7 @@ import useContextLoading from 'src/hooks/useLoading'
 import useExtension from 'src/hooks/useExtension'
 
 import CoreEditor from 'src/components/Core/Editor'
+import DiffEditor from 'src/components/Core/DiffEditor'
 
 const Editor: React.FC = () => {
   const { fetchFileContent } = githubService
@@ -86,13 +87,23 @@ const Editor: React.FC = () => {
   return (
     <>
       {currentFile && (
-        <CoreEditor
-          onChange={currentValue => {
-            currentFile && setNewContent(currentFile, currentValue || '')
-          }}
-          currentContent={currentContent}
-          currentExt={currentExt}
-        />
+        <>
+          {!currentFile.isDiff ? (
+            <CoreEditor
+              onChange={currentValue => {
+                currentFile && setNewContent(currentFile, currentValue || '')
+              }}
+              currentContent={currentContent}
+              currentExt={currentExt}
+            />
+          ) : (
+            <DiffEditor
+              currentContent={currentFile?.content || ''}
+              currentNewContent={currentFile?.newContent || ''}
+              currentExt={currentExt}
+            />
+          )}
+        </>
       )}
       {currentFile?.image && currentImage}
     </>
