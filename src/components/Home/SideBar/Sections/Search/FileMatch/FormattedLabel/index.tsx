@@ -9,11 +9,14 @@ const FormattedLabel: React.FC<FormattedLabelProps> = ({ label, value }) => {
   if (!value) {
     return <> </>
   }
-  const splitedString = label && value ? label?.split(value) : ['']
-  const splitedLabel = splitedString.map((s, i) => <span key={s + i}>{s}</span>)
+  const splittedString = label && value ? label?.split(value) : ['']
+
+  const splittedLabel = splittedString.map((s, i) => (
+    <span key={s + i}>{s}</span>
+  ))
   return (
     <Span as="span">
-      {splitedLabel.reduce<JSX.Element | JSX.Element[]>((prev, current, i) => {
+      {splittedLabel.reduce<JSX.Element | JSX.Element[]>((prev, current, i) => {
         if (!i) {
           return [current]
         }
