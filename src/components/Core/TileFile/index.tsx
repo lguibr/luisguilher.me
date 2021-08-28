@@ -12,7 +12,7 @@ export type FileTileProps = {
 const FileTile: React.FC<FileTileProps> = ({ file, folder, open }) => {
   const { extractIcon } = useExtension()
   const Icon = extractIcon(file, open)
-  const { diff } = file
+  const { diff, isDiff } = file
   return (
     <Container>
       <ArrowContainer>
@@ -20,6 +20,7 @@ const FileTile: React.FC<FileTileProps> = ({ file, folder, open }) => {
       </ArrowContainer>
       <Icon height="14px" width="14px" />
       <Text size={14}>{file?.name}</Text>
+      {isDiff && <Text size={13}>(Working Tree)</Text>}
       {diff && <Text size={13}>M</Text>}
     </Container>
   )
