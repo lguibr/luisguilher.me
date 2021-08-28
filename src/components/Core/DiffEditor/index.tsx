@@ -99,10 +99,14 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
   const { isMedium } = useWindow()
 
   const agnosticConfig = {
-    quickSuggestions: false
+    quickSuggestions: false,
+    model: null,
+    readOnly: true
   }
 
   const hideLineNumberOptions = {
+    enableSplitViewResizing: false,
+    renderSideBySide: false,
     lineNumbers: 'off',
     glyphMargin: false,
     folding: false,
@@ -118,6 +122,8 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
   }
 
   const showLineNumberOptions = {
+    enableSplitViewResizing: true,
+    renderSideBySide: true,
     lineNumbers: 'on',
     glyphMargin: true,
     wordWrap: 'on',
