@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import githubService from 'services/github'
+
 type NodeTree = {
   path: string
   mode?: string
@@ -8,6 +9,7 @@ type NodeTree = {
   size?: number
   url?: string
 }
+
 export const useTree = (): { tree: NodeTree[] } => {
   const { fetchRepoTree } = githubService
   const [tree, setTree] = useState<NodeTree[]>([])
