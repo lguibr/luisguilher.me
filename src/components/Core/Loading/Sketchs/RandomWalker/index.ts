@@ -21,7 +21,7 @@ const sketch =
           [-10, 10]
         ]),
         smallerDimension / 300,
-        1
+        10
       )
       bodies.push(newBody)
     }

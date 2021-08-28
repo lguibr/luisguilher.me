@@ -13,13 +13,9 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
   files,
   embedded = 0
 }) => {
-  const resumeName = process.env.RESUME || 'resume'
-
   const { highLighted, openFile } = useContextFile()
 
-  const openState = Object.fromEntries(
-    files.map(({ path }) => [[path], path === resumeName])
-  )
+  const openState = Object.fromEntries(files.map(({ path }) => [[path], true]))
 
   const [open, setOpen] = useState(openState)
 

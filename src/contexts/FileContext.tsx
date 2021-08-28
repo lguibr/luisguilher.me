@@ -10,7 +10,9 @@ import fileReducer, {
   FileType as FileT,
   ActionType
 } from 'src/reducers/FileReducer'
-
+import githubService from 'services/github'
+import { useWindowSize } from 'src/hooks/useWindow'
+import useSideBar from 'src/hooks/useSideBar'
 export type FileType = FileT
 
 export type FileContextType = {
@@ -26,7 +28,6 @@ export type FileContextType = {
   setFiles: (files: FileType[]) => void
   closeFile: (file: FileType) => void
   openFile: (file: FileType) => void
-  openFileDiff: (file: FileType) => void
   setContent: (file: FileType, content: string) => void
   setImage: (file: FileType, content: JSX.Element) => void
   setNewContent: (file: FileType, content: string) => void
@@ -34,9 +35,11 @@ export type FileContextType = {
 
 export const FileContext = createContext({} as FileContextType)
 export const FileProvider: React.FC = ({ children }) => {
+  const { isMedium } = useWindowSize()
+  const { setOpen } = useSideBar()
   const repoName = process.env.REPO || 'luisguilher.me'
-  const { tree } = useTree()
-
+  const { build, flatTree } = useTree()
+  const [tree, setTree] = useState<FileType[]>([])
   const coverLetterText = JSON.stringify(coverLetter.join(''), null, 2)
   const skillsText = JSON.stringify(skills, null, 2)
   const educationText = JSON.stringify(education, null, 2)
@@ -96,42 +99,24 @@ export const FileProvider: React.FC = ({ children }) => {
     }
   ]
 
-  const flatTree = (tree: FileType[]): FileType[] => {
-    const rawFlattedTree: FileType[] = []
-    const flatADepth = (tree: FileType[]) => {
-      tree.forEach(node => {
-        const { children } = node
-        rawFlattedTree.push(node)
-        if (children?.length) {
-          flatADepth(children)
-        }
-      })
-    }
-    flatADepth(tree)
-
-    const flattedTree: FileType[] = rawFlattedTree.map(
-      ({ path, name, content, newContent }) => ({
-        path,
-        name,
-        content,
-        newContent
-      })
-    )
-
-    return flattedTree
-  }
-
   const [treeFiles, setTreeFiles] = useState<FileType[]>([
     {
       path: 'resume',
       name: 'resume',
       children: resumeFiles
     },
-    { path: repoName, name: repoName, children: tree }
+    { path: repoName, name: repoName, children: [] }
   ])
 
-  const initialState = flatTree(treeFiles)
+  const initialFiles = flatTree(treeFiles)
 
+  const initialDiffFiles: FileType[] = initialFiles.map(file => ({
+    ...file,
+    isDiff: true,
+    path: file?.path.concat('__working__tree__')
+  }))
+
+  const initialState = initialFiles.concat(initialDiffFiles)
   const [files, dispatch]: [files: FileType[], dispatch: Dispatch<ActionType>] =
     useReducer(fileReducer, initialState)
 
@@ -141,12 +126,9 @@ export const FileProvider: React.FC = ({ children }) => {
   }
 
   const openFile = (selectedFile: FileType | undefined) => {
+    isMedium && setOpen(false)
     selectedFile && dispatch({ type: 'OPEN_FILE', payload: selectedFile })
     !selectedFile && dispatch({ type: 'CLEAN_OPEN', payload: { path: '/' } })
-  }
-
-  const openFileDiff = (selectedFile: FileType) => {
-    dispatch({ type: 'OPEN_FILE_DIFF', payload: selectedFile })
   }
 
   const setHighLighted = (selectedFile: FileType | undefined) => {
@@ -195,8 +177,8 @@ export const FileProvider: React.FC = ({ children }) => {
     return 0
   }
 
+  const diffFiles = files.filter(({ isDiff, diff }) => isDiff && diff)
   const openedFiles = files.filter(({ open }) => open).sort(compare)
-  const diffFiles = files.filter(({ diff }) => diff)
   const highLighted = files.find(({ highLighted }) => highLighted)
   const currentFile = files.find(({ current }) => current)
   const onSetHighlight = (file: FileType): void => {
@@ -214,11 +196,26 @@ export const FileProvider: React.FC = ({ children }) => {
       }))
 
       const newFiles: FileType[] = flatTree(newTreeFiles)
+      const newDiffFiles: FileType[] = newFiles.map(file => ({
+        ...file,
+        isDiff: true,
+        path: file?.path.concat('__working__tree__')
+      }))
 
       setTreeFiles(newTreeFiles)
-      setFiles(newFiles)
+      setFiles(newFiles.concat(newDiffFiles))
     }
   }, [tree])
+
+  const fetchTree = async () => {
+    const rawTree = await githubService.fetchRepoTree()
+    const newTree = build(rawTree)
+    setTree(newTree)
+  }
+
+  useEffect(() => {
+    fetchTree()
+  }, [])
 
   return (
     <FileContext.Provider
@@ -231,7 +228,6 @@ export const FileProvider: React.FC = ({ children }) => {
         setNewContent,
         closeFile,
         openFile,
-        openFileDiff,
         currentFile,
         openedFiles,
         diffFiles,

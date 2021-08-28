@@ -10,8 +10,7 @@ export type FileType = {
   children?: FileType[]
   index?: number
   diff?: boolean
-  diffOpen?: boolean
-  diffIndex?: boolean
+  isDiff?: boolean
 }
 
 type SingleTargetAction = {
@@ -19,7 +18,6 @@ type SingleTargetAction = {
     | 'SET_CURRENT'
     | 'CLEAN_CURRENT'
     | 'OPEN_FILE'
-    | 'OPEN_FILE_DIFF'
     | 'CLEAN_OPEN'
     | 'SET_HIGHLIGHTED'
     | 'CLEAN_HIGHLIGHTED'
@@ -127,11 +125,13 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
       return state.map(file => ({
         ...file,
         content:
-          file?.path === action.payload.path
+          file?.path.replace('__working__tree__', '') ===
+          action.payload.path.replace('__working__tree__', '')
             ? action.payload.content
             : file?.content,
         newContent:
-          file?.path === action.payload.path
+          file?.path.replace('__working__tree__', '') ===
+          action.payload.path.replace('__working__tree__', '')
             ? action.payload.content
             : file?.newContent
       }))
@@ -139,11 +139,13 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
       return state.map(file => ({
         ...file,
         diff:
-          file?.path === action.payload.path
-            ? !!(file.newContent && file.content !== action.payload.newContent)
+          file?.path.replace('__working__tree__', '') ===
+          action.payload.path.replace('__working__tree__', '')
+            ? !!(file.content !== action.payload.newContent)
             : file.diff,
         newContent:
-          file?.path === action.payload.path
+          file?.path.replace('__working__tree__', '') ===
+          action.payload.path.replace('__working__tree__', '')
             ? action.payload.newContent
             : file?.newContent
       }))
@@ -157,6 +159,7 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
       }))
     case 'SET_FILES':
       return action.payload
+
     default:
       return state
   }

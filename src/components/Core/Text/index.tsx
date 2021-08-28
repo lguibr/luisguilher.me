@@ -8,7 +8,7 @@ export type TextProps = {
   font?: string
   size?: number
   color?: keyof typeof colors
-  children?: JSX.Element | JSX.Element[] | string
+  children?: JSX.Element | JSX.Element[] | string | number | string[] | number[]
   capitalize?: string
   uppercase?: string
   letterSpacing?: string

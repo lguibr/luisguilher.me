@@ -105,11 +105,7 @@ const NavBar: React.FC = () => {
   ]
 
   const handleClick = (selection: Variant): void => {
-    console.log({ selection })
-    console.log({ selectedSection })
-
     const isSameSection = selectedSection === selection
-    console.log(isSameSection)
 
     isSameSection && setOpen(!open)
     !isSameSection && setOpen(true)
