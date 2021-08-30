@@ -142,9 +142,13 @@ export const GuideTourProvider: React.FC = ({ children }) => {
     },
     {
       selector: '[data-tut="extra0"]',
+      action: () => {
+        setOpen(false)
+        setSelectedSection('files')
+      },
       content: (
         <Step
-          title="Section : Source Control"
+          title="Section : Profile"
           emoticon="🤓"
           content={`Here you can access all my contact information and download/print my resume as a pdf`}
         />
@@ -152,16 +156,23 @@ export const GuideTourProvider: React.FC = ({ children }) => {
     },
     {
       selector: '[data-tut="extra1"]',
+      action: () => {
+        setOpen(false)
+        setSelectedSection('files')
+      },
       content: (
         <Step
-          title="Section : Source Control"
-          emoticon="😁"
+          title="Section : Settings"
+          emoticon="⚙️"
           content={`Here you can change the theme, open the project on Github and give me a little star or report an issue, both will help and make me happy!`}
         />
       )
     },
     {
-      selector: '[data-tut="extra1"]',
+      action: () => {
+        setOpen(true)
+        setSelectedSection('files')
+      },
       content: (
         <Step
           title="Thank You!"
@@ -195,7 +206,7 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       value={{
         setTour,
         isTourOpen,
-        steps
+        steps: steps
       }}
     >
       {children}
