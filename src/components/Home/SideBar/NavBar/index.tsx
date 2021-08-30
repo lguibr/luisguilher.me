@@ -115,8 +115,9 @@ const NavBar: React.FC = () => {
   return (
     <Container>
       <Section>
-        {menuOptions.map(option => (
+        {menuOptions.map((option, index) => (
           <Option
+            data-tut={`nav${index}`}
             isSelectedSection={selectedSection === option.variant}
             onClick={() => {
               handleClick(option.variant)
@@ -129,8 +130,12 @@ const NavBar: React.FC = () => {
         ))}
       </Section>
       <Section>
-        {menuExtras.map(option => (
-          <Option isSelectedSection={false} key={option.variant}>
+        {menuExtras.map((option, index) => (
+          <Option
+            data-tut={`extra${index}`}
+            isSelectedSection={false}
+            key={option.variant}
+          >
             <FloatMenu options={option?.options}>
               <Icon variant={option.variant} height="30px" width="30px" />
             </FloatMenu>

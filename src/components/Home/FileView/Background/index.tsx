@@ -6,7 +6,9 @@ import useContextLoading from 'src/hooks/useLoading'
 import { Container, Content, VS, SpanHighlighted } from './styled'
 import { useContextPrint } from 'src/hooks/useContextPrint'
 import { useWindowSize } from 'src/hooks/useWindow'
+import { useContextGuideTour } from 'src/hooks/useGuideTour'
 const Background: React.FC = () => {
+  const { setTour } = useContextGuideTour()
   const { isMedium } = useWindowSize()
   const { closeAllFiles } = useContextFile()
   const { print, Printable } = useContextPrint()
@@ -20,7 +22,7 @@ const Background: React.FC = () => {
       key === '$' && closeAllFiles()
       key === 'q' && toggleTheme()
       key === 'P' && print && print()
-      // key === '@' &&
+      key === '@' && setTour(true)
       key === ' ' && !loading && flashLoading()
     }
   }
@@ -32,7 +34,7 @@ const Background: React.FC = () => {
 
   return (
     <Container>
-      <VS />
+      <VS data-tut="profile" />
       <Printable />
       {!isMedium && (
         <Content>
