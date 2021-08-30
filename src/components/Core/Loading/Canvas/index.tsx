@@ -36,8 +36,6 @@ const CanvasComponent: React.FC<CanvasProps> = ({ index }) => {
         ? index
         : randomIntFromInterval(Sketch.length - 1)
 
-    console.log({ randomNumberSketchIndex })
-
     const sketch = Sketch[randomNumberSketchIndex](setCanvas)
     p5Ref?.current && setCanvas(new P5(sketch, p5Ref?.current))
   }, [])

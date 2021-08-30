@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 
 type SelectedThemeType = 'light' | 'vs-dark'
 
@@ -14,8 +14,16 @@ export const UIProvider: React.FC = ({ children }) => {
 
   const toggleTheme = () => {
     const newTheme = selectedTheme === 'light' ? 'vs-dark' : 'light'
+    localStorage.setItem('THEME', newTheme)
     setTheme(newTheme)
   }
+
+  useEffect(() => {
+    const localStorageTheme = localStorage.getItem('THEME') as SelectedThemeType
+    const theme: SelectedThemeType = localStorageTheme || 'vs-dark'
+    theme && setTheme(theme)
+  }, [])
+
   return (
     <ThemeContext.Provider
       value={{

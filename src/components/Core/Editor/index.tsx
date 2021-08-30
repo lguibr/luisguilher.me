@@ -2,85 +2,11 @@ import useWindow from 'src/hooks/useWindow'
 import useContextTheme from 'src/hooks/useContextTheme'
 import MonacoEditor, { Monaco } from '@monaco-editor/react'
 
+import { useRef } from 'react'
+
 type EditorProps = {
   currentExt: string
-  // | 'abap'
-  // | 'aes'
-  // | 'apex'
-  // | 'azcli'
-  // | 'bat'
-  // | 'bicep'
-  // | 'c'
-  // | 'cameligo '
-  // | 'clojure'
-  // | 'coffeescript '
-  // | 'cpp '
-  // | 'csharp '
-  // | 'csp '
-  // | 'css '
-  // | 'dart '
-  // | 'dockerfile '
-  // | 'ecl '
-  // | 'elixir '
-  // | 'fsharp '
-  // | 'go '
-  // | 'graphql '
-  // | 'handlebars '
-  // | 'hcl '
-  // | 'html '
-  // | 'ini '
-  // | 'java '
-  // | 'javascript '
-  // | 'json '
-  // | 'julia '
-  // | 'kotlin '
-  // | 'less '
-  // | 'lexon '
-  // | 'liquid '
-  // | 'lua '
-  // | 'm3 '
-  // | 'markdown '
-  // | 'mips '
-  // | 'msdax '
-  // | 'mysql '
-  // | 'objective '
-  // | 'pascal '
-  // | 'pascaligo '
-  // | 'perl '
-  // | 'pgsql '
-  // | 'php '
-  // | 'plaintext '
-  // | 'postiats '
-  // | 'powerquery '
-  // | 'powershell '
-  // | 'pug '
-  // | 'python '
-  // | 'qsharp '
-  // | 'r '
-  // | 'razor '
-  // | 'redis '
-  // | 'redshift '
-  // | 'restructuredtext '
-  // | 'ruby '
-  // | 'rust '
-  // | 'sb '
-  // | 'scala '
-  // | 'scheme '
-  // | 'scss '
-  // | 'shell '
-  // | 'sol '
-  // | 'sparql '
-  // | 'sql '
-  // | 'st '
-  // | 'swift '
-  // | 'systemverilog '
-  // | 'tcl '
-  // | 'twig '
-  // | 'typescript '
-  // | 'vb '
-  // | 'verilog '
-  // | 'xml '
-  // | 'yaml'
+  path: string
   currentContent: string
   onChange: (value?: string | undefined) => void
 }
@@ -88,11 +14,14 @@ type EditorProps = {
 const Editor: React.FC<EditorProps> = ({
   currentExt,
   currentContent,
-  onChange
+  onChange,
+  path
 }) => {
   const LoadingEditor = () => {
     return <div />
   }
+
+  const editorRef = useRef(null)
 
   const { selectedTheme } = useContextTheme()
   const { isMedium } = useWindow()
@@ -127,11 +56,13 @@ const Editor: React.FC<EditorProps> = ({
     }
   }
 
-  const handleEditorDidMount = (monaco: Monaco) => {
+  const handleEditorDidMount = (monaco: Monaco, editor: Monaco) => {
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
       noLib: true,
       allowNonTsExtensions: true
     })
+
+    editorRef.current = editor
 
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
@@ -154,9 +85,11 @@ const Editor: React.FC<EditorProps> = ({
       language={currentExt}
       value={currentContent}
       theme={selectedTheme}
-      onMount={(_monaco, editor) => handleEditorDidMount(editor)}
+      onMount={(editor, monaco) => handleEditorDidMount(monaco, editor)}
       loading={<LoadingEditor />}
       onChange={onChange}
+      path={path}
+      line={1}
     />
   )
 }

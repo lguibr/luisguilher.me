@@ -58,4 +58,8 @@ export const VS = styled.div`
     height: 200px;
     width: 200px;
   }
+  @media (max-width: ${({ theme }) => theme.breakpoints.xSmall}) {
+    height: 120px;
+    width: 120px;
+  }
 `

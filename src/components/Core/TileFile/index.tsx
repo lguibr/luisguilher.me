@@ -14,7 +14,15 @@ const FileTile: React.FC<FileTileProps> = ({ file, folder, open }) => {
   const Icon = extractIcon(file, open)
   const { diff, isDiff } = file
   return (
-    <Container>
+    <Container
+      data-tut={
+        file?.name === 'resume'
+          ? 'resume_folder'
+          : file?.name === process.env.REPO
+          ? 'repo_folder'
+          : ''
+      }
+    >
       <ArrowContainer>
         {folder && <ArrowIcon height="10px" width="10px" open={open} />}
       </ArrowContainer>

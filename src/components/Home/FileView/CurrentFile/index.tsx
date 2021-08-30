@@ -95,12 +95,14 @@ const Editor: React.FC = () => {
               }}
               currentContent={currentContent}
               currentExt={currentExt}
+              path={currentFile.path}
             />
           ) : (
             <DiffEditor
               currentContent={currentFile?.content || ''}
               currentNewContent={currentFile?.newContent || ''}
               currentExt={currentExt}
+              path={currentFile.path}
             />
           )}
         </>

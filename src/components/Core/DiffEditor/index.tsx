@@ -1,92 +1,17 @@
 import useWindow from 'src/hooks/useWindow'
 import useContextTheme from 'src/hooks/useContextTheme'
-
+import { useEffect, useRef } from 'react'
 import { DiffEditor, Monaco } from '@monaco-editor/react'
 
 type EditorProps = {
   currentExt: string
-  // | 'abap'
-  // | 'aes'
-  // | 'apex'
-  // | 'azcli'
-  // | 'bat'
-  // | 'bicep'
-  // | 'c'
-  // | 'cameligo '
-  // | 'clojure'
-  // | 'coffeescript '
-  // | 'cpp '
-  // | 'csharp '
-  // | 'csp '
-  // | 'css '
-  // | 'dart '
-  // | 'dockerfile '
-  // | 'ecl '
-  // | 'elixir '
-  // | 'fsharp '
-  // | 'go '
-  // | 'graphql '
-  // | 'handlebars '
-  // | 'hcl '
-  // | 'html '
-  // | 'ini '
-  // | 'java '
-  // | 'javascript '
-  // | 'json '
-  // | 'julia '
-  // | 'kotlin '
-  // | 'less '
-  // | 'lexon '
-  // | 'liquid '
-  // | 'lua '
-  // | 'm3 '
-  // | 'markdown '
-  // | 'mips '
-  // | 'msdax '
-  // | 'mysql '
-  // | 'objective '
-  // | 'pascal '
-  // | 'pascaligo '
-  // | 'perl '
-  // | 'pgsql '
-  // | 'php '
-  // | 'plaintext '
-  // | 'postiats '
-  // | 'powerquery '
-  // | 'powershell '
-  // | 'pug '
-  // | 'python '
-  // | 'qsharp '
-  // | 'r '
-  // | 'razor '
-  // | 'redis '
-  // | 'redshift '
-  // | 'restructuredtext '
-  // | 'ruby '
-  // | 'rust '
-  // | 'sb '
-  // | 'scala '
-  // | 'scheme '
-  // | 'scss '
-  // | 'shell '
-  // | 'sol '
-  // | 'sparql '
-  // | 'sql '
-  // | 'st '
-  // | 'swift '
-  // | 'systemverilog '
-  // | 'tcl '
-  // | 'twig '
-  // | 'typescript '
-  // | 'vb '
-  // | 'verilog '
-  // | 'xml '
-  // | 'yaml'
+  path: string
   currentContent: string
   currentNewContent: string
 }
 
 const DiffEditorComponent: React.FC<EditorProps> = ({
+  path,
   currentExt,
   currentContent,
   currentNewContent
@@ -133,12 +58,19 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
       enabled: true
     }
   }
+  const editorRef = useRef({ revealLine: (n: number) => !n && console.log(n) })
 
-  const handleEditorDidMount = (monaco: Monaco) => {
+  useEffect(() => {
+    if (editorRef?.current?.revealLine) editorRef?.current?.revealLine(1)
+  }, [path])
+
+  const handleEditorDidMount = (monaco: Monaco, editor: Monaco) => {
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
       noLib: true,
       allowNonTsExtensions: true
     })
+
+    editorRef.current = editor
 
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
@@ -162,8 +94,9 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
       original={currentContent}
       modified={currentNewContent}
       theme={selectedTheme}
-      onMount={(_monaco: Monaco, editor) => handleEditorDidMount(editor)}
+      onMount={(editor, monaco) => handleEditorDidMount(monaco, editor)}
       loading={<LoadingEditor />}
+      modifiedModelPath={path}
     />
   )
 }
