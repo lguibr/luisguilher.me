@@ -4,7 +4,9 @@ import { Section, Option, Container } from './styled'
 import useSideBar from 'src/hooks/useSideBar'
 import FloatMenu from 'src/components/Core/FloatMenu'
 import useContextTheme from 'src/hooks/useContextTheme'
+import { useContextFile } from 'src/hooks/useContextFile'
 import { useContextPrint } from 'src/hooks/useContextPrint'
+import { useContextGuideTour } from 'src/hooks/useGuideTour'
 import { useContextLoading } from 'src/hooks/useLoading'
 
 type Variant =
@@ -31,6 +33,8 @@ interface OptionMenu extends Option {
 const NavBar: React.FC = () => {
   const { flashLoading, loading } = useContextLoading()
   const { toggleTheme } = useContextTheme()
+  const { setTour } = useContextGuideTour()
+  const { closeAllFiles } = useContextFile()
 
   const { selectedSection, setSelectedSection, setOpen, open } = useSideBar()
 
@@ -89,6 +93,13 @@ const NavBar: React.FC = () => {
         {
           labels: ['Toggle theme'],
           onClick: () => toggleTheme()
+        },
+        {
+          labels: ['Restart the onboarding'],
+          onClick: () => {
+            closeAllFiles()
+            setTour(true)
+          }
         },
         {
           labels: ['Open project on Github'],

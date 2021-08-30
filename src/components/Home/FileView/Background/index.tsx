@@ -22,7 +22,11 @@ const Background: React.FC = () => {
       key === '$' && closeAllFiles()
       key === 'q' && toggleTheme()
       key === 'P' && print && print()
-      key === '@' && setTour(true)
+      key === '@' &&
+        (() => {
+          closeAllFiles()
+          setTour(true)
+        })()
       key === ' ' && !loading && flashLoading()
     }
   }
