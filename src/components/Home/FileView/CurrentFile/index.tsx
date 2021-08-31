@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from 'react'
-import githubService from 'services/github'
+import githubService from 'src/services/github'
 import useContextFile from 'src/hooks/useContextFile'
 import useContextLoading from 'src/hooks/useLoading'
 import useExtension from 'src/hooks/useExtension'
