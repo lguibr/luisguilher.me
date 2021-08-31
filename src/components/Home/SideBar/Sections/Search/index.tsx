@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Text from 'src/components/Core/Text'
 import InputText from 'src/components/Core/InputText'
 import useContextFile from 'src/hooks/useContextFile'
