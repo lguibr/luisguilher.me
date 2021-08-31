@@ -1,10 +1,13 @@
-import Calculator from 'src/components/Core/Loading/Engine/Calculator'
-import Body from 'src/components/Core/Loading/Engine/Body'
+import Calculator from 'src/components/Core/Engine/Calculator'
+import Body from 'src/components/Core/Engine/Body'
 import P5 from 'p5'
-
+import theme from 'src/styles/theme'
+type Theme = typeof theme['vs-dark']
 const sketch =
-  (setCanvas: (p5: P5 | null) => void) =>
+  (theme: Theme) =>
   (p5: P5): void => {
+    console.log({ theme })
+
     const calculator = new Calculator()
     const maxBodies = 200
     const bodies: Body[] = []
@@ -27,7 +30,6 @@ const sketch =
 
     p5.setup = (w = p5.width, h = p5.height) => {
       p5.createCanvas(w, h)
-      setCanvas(p5)
     }
 
     p5.draw = () => {

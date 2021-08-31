@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import useContextLoading from 'src/hooks/useLoading'
 import { useRef } from 'react'
 
-const Canvas = dynamic(import('./Canvas'), {
+const Canvas = dynamic(import('../Canvas'), {
   ssr: false
 })
 

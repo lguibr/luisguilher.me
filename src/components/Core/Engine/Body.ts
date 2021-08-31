@@ -20,15 +20,16 @@ export default class Body {
     velocity: Vector,
     acceleration: Vector,
     mass: number,
-    stroke?: number
+    color?: string
   ) {
     this.coordinates = coordinates
     this.velocity = velocity
     this.acceleration = acceleration
     this.mass = mass
-    this.stroke = stroke
     this.randomNum = calculator.randomInteger(50, 220)
-    this.color = [this.randomNum, this.randomNum, this.randomNum]
+    this.color = color
+      ? calculator.transformHEXOnRGB(color)
+      : [this.randomNum, this.randomNum, this.randomNum]
   }
 
   printProperties(): void {
@@ -57,12 +58,7 @@ export default class Body {
 
   draw(p5: P5): void {
     p5.fill(p5.color(...this.color))
-    p5.stroke(
-      calculator.randomInteger(50, 220),
-      calculator.randomInteger(50, 220),
-      calculator.randomInteger(50, 220)
-    )
-    p5.strokeWeight(this.stroke || 0)
+    p5.strokeWeight(0)
     p5.ellipse(
       this.coordinates.x,
       this.coordinates.y,
