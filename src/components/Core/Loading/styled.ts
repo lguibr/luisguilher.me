@@ -5,17 +5,6 @@ interface Props {
 }
 
 export const Container = styled.div<Pick<Props, 'isLoading'>>`
-  @keyframes opacity {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  animation: opacity 0.7s ease-in;
-
   box-sizing: border-box;
   position: absolute;
 

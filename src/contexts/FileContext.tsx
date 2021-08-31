@@ -10,7 +10,7 @@ import fileReducer, {
   FileType as FileT,
   ActionType
 } from 'src/reducers/FileReducer'
-import githubService from 'services/github'
+import githubService from 'src/services/github'
 import { useWindowSize } from 'src/hooks/useWindow'
 import useSideBar from 'src/hooks/useSideBar'
 export type FileType = FileT

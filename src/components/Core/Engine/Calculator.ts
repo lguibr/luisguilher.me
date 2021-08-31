@@ -4,6 +4,15 @@ type Vector = {
 }
 
 export default class Calculator {
+  transformHEXOnRGB(string: string): [r: number, g: number, b: number] {
+    const hex = string.replace('#', '')
+    const bigint = parseInt(hex, 16)
+    const r = (bigint >> 16) & 255 || 0
+    const g = (bigint >> 8) & 255 || 0
+    const b = bigint & 255 || 0
+    return [r, g, b]
+  }
+
   sumVector(vector1: Vector, vector2: Vector): Vector {
     const vector1Entries = Object.entries(vector1)
     const vector2Entries = Object.entries(vector2)

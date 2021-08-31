@@ -67,9 +67,8 @@ const Search: React.FC = () => {
     const newFiles = files.map(file => {
       const { path } = file
       const queryRegex = new RegExp(query, `g${caseInsensitive ? 'i' : ''}`)
-      const newContent = file?.newContent
-        ? file?.newContent.replace(queryRegex, replacer)
-        : file?.content?.replace(queryRegex, replacer)
+      const newContent = file?.newContent?.replace(queryRegex, replacer)
+
       return { ...file, path, newContent }
     })
     setFiles(newFiles)

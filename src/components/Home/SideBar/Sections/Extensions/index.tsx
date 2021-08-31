@@ -1,4 +1,4 @@
-import { sketchs } from 'src/components/Core/Loading/Sketchs'
+import { sketchs } from 'src/components/Core/Sketchs'
 import Text from 'src/components/Core/Text'
 import useContextLoading from 'src/hooks/useLoading'
 import { Container } from './styled'
