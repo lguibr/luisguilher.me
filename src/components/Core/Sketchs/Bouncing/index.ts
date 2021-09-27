@@ -1,18 +1,19 @@
 import Calculator from 'src/components/Core/Engine/Calculator'
 import Body from 'src/components/Core/Engine/Body'
-import P5 from 'p5'
+import P5, { Vector } from 'p5'
+
 import theme from 'src/styles/theme'
 type Theme = typeof theme['vs-dark']
 const sketch =
   (theme: Theme) =>
   (p5: P5): void => {
-    const calculator = new Calculator()
+    const calculator = Calculator()
     const bodies: Body[] = []
     console.log({ theme })
 
     const maxBodies = 100
 
-    const forceField = { x: 0, y: 0 }
+    const forceField = p5.createVector(0, 0)
 
     const addNewRandomBody = () => {
       const newBody = new Body(
@@ -79,7 +80,6 @@ const sketch =
 
       bodies.forEach(body => {
         applyConstrains(body)
-        body.UpdateCoordinates()
         body.update(forceField)
         body.draw(p5)
       })

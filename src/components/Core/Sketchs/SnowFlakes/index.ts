@@ -8,22 +8,21 @@ const sketch =
   (p5: P5): void => {
     console.log({ theme })
 
-    const calculator = new Calculator()
+    const calculator = Calculator()
     const maxBodies = 200
     const bodies: Body[] = []
-    const forceField = { x: 1, y: 1 }
+    const forceField = p5.createVector(1, 1)
+
     const addNewRandomBody = () => {
       const newBody = new Body(
         calculator.createRandomVector([
-          [-p5.width, p5.width],
-          [-p5.height, p5.height]
+          [-p5.width / 2, p5.width],
+          [-p5.height / 2, p5.height]
         ]),
-        { x: 0, y: 0 },
-        calculator.createRandomVector([
-          [-10, 10],
-          [-10, 10]
-        ]),
-        calculator.randomInteger(1, 4)
+        p5.createVector(0, 0),
+        p5.createVector(0, 0),
+
+        calculator.randomInteger(1, 2)
       )
       bodies.push(newBody)
     }
@@ -33,22 +32,18 @@ const sketch =
     }
 
     p5.draw = () => {
-      p5.frameRate(10)
       p5.clear()
-      if (bodies.length <= maxBodies) {
-        ;[...Array(20).keys()].forEach(() => {
-          addNewRandomBody()
-        })
-      }
-
+      ;[...Array(20).keys()].forEach(() => {
+        addNewRandomBody()
+      })
+      p5.frameRate(20)
       bodies.forEach(body => {
         body.color = [220, 220, 220]
-        body.UpdateCoordinates()
         body.update(forceField)
         body.draw(p5)
       })
       if (bodies.length >= maxBodies) {
-        ;[...Array(40).keys()].forEach(() => {
+        ;[...Array(15).keys()].forEach(() => {
           bodies.pop()
         })
       }

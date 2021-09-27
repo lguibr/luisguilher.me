@@ -6,7 +6,7 @@ type Theme = typeof theme['vs-dark']
 const sketch =
   (theme: Theme) =>
   (p5: P5): void => {
-    const calculator = new Calculator()
+    const calculator = Calculator()
     console.log({ theme })
     const bodies: Body[] = []
 
@@ -14,11 +14,8 @@ const sketch =
     const addNewRandomBody = () => {
       const smallerDimension = p5.width < p5.height ? p5.width : p5.height
       const newBody = new Body(
-        {
-          x: p5.width / 2,
-          y: p5.height / 2
-        },
-        { x: 0, y: 0 },
+        p5.createVector(p5.width / 2, p5.height / 2),
+        p5.createVector(0, 0),
         calculator.createRandomVector([
           [-10, 10],
           [-10, 10]
@@ -78,13 +75,12 @@ const sketch =
       bodies.forEach(body => {
         applyConstrains(body)
 
-        body.UpdateCoordinates(
+        body.updateCoordinates(
           calculator.createRandomVector([
             [-smallerDimension / 25, smallerDimension / 25],
             [-smallerDimension / 25, smallerDimension / 25]
           ])
         )
-        body.update({ x: 0, y: 0 })
         body.draw(p5)
       })
     }

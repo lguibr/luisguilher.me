@@ -1,11 +1,9 @@
 import Calculator from './Calculator'
-import P5 from 'p5'
-const calculator = new Calculator()
+import P5, { Vector } from 'p5'
 
-type Vector = {
-  x: number
-  y: number
-}
+const calc = Calculator()
+
+// const p5 = new P5(() => ({}))
 
 export default class Body {
   coordinates: Vector
@@ -26,9 +24,9 @@ export default class Body {
     this.velocity = velocity
     this.acceleration = acceleration
     this.mass = mass
-    this.randomNum = calculator.randomInteger(50, 220)
+    this.randomNum = calc.randomInteger(50, 220)
     this.color = color
-      ? calculator.transformHEXOnRGB(color)
+      ? calc.transformHEXOnRGB(color)
       : [this.randomNum, this.randomNum, this.randomNum]
   }
 
@@ -38,22 +36,22 @@ export default class Body {
     console.log('acceleration:', this.acceleration)
   }
 
-  update(gravity: Vector): void {
-    this.applyAcceleration(gravity)
-  }
-
-  applyAcceleration(acceleration = this.acceleration): void {
-    this.acceleration = acceleration
+  update(externalAcceleration: Vector): void {
+    this.acceleration = externalAcceleration
+    this.updateCoordinates()
     this.updateVelocity()
   }
 
+  // NOTE v=v0*at => v1 =  v0+a
   updateVelocity(acceleration = this.acceleration): void {
-    this.velocity = calculator.sumVector(this.velocity, acceleration)
-    this.UpdateCoordinates()
+    this.velocity = calc.sumVector(this.velocity, acceleration)
   }
 
-  UpdateCoordinates(velocity = this.velocity): void {
-    this.coordinates = calculator.sumVector(this.coordinates, velocity)
+  // NOTE d=d0+v0t+1/2at² => d1 =d0+v0*1+a/2*1² => d1 = d0+v0+a/2
+  updateCoordinates(velocity = this.velocity): void {
+    const halfAcceleration = calc.divideVectorByNumber(this.acceleration, 2)
+    const newAccumulator = calc.sumVector(halfAcceleration, velocity)
+    this.coordinates = calc.sumVector(this.coordinates, newAccumulator)
   }
 
   draw(p5: P5): void {

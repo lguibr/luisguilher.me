@@ -7,24 +7,21 @@ const sketch =
   (theme: Theme) =>
   (p5: P5): void => {
     console.log({ theme })
-    const calculator = new Calculator()
+    const calculator = Calculator()
     const bodies: Body[] = []
 
     const maxBodies = 1
 
-    const forceField = { x: 0, y: 1 }
+    const forceField = p5.createVector(0, 1)
 
     const addNewRandomBody = () => {
       const newBody = new Body(
-        { x: p5.width, y: 20 },
+        p5.createVector(p5.width, 200),
         calculator.createRandomVector([
           [-10, 10],
-          [-10, 10]
+          [0, 0]
         ]),
-        calculator.createRandomVector([
-          [-10, 10],
-          [-10, 10]
-        ]),
+        p5.createVector(0, 0),
         calculator.randomInteger(10, 80) / 10
       )
       bodies.push(newBody)
@@ -69,16 +66,15 @@ const sketch =
     }
 
     p5.draw = () => {
-      p5.clear()
+      // p5.clear()
       if (bodies.length < maxBodies) {
         addNewRandomBody()
       }
 
       bodies.forEach(body => {
-        applyConstrains(body)
-        body.UpdateCoordinates()
-        body.update(forceField)
         body.draw(p5)
+        body.update(forceField)
+        applyConstrains(body)
       })
     }
   }
