@@ -32,7 +32,7 @@ export const Content = styled.div`
 `
 
 export const VS = styled.div`
-  background: url(/profile.png);
+  background: url(/profisionalProfile.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

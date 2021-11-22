@@ -12,7 +12,7 @@ const Printable: React.FC<PrintableProps> = ({ printRef }) => {
     <Container>
       <div ref={printRef}>
         <Content>
-          <Img height="120px" width="120px" src="./profile.png" />
+          <Img height="120px" width="120px" src="./profisionalProfile.jpg" />
           <Text as="pre" size={12} color="black">
             {resume?.content}
           </Text>
