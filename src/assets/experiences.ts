@@ -1,9 +1,29 @@
 export default [
   {
+    Company: 'Paradigm',
+    Role: 'Software Engineer Full Time',
+    Duration: '1 yr',
+    Dates: 'Apr 2022 – Present',
+    Description:
+      'Developed crypto web applications, preparing technical tasks, enforcing styles, conducting code reviews, and implementing features.',
+    Techs:
+      'TypeScript/JavaScript, Python, Go, Electron, React.js, Selenium, Playwright, Docker, Django, AWS.'
+  },
+  {
     Company: 'Trio',
     Role: 'Senior Software Engineer Full Time',
-    Duration: '1 yr 4 mos',
-    Dates: 'May 2020 – Present',
+    Duration: '11 mos',
+    Dates: 'Jun 2021 – Apr 2022',
+    Description:
+      'Served as a technical leader in NodeJS application projects, overseeing task preparation, cloud resource provisioning, code reviews, and developer guidance.Ensured code style and quality, and worked as a full-stack software engineer.',
+    Techs:
+      'Typescript, VueJS, NextJS, React, Electron, KoaJS, ExpressJS, GraphQL, Strapi, PostgreSQL, MySQL, Redis, Webpack, Babel, GCP, Google Cloud Functions, Big Query'
+  },
+  {
+    Company: 'Trio',
+    Role: 'Software Engineer Full Time',
+    Duration: '1 yr 2 mos',
+    Dates: 'May 2020 – Jun 2021',
     Description:
       'Technical leader in several projects for different clients, acting as technology definer, provisioning resources in the clouds, implementing code, instructing other developers and reviewing and ensuring code.',
     Techs:
