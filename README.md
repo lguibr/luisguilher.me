@@ -1,6 +1,6 @@
 # Luis Guilherme's Portfolio
 
-This is the source code for [luisguilher.me](https://luisguilher.me), the personal website, resume, and CV of Luis Guilherme. The website is built using Next.js, a powerful React framework, with TypeScript for static type checking. The site features a unique presentation of code using the Monaco Editor, which is the same editor used in Visual Studio Code. Additionally, it employs styled-components for component-level styles and p5.js for creating graphical animations and caveats.
+This is the source code for [luisguilher.me](https://luisguilher.me), the personal website, resume, and CV of Luis Guilherme. The website is built using Next.js, a powerful React framework, with TypeScript for static type checking. The site features a unique presentation of code using the Monaco Editor, which is the same editor used in Visual Studio Code. Additionally, it employs styled-components for component-level styles and p5.js for creating graphical animations.
 
 ## Technologies Used
 
