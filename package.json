@@ -9,6 +9,9 @@
     "lint": "next lint && prettier --write ./src",
     "lint:hook": "eslint --fix ./src && pretty-quick --staged"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "yarn lint:hook"
