@@ -17,7 +17,9 @@ const Background: React.FC = () => {
     const { ctrlKey, key } = event
 
     if (ctrlKey) {
+      key === 'Q' && toggleTheme()
       key === 'q' && toggleTheme()
+      key === 'p' && print && print()
       key === 'P' && print && print()
       key === '@' &&
         (() => {

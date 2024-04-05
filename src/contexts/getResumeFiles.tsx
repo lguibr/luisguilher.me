@@ -25,7 +25,7 @@ export const getResumeData = (): {
     Skills: skills
   })
     .replace(
-      /(Education:|Experiences:|Contacts:|- Company:|- School:|Skills:|- Languages:|- Programming Language:|- Development Tools:|- Front-end:|- Back-end:|- Cloud\/Infra:)/g,
+      /(Education:|Experiences:|Contacts:|- Company:|- name:|- School:|Skills:|- Languages:|- Programming Languages:|- Development Tools:|- Testing\/QA:|- Front-end:|- Back-end:|- Cloud\/Infrastructure:)/g,
       '\n$&'
     )
     .replace(/(Cover Letter:|Contacts:)/g, '$&\n')
