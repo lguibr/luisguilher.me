@@ -6,7 +6,6 @@ import { useRef } from 'react'
 
 type EditorProps = {
   currentExt: string
-  path: string
   currentContent: string
   onChange: (value?: string | undefined) => void
 }
@@ -14,11 +13,10 @@ type EditorProps = {
 const Editor: React.FC<EditorProps> = ({
   currentExt,
   currentContent,
-  onChange,
-  path
+  onChange
 }) => {
   const LoadingEditor = () => {
-    return <div />
+    return <div>Editor in Loading state</div>
   }
 
   const editorRef = useRef(null)
@@ -88,7 +86,6 @@ const Editor: React.FC<EditorProps> = ({
       onMount={(editor, monaco) => handleEditorDidMount(monaco, editor)}
       loading={<LoadingEditor />}
       onChange={onChange}
-      path={path}
       line={1}
     />
   )

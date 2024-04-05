@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import Text from 'src/components/Core/Text'
-import useContextFile from 'src/hooks/useContextFile'
 import useContextTheme from 'src/hooks/useContextTheme'
 import useContextLoading from 'src/hooks/useLoading'
 import { Container, Content, VS, SpanHighlighted } from './styled'
@@ -10,7 +9,6 @@ import { useContextGuideTour } from 'src/hooks/useGuideTour'
 const Background: React.FC = () => {
   const { setTour } = useContextGuideTour()
   const { isMedium } = useWindowSize()
-  const { closeAllFiles } = useContextFile()
   const { print, Printable } = useContextPrint()
   const { toggleTheme, selectedTheme } = useContextTheme()
   const { flashLoading, loading } = useContextLoading()
@@ -19,12 +17,10 @@ const Background: React.FC = () => {
     const { ctrlKey, key } = event
 
     if (ctrlKey) {
-      key === '$' && closeAllFiles()
       key === 'q' && toggleTheme()
       key === 'P' && print && print()
       key === '@' &&
         (() => {
-          closeAllFiles()
           setTour(true)
         })()
       key === ' ' && !loading && flashLoading()
@@ -55,14 +51,6 @@ const Background: React.FC = () => {
               <SpanHighlighted as="span">CTRL</SpanHighlighted>+
               <SpanHighlighted as="span">ALT</SpanHighlighted>+
               <SpanHighlighted as="span">P</SpanHighlighted>
-            </span>
-          </Text>
-          <Text size={13}>
-            <span>
-              Close All Tabs
-              <SpanHighlighted as="span">CTRL</SpanHighlighted>+
-              <SpanHighlighted as="span">SHIFT</SpanHighlighted>+
-              <SpanHighlighted as="span">4</SpanHighlighted>
             </span>
           </Text>
 

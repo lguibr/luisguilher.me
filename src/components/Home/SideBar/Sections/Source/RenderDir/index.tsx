@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import useContextFile from 'src/hooks/useContextFile'
 import { RealContainer, Container, Children, File } from './styled'
 import FileTile from 'src/components/Core/TileFile'
 import { FileType } from 'src/contexts/FileContext'
+import useContextFileView from 'src/hooks/useContextFileView'
+import useContextFile from 'src/hooks/useContextFile'
 
 export type RenderDirectoryProps = {
   files: FileType[]
@@ -13,8 +14,8 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
   files,
   embedded = 0
 }) => {
-  const { highLighted, openFile } = useContextFile()
-
+  const { currentFile, openFile } = useContextFileView()
+  const { focusedFileView } = useContextFile()
   const openState = Object.fromEntries(files.map(({ path }) => [[path], true]))
 
   const [open, setOpen] = useState(openState)
@@ -22,8 +23,14 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
   const handleClick = (file: FileType) => {
     const isFile = !file?.children?.length
 
-    isFile && openFile(file)
-    setOpen({ ...open, [file?.path]: !open[file?.path] })
+    if (isFile) {
+      openFile(file.path, focusedFileView)
+    }
+
+    setOpen((prevOpen: { [key: string]: boolean }) => ({
+      ...prevOpen,
+      [file?.path]: !prevOpen[file?.path]
+    }))
   }
   return (
     <RealContainer embedded={embedded}>
@@ -31,18 +38,18 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
         files.map(file => (
           <Container
             embedded={embedded}
-            isHighLighted={file?.name === highLighted?.name}
+            isHighLighted={file?.path === currentFile}
             key={file.path}
           >
             <File
               embedded={embedded}
-              isHighLighted={file?.name === highLighted?.name}
+              isHighLighted={file?.path === currentFile}
             >
               <div onClick={() => handleClick(file)}>
                 <FileTile
                   folder={!!file?.children?.length}
                   open={open[file?.path]}
-                  file={file}
+                  filePath={file?.path}
                 />
               </div>
             </File>

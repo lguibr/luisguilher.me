@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import useContextFile from 'src/hooks/useContextFile'
+import useContextFileView from 'src/hooks/useContextFileView'
 import { RealContainer, Container, Children, File } from './styled'
 import FileTile from 'src/components/Core/TileFile'
 import { FileType } from 'src/contexts/FileContext'
+import useContextFile from 'src/hooks/useContextFile'
 
 export type RenderDirectoryProps = {
   files: FileType[]
@@ -14,40 +15,41 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
   embedded = 0
 }) => {
   const resumeName = process.env.RESUME || 'resume'
-
-  const { highLighted, openFile } = useContextFile()
+  const { focusedFileView, focusedFile } = useContextFile()
+  const { openFile } = useContextFileView()
 
   const openState = Object.fromEntries(
     files.map(({ path }) => [[path], path === resumeName])
   )
-
   const [open, setOpen] = useState(openState)
-
   const handleClick = (file: FileType) => {
     const isFile = !file?.children?.length
 
-    isFile && openFile(file)
+    if (isFile) {
+      openFile(file.path, focusedFileView)
+    }
 
-    setOpen({ ...open, [file?.path]: !open[file?.path] })
+    setOpen((prevOpen: { [key: string]: boolean }) => ({
+      ...prevOpen,
+      [file?.path]: !prevOpen[file?.path]
+    }))
   }
+
   return (
     <RealContainer embedded={embedded}>
       {!!files.length &&
         files.map(file => (
           <Container
             embedded={embedded}
-            isHighLighted={file?.name === highLighted?.name}
+            isHighLighted={file?.name === focusedFile}
             key={file.path}
           >
-            <File
-              embedded={embedded}
-              isHighLighted={file?.name === highLighted?.name}
-            >
+            <File embedded={embedded}>
               <div onClick={() => handleClick(file)}>
                 <FileTile
                   folder={!!file?.children?.length}
                   open={open[file?.path]}
-                  file={file}
+                  filePath={file.path}
                 />
               </div>
             </File>

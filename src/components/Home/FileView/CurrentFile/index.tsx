@@ -1,33 +1,38 @@
-/* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from 'react'
 import githubService from 'src/services/github'
-import useContextFile from 'src/hooks/useContextFile'
-import useContextLoading from 'src/hooks/useLoading'
 import useExtension from 'src/hooks/useExtension'
-
+import useContextLoading from 'src/hooks/useLoading'
+import useContextFile from 'src/hooks/useContextFile'
+import useContextFileView from 'src/hooks/useContextFileView'
 import CoreEditor from 'src/components/Core/Editor'
 import DiffEditor from 'src/components/Core/DiffEditor'
+import { FileType } from 'src/reducers/FileReducer'
 
-const Editor: React.FC = () => {
+const Editor: React.FC<{ id: number }> = ({ id }) => {
   const { fetchFileContent } = githubService
   const { extractExtension } = useExtension()
   const { setLoading } = useContextLoading()
-  const { currentFile, setContent, setNewContent, setImage } = useContextFile()
 
-  const [currentExt, setCurrentExt] = useState<string>('json')
-  const [currentContent, setCurrentContent] = useState<string>('')
-  const currentImage = currentFile?.image
+  const { setContent, setNewContent, setImage, files } = useContextFile()
 
-  const fetchFileByPath = async (path: string) => {
+  const rootContext = useContextFileView()
+  const { findNodeById } = rootContext
+  const subTree = findNodeById(id, rootContext)
+  if (!subTree) return null
+  const { currentFile } = subTree
+
+  const [currentContent, setCurrentContent] = useState('')
+
+  const currentFileData = files.find(file => file.path === currentFile)
+
+  const handleFetchFileContent = async (fileData: FileType, path: string) => {
     setLoading(true)
     const data = await fetchFileContent(path)
-    const regex = /\.png|\.jpg|\.jpeg|\.ico/gi
-    const currentImage = currentFile?.image
-    if (regex.test(path)) {
-      currentFile &&
-        !currentImage &&
-        setImage(
-          currentFile,
+    const isImage = /\.(png|jpg|jpeg|ico)$/i.test(path)
+
+    if (isImage) {
+      if (!fileData.image) {
+        const imageElement = (
           <div
             style={{
               position: 'absolute',
@@ -43,72 +48,62 @@ const Editor: React.FC = () => {
           >
             <img
               placeholder="blur"
-              src={`data:image/png;base64, ${data.content}`}
+              src={` data:image/jpeg;charset=utf-8;base64, ${data.content}`}
             />
           </div>
         )
+        setImage(fileData, imageElement)
+      }
     } else {
-      const rawFile = await decodeURIComponent(
-        escape(window.atob(data.content))
-      )
-      currentFile && setContent(currentFile, rawFile)
+      const rawFile = decodeURIComponent(escape(window.atob(data.content)))
+      setContent(fileData, rawFile)
+      setCurrentContent(rawFile) // Set content directly here to avoid extra re-render
     }
+    setLoading(false) // Set loading to false once the content is fetched and set
   }
 
   useEffect(() => {
-    if (currentContent || currentFile?.image) {
-      const debounce = setTimeout(() => {
-        const shouldStopLoading = currentContent || currentFile?.image
-        shouldStopLoading && setLoading(false)
-      }, 1500)
-      return () => clearTimeout(debounce)
+    if (
+      currentFileData &&
+      !currentFileData.content &&
+      !currentFileData.image &&
+      currentFileData.path
+    ) {
+      handleFetchFileContent(currentFileData, currentFileData.path)
+    } else if (
+      currentFileData &&
+      (currentFileData.content || currentFileData.image)
+    ) {
+      setCurrentContent(currentFileData.content || '')
     }
-  }, [currentContent, currentImage])
+  }, [currentFileData, currentFile])
 
-  useEffect(() => {
-    const currentContent = currentFile?.content
-    const currentNewContent = currentFile?.newContent
-    const currentPath = currentFile?.path
-    if (currentContent || currentImage) {
-      currentContent && setCurrentContent(currentNewContent || currentContent)
-      currentImage && setCurrentContent('')
-    } else if (currentPath && (!currentFile?.content || !currentFile?.image)) {
-      fetchFileByPath(currentPath)
-    }
-  }, [currentFile])
-
-  useEffect(() => {
-    const selectedLanguage = currentFile
-      ? extractExtension(currentFile)
-      : 'json'
-    setCurrentExt(selectedLanguage)
-  }, [currentFile])
+  const currentExt = extractExtension(currentFileData?.path || 'default.json')
 
   return (
     <>
-      {currentFile && (
+      {currentFile && currentFileData && !currentFileData.image && (
         <>
-          {!currentFile.isDiff ? (
+          {!currentFileData.isDiff ? (
             <CoreEditor
-              onChange={currentValue => {
-                currentFile && setNewContent(currentFile, currentValue || '')
-              }}
+              onChange={currentValue =>
+                setNewContent(currentFileData, currentValue || '')
+              }
               currentContent={currentContent}
               currentExt={currentExt}
-              path={currentFile.path}
             />
           ) : (
             <DiffEditor
-              currentContent={currentFile?.content || ''}
-              currentNewContent={currentFile?.newContent || ''}
+              currentContent={currentFileData.content || ''}
+              currentNewContent={currentFileData.newContent || ''}
               currentExt={currentExt}
-              path={currentFile.path}
             />
           )}
         </>
       )}
-      {currentFile?.image && currentImage}
+      {currentFileData?.image}
     </>
   )
 }
+
 export default Editor

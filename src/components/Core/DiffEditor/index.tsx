@@ -5,13 +5,11 @@ import { DiffEditor, Monaco } from '@monaco-editor/react'
 
 type EditorProps = {
   currentExt: string
-  path: string
   currentContent: string
   currentNewContent: string
 }
 
 const DiffEditorComponent: React.FC<EditorProps> = ({
-  path,
   currentExt,
   currentContent,
   currentNewContent
@@ -62,7 +60,7 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
 
   useEffect(() => {
     if (editorRef?.current?.revealLine) editorRef?.current?.revealLine(1)
-  }, [path])
+  }, [])
 
   const handleEditorDidMount = (monaco: Monaco, editor: Monaco) => {
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
@@ -96,7 +94,6 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
       theme={selectedTheme}
       onMount={(editor, monaco) => handleEditorDidMount(monaco, editor)}
       loading={<LoadingEditor />}
-      modifiedModelPath={path}
     />
   )
 }

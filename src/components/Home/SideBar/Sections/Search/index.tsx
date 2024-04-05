@@ -119,7 +119,7 @@ const Search: React.FC = () => {
               query={query}
               path={path}
               lines={lines}
-              file={file}
+              file={file.path}
               i={i}
               key={path + i}
             ></FileMatch>

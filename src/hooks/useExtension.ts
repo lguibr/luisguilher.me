@@ -14,20 +14,21 @@ import YarnIcon from 'public/icons/yarn.svg'
 import YamlIcon from 'public/icons/yaml.svg'
 import NodeIcon from 'public/icons/nodejs.svg'
 import FileIcon from 'public/icons/file.svg'
-import { FileType } from 'src/contexts/FileContext'
 import React from 'react'
+import useContextFile from './useContextFile'
 
 export type useExtension = {
   extractIcon: (
-    file: FileType,
-    open: boolean
+    file: string,
+    open: boolean,
+    folder: boolean
   ) => React.FC<{ height: string; width: string }>
-  extractExtension: (file: FileType) => string
+  extractExtension: (file: string) => string
 }
 
 export const useExtension = (): useExtension => {
-  const extractExtension = (file: FileType): string => {
-    const splittedPath = file?.path?.split('.')
+  const extractExtension = (file: string): string => {
+    const splittedPath = file?.split('.')
     const ext = !!splittedPath?.length && splittedPath[splittedPath.length - 1]
 
     const languages = [
@@ -67,8 +68,13 @@ export const useExtension = (): useExtension => {
     return selectedLanguage
   }
 
-  const extractIcon = (file: FileType, open: boolean): React.FC => {
-    const folder = !!file?.children?.length
+  const extractIcon = (
+    path: string,
+    open: boolean,
+    folder: boolean
+  ): React.FC => {
+    const { files } = useContextFile()
+    const file = files.find(file => file.path === path)
     const icons = [
       { expression: /.png|.jpg|.jpeg|.svg|.ico/, icon: ImageIcon },
       { expression: 'package.json', icon: NodeIcon },

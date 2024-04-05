@@ -1,27 +1,36 @@
-import { FileType } from 'src/contexts/FileContext'
 import { Container, ArrowIcon, ArrowContainer } from './styled'
 import Text from 'src/components/Core/Text'
 import { useExtension } from 'src/hooks/useExtension'
+import useContextFile from 'src/hooks/useContextFile'
 
 export type FileTileProps = {
-  file: FileType
+  filePath: string
   folder: boolean
   open: boolean
 }
 
-const FileTile: React.FC<FileTileProps> = ({ file, folder, open }) => {
+const FileTile: React.FC<FileTileProps> = ({ filePath, folder, open }) => {
   const { extractIcon } = useExtension()
-  const Icon = extractIcon(file, open)
-  const { diff, isDiff } = file
+  const { files } = useContextFile()
+  const file = files.find(file => file.path === filePath)
+  const Icon = extractIcon(filePath, open, folder)
+  const { diff, isDiff } = file ?? {}
+
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.dataTransfer.setData('file', JSON.stringify(filePath))
+  }
+
   return (
     <Container
       data-tut={
-        file?.name === 'resume'
+        file?.name?.includes('resume')
           ? 'resume_folder'
           : file?.name === process.env.REPO
           ? 'repo_folder'
           : ''
       }
+      draggable={!folder}
+      onDragStart={handleDragStart}
     >
       <ArrowContainer>
         {folder && <ArrowIcon height="10px" width="10px" open={open} />}

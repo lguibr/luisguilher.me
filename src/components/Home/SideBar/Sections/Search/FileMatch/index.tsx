@@ -2,14 +2,14 @@ import { MatchHeader, Match, Container, MatchBody, ArrowIcon } from './styled'
 import Text from 'src/components/Core/Text'
 import FileTile from 'src/components/Core/TileFile'
 import FormattedLabel from './FormattedLabel'
-import { FileType } from 'src/contexts/FileContext'
-import useContextFile from 'src/hooks/useContextFile'
 import { useState } from 'react'
+import useContextFileView from 'src/hooks/useContextFileView'
+import useContextFile from 'src/hooks/useContextFile'
 export type FileMatchProps = {
   path: string
   query: string
   lines: string[] | string | undefined
-  file: FileType
+  file: string
   i: number
 }
 
@@ -20,7 +20,8 @@ const FileMatch: React.FC<FileMatchProps> = ({
   i,
   query
 }) => {
-  const { openFile } = useContextFile()
+  const { focusedFileView } = useContextFile()
+  const { openFile } = useContextFileView()
   const [open, setOpen] = useState(true)
   return (
     <Container>
@@ -32,12 +33,12 @@ const FileMatch: React.FC<FileMatchProps> = ({
         <div>
           <ArrowIcon open={open} />
         </div>
-        <FileTile folder={false} open={false} file={file} />
+        <FileTile folder={false} open={false} filePath={file} />
         <Text as="pre" color="subString" size={13}>
           {path}
         </Text>
       </MatchHeader>
-      <MatchBody onClick={() => openFile(file)}>
+      <MatchBody onClick={() => openFile(file, focusedFileView)}>
         {open &&
           lines?.length &&
           typeof lines !== 'string' &&

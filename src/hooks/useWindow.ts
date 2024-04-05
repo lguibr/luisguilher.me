@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Theme } from 'src/styles/styled'
 import rawTheme from 'src/styles/theme'
 import useContextTheme from './useContextTheme'
@@ -25,16 +25,16 @@ export const useWindowSize = (): useWindowContext => {
     height: undefined
   })
 
-  useEffect(() => {
-    function handleResize() {
-      if (window !== undefined) {
-        // browser code
-        setWindowSize({
-          width: window.innerWidth,
-          height: window.innerHeight
-        })
-      }
+  const handleResize = useCallback(() => {
+    if (window !== undefined) {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      })
     }
+  }, [])
+
+  useEffect(() => {
     window.addEventListener('resize', handleResize)
     handleResize()
     return () => window.removeEventListener('resize', handleResize)

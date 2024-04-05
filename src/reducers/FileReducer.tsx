@@ -17,15 +17,11 @@ type SingleTargetAction = {
   type:
     | 'SET_CURRENT'
     | 'CLEAN_CURRENT'
-    | 'OPEN_FILE'
-    | 'CLEAN_OPEN'
     | 'SET_HIGHLIGHTED'
     | 'CLEAN_HIGHLIGHTED'
     | 'SET_IMAGE'
-    | 'CLOSE_FILE'
     | 'SET_CONTENT'
     | 'SET_NEW_CONTENT'
-    | 'CLOSE_FILES'
 
   payload: FileType
 }
@@ -48,30 +44,7 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
         current: false,
         highLighted: false
       }))
-    case 'OPEN_FILE': {
-      const indexes: number[] = state
-        .filter(({ index }) => index)
-        .map(({ index }) => index || 0)
 
-      const max = indexes.length && Math.max(...indexes)
-
-      return state.map(file => ({
-        ...file,
-        current: action?.payload?.path === file?.path,
-        highLighted: action?.payload?.path === file?.path,
-        open: action?.payload?.path === file?.path ? true : !!file?.open,
-        index:
-          action?.payload?.path === file?.path && !file?.open
-            ? max + 1
-            : file?.index
-      }))
-    }
-
-    case 'CLEAN_OPEN':
-      return state.map(file => ({
-        ...file,
-        open: false
-      }))
     case 'SET_HIGHLIGHTED':
       return state.map(file => ({
         ...file,
@@ -90,37 +63,7 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
             ? action.payload.image
             : file?.image
       }))
-    case 'CLOSE_FILE': {
-      const { path } = action.payload
-      const newFilesOpenFixed = state.map(newFile => ({
-        ...newFile,
-        open: newFile?.path === path ? false : newFile?.open,
-        index: newFile?.path === path ? undefined : newFile?.index
-      }))
-      const newOpenedFiles = newFilesOpenFixed.filter(({ open }) => open)
-      const maxCallback = (previousFile?: FileType, currentFile?: FileType) => {
-        if (
-          !previousFile ||
-          !currentFile ||
-          !previousFile?.index ||
-          !currentFile?.index
-        )
-          return undefined
-        return previousFile?.index > currentFile?.index
-          ? previousFile
-          : currentFile
-      }
 
-      const lastFileOpened = newOpenedFiles.reduce(
-        maxCallback,
-        newOpenedFiles[0]
-      )
-      return newFilesOpenFixed.map(newFile => ({
-        ...newFile,
-        current: lastFileOpened?.path === newFile.path,
-        highLighted: lastFileOpened?.path === newFile.path
-      }))
-    }
     case 'SET_CONTENT':
       return state.map(file => ({
         ...file,
@@ -150,13 +93,7 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
             : file?.newContent
       }))
     }
-    case 'CLOSE_FILES':
-      return state.map(file => ({
-        ...file,
-        open: false,
-        highLighted: false,
-        current: false
-      }))
+
     case 'SET_FILES':
       return action.payload
 
