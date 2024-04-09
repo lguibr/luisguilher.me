@@ -13,7 +13,7 @@ const Printable: React.FC<PrintableProps> = ({ printRef }) => {
   return (
     <Container ref={printRef}>
       <Content>
-        <Img height="120px" width="120px" src="./profisionalProfile.png" />
+        <Img height="100px" width="100px" src="./profisionalProfile.png" />
         <Pre as="pre">{resume?.content}</Pre>
       </Content>
     </Container>
@@ -25,5 +25,6 @@ const Pre = styled(Text)`
   color: black;
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-size: 12px;
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
 `

@@ -4,8 +4,7 @@ const experiences = [
     Role: 'Software Engineer Full Time',
     Start_at: 'Apr 2022',
     End_at: 'Apr 2024',
-    Description:
-      'Developed crypto web applications, preparing technical tasks, enforcing styles, conducting code reviews, and implementing features.',
+    Description: `As a Software Engineer at Paradigm, I spearheaded the development of unified UI interfaces using React, React Native, and Electron. By consolidating single-source code, I enhanced user experience and consistency across platforms, increasing team productivity. I also led the implementation of end-to-end testing for complex web crypto applications using Playwright in Python while tackling backend challenges with Golang.`,
     Techs:
       'TypeScript, Python, Go, Electron, React.js, Selenium, Playwright, Docker, Django, AWS, Terraform, Kubernetes, Kafka, Redis .'
   },
@@ -15,7 +14,7 @@ const experiences = [
     Start_at: 'Jun 2021',
     End_at: 'Apr 2022',
     Description:
-      'Served as a technical leader in NodeJS application projects, overseeing task preparation, cloud resource provisioning, code reviews, and developer guidance.Ensured code style and quality, and worked as a full-stack software engineer.',
+      "As a Senior Software Engineer at Trio, I was a technical leader in NodeJS application projects. I was responsible for task preparation, cloud resource provisioning, code reviews, and guiding developers. By ensuring code style and quality, I contributed to successfully delivering large-scale projects for major clients in the brewery and traceability industries. As a full-stack software engineer, I played a critical role in driving these projects' technical direction and implementation.",
     Techs:
       'Typescript, VueJS, NextJS, React, Electron, KoaJS, ExpressJS, GraphQL, Strapi, PostgreSQL, MySQL, Redis, Webpack, Babel, GCP, Google Cloud Functions, Big Query, Terraform'
   },
@@ -25,7 +24,7 @@ const experiences = [
     Start_at: 'May 2020',
     End_at: 'Jun 2021',
     Description:
-      'Technical leader in several projects for different clients, acting as technology definer, provisioning resources in the clouds, implementing code, instructing other developers and reviewing and ensuring code.',
+      "As a Software Engineer at Trio, I acted as a technical leader in multiple projects for various clients. I defined technology stacks, provisioned resources in the cloud, implemented code, instructed other developers, and reviewed code to ensure quality. I also collaborated directly with Trio's clients to align expectations and high-level requirements. My leadership and technical expertise were instrumental in delivering successful projects and maintaining strong client relationships.",
     Techs:
       'Typescript, React, Vue, NextJS, Electron, Express, Koa, Strapi, GraphQL, MySQL, PostgreSQL, Redis, GCP Functions, GCP BigQuery, AWS S3, Heroku'
   },
@@ -34,7 +33,7 @@ const experiences = [
     Role: 'Software Engineer Full Time',
     Start_at: 'Jul 2019',
     End_at: 'May 2020',
-    Description: `Full stack developer working on the development of a platform for managing legal documents and their lifecycle. Working on functional and technical definition, implementation and provision in the cloud for features.`,
+    Description: `As a Software Engineer at TremTec, I have headed the Front-End team and worked on multiple parallel projects for different clients. I collaborated with the clients' Product Owners to define functional and technical solutions and implemented code to bring those solutions to life. My role involved effective communication, problem-solving, and delivering high-quality software solutions meeting clients' requirements.`,
     Techs: 'Typescript, React, GraphQL, Docker'
   },
   {
@@ -42,7 +41,7 @@ const experiences = [
     Role: 'Software Engineer Full Time',
     Start_at: 'Jul 2018',
     End_at: 'May 2019',
-    Description: `Front-end developer working on several parallel projects for different clients. Acting in communication with the customer's PO, functional and technical definition of solutions and implementing code.`,
+    Description: `At netLex, I worked as a Full Stack Developer on the development of a platform for managing legal documents and their lifecycle. I actively participated in the functional and technical definition, implementation, and cloud provisioning of features.`,
     Techs:
       'Javascript, PHP, Python, Docker, AWS EC2, AWS S3, MySQL, Laravel, Flask, AngularJS'
   },
@@ -51,7 +50,7 @@ const experiences = [
     Role: 'IT auxiliary Full Time',
     Start_at: 'May 2008',
     End_at: 'Dec 2010',
-    Description: `Responsible for maintaining the publisher's virtual store, making advertising pieces published on the website or sent in batches by email.`,
+    Description: `In my role as an IT Auxiliary at Editora Ecológica, I was responsible for maintaining the publisher's virtual store. I created advertising pieces that were published on the website and sent through email campaigns. By leveraging my skills in web technologies, I ensured the smooth operation of the virtual store and effectively promoted the publisher's products.`,
     Techs: 'Javascript, PHP, JQuery, HTML, CSS, FTP'
   }
 ]

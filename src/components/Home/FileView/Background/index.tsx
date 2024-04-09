@@ -50,7 +50,6 @@ const Background: React.FC = () => {
             <span>
               Print / Download Resume
               <SpanHighlighted as="span">CTRL</SpanHighlighted>+
-              <SpanHighlighted as="span">ALT</SpanHighlighted>+
               <SpanHighlighted as="span">P</SpanHighlighted>
             </span>
           </Text>

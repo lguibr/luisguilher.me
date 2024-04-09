@@ -14,7 +14,6 @@ export const Content = styled.div`
 `
 export const Img = styled.img`
   @media print {
-    border-radius: 12px;
     float: left;
     display: block;
     border-radius: 50%;
