@@ -7,7 +7,7 @@ const experiences = [
     Description:
       'Developed crypto web applications, preparing technical tasks, enforcing styles, conducting code reviews, and implementing features.',
     Techs:
-      'TypeScript/JavaScript, Python, Go, Electron, React.js, Selenium, Playwright, Docker, Django, AWS.'
+      'TypeScript, Python, Go, Electron, React.js, Selenium, Playwright, Docker, Django, AWS, Terraform, Kubernetes, Kafka, Redis .'
   },
   {
     Company: 'Trio',
@@ -17,7 +17,7 @@ const experiences = [
     Description:
       'Served as a technical leader in NodeJS application projects, overseeing task preparation, cloud resource provisioning, code reviews, and developer guidance.Ensured code style and quality, and worked as a full-stack software engineer.',
     Techs:
-      'Typescript, VueJS, NextJS, React, Electron, KoaJS, ExpressJS, GraphQL, Strapi, PostgreSQL, MySQL, Redis, Webpack, Babel, GCP, Google Cloud Functions, Big Query'
+      'Typescript, VueJS, NextJS, React, Electron, KoaJS, ExpressJS, GraphQL, Strapi, PostgreSQL, MySQL, Redis, Webpack, Babel, GCP, Google Cloud Functions, Big Query, Terraform'
   },
   {
     Company: 'Trio',
@@ -27,7 +27,7 @@ const experiences = [
     Description:
       'Technical leader in several projects for different clients, acting as technology definer, provisioning resources in the clouds, implementing code, instructing other developers and reviewing and ensuring code.',
     Techs:
-      'Javascript, Typescript, React, Vue, NextJS, Electron, Express, Koa, Strapi, GraphQL, MySQL, PostgreSQL, Redis, GCP Functions, GCP BigQuery, AWS S3, Heroku'
+      'Typescript, React, Vue, NextJS, Electron, Express, Koa, Strapi, GraphQL, MySQL, PostgreSQL, Redis, GCP Functions, GCP BigQuery, AWS S3, Heroku'
   },
   {
     Company: 'TremTec',
@@ -35,7 +35,7 @@ const experiences = [
     Start_at: 'Jul 2019',
     End_at: 'May 2020',
     Description: `Full stack developer working on the development of a platform for managing legal documents and their lifecycle. Working on functional and technical definition, implementation and provision in the cloud for features.`,
-    Techs: 'Javascript, React, GraphQL, Docker'
+    Techs: 'Typescript, React, GraphQL, Docker'
   },
   {
     Company: 'netLex',
