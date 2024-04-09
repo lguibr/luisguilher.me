@@ -3,15 +3,19 @@ import styled from 'styled-components'
 export const Container = styled.div`
   display: none;
   @media print {
-    padding: 20px;
     display: block;
   }
 `
 export const Content = styled.div`
-  padding: 20px;
+  @media print {
+    max-width: 100%;
+    display: block;
+  }
 `
 export const Img = styled.img`
-  border-radius: 20px;
-  float: left;
-  padding: 8px;
+  @media print {
+    border-radius: 12px;
+    float: left;
+    display: block;
+    border-radius: 50%;
 `

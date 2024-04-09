@@ -3,7 +3,7 @@ const experiences = [
     Company: 'Paradigm',
     Role: 'Software Engineer Full Time',
     Start_at: 'Apr 2022',
-    End_at: 'Present',
+    End_at: 'Apr 2024',
     Description:
       'Developed crypto web applications, preparing technical tasks, enforcing styles, conducting code reviews, and implementing features.',
     Techs:

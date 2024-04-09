@@ -12,6 +12,9 @@ export const Container = styled.div`
   background: ${({ theme }) => theme.colors.editorBackground};
   max-height: 100vh;
   height: 100vh;
+  @media print {
+    display: none;
+  }
 `
 
 export const FileContainer = styled.div`

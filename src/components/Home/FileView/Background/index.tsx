@@ -9,7 +9,7 @@ import { useContextGuideTour } from 'src/hooks/useGuideTour'
 const Background: React.FC = () => {
   const { setTour } = useContextGuideTour()
   const { isMedium } = useWindowSize()
-  const { print, Printable } = useContextPrint()
+  const { print } = useContextPrint()
   const { toggleTheme, selectedTheme } = useContextTheme()
   const { flashLoading, loading } = useContextLoading()
 
@@ -37,7 +37,6 @@ const Background: React.FC = () => {
   return (
     <Container>
       <VS data-tut="profile" />
-      <Printable />
       {!isMedium && (
         <Content>
           <Text size={13}>
