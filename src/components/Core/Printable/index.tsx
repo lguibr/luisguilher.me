@@ -25,6 +25,6 @@ const Pre = styled(Text)`
   color: black;
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-size: 15px;
+  font-size: 14px;
   font-family: 'Roboto', sans-serif;
 `
