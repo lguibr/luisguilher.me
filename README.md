@@ -1,53 +1,120 @@
-# Luis Guilherme's Portfolio
+# luisguilher.me
 
-This is the source code for [luisguilher.me](https://luisguilher.me), the personal website, resume, and CV of Luis Guilherme. The website is built using Next.js, a powerful React framework, with TypeScript for static type checking. The site features a unique presentation of code using the Monaco Editor, which is the same editor used in Visual Studio Code. Additionally, it employs styled-components for component-level styles and p5.js for creating graphical animations.
+Welcome to [luisguilher.me](https://luisguilher.me), an immersive web experience that showcases my professional portfolio through an interactive interface inspired by the VS Code IDE. This project demonstrates cutting-edge front-end development skills and provides a unique way to explore my resume, skills, and projects.
+
+## Features
+
+- **VS Code-like Interface**: Offers a familiar and intuitive environment that simulates the popular VS Code IDE.
+- **Welcome Tour**: Guides users through the features of the project in an interactive manner.
+- **Self-Hosted Source Code**: Allows code exploration directly within the interface, functioning similarly to an IDE.
+- **Multiple File Viewing**: Supports opening and working with multiple files simultaneously with a split-screen feature.
+- **Drag and Drop**: Facilitates easy organization of files within the workspace.
+- **Text Search**: Enables quick searching for text across all open files.
+- **Diff Comparison**: Allows users to track changes and view differences between current and original files.
+- **Interactive Canvas Animations**: Adds visual interest during file loading and when interacting with specific UI elements.
+- **Extensive Canvas Collection**: Offers a wide range of animations accessible through the extensions menu.
+- **Print-Ready CV**: Users can generate a formatted CV using the shortcut `Ctrl+P`.
+- **Theme Customization**: Allows personalization of the interface with various color themes.
 
 ## Technologies Used
 
-* [Next.js](https://nextjs.org/)
-* [TypeScript](https://www.typescriptlang.org/)
-* [React](https://reactjs.org/)
-* [Styled Components](https://styled-components.com/)
-* [Monaco Editor](https://microsoft.github.io/monaco-editor/)
-* [p5.js](https://p5js.org/)
+- **Front-end Frameworks and Libraries**: React, Next.js
+- **TypeScript**: Ensures type safety across the project.
+- **Styled Components**: Manages component-level styles.
+- **Monaco Editor**: Provides the code editor used in the interface.
+- **P5.js**: Powers the interactive animations.
+- **Deployment**: Hosted on Vercel for seamless production performance.
 
-## Getting Started
+## Installation
 
-Before you can run this project, you will need to have Node.js and Yarn installed on your local machine.
+To run `luisguilher.me` locally:
 
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/lguibr/luisguilher.me.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd luisguilher.me
+   ```
+3. Install dependencies:
+   ```bash
+   yarn install
+   ```
+4. Start the development server:
+   ```bash
+   yarn dev
+   ```
 
-## Available Scripts
+Visit `http://localhost:3000` in your browser to access the interface.
 
-In the project directory, you can run the following scripts with Yarn:
+## Usage
 
-#### `yarn dev`
+- **Interface Navigation**: Use the VS Code-like interface to browse different sections and files.
+- **Editing and Viewing**: Open, edit, and manage files using the Monaco Editor.
+- **Workspace Organization**: Utilize the drag and drop functionality for efficient workspace management.
+- **Search Functionality**: Search within files to find specific text.
+- **File Comparison**: Use the diff feature to compare edits.
+- **Animations**: Enjoy interactive animations during various interactions.
+- **CV Generation**: Generate a print-ready CV with `Ctrl+P`.
+- **Theme Customization**: Change the interface theme from the settings.
 
-Runs the app in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Project Structure
 
-#### `yarn build`
+```
+luisguilher.me/
+│
+├── public/
+│   ├── icons/
+│   └── ...
+│
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── Core/
+│   │   ├── Home/
+│   │   └── ...
+│   ├── contexts/
+│   ├── hooks/
+│   ├── pages/
+│   ├── reducers/
+│   ├── services/
+│   └── styles/
+│
+├── .eslintrc.json
+├── .gitignore
+├── next.config.js
+├── package.json
+├── README.md
+├── tsconfig.json
+└── yarn.lock
+```
 
-Builds the app for production to the `.next` folder.
-
-#### `yarn start`
-
-Starts the application in production mode. The application should be compiled with `yarn build` first.
-
-#### `yarn lint`
-
-This command will run both ESLint for code quality checking and Prettier for formatting all the source files inside the `src` directory.
-
-#### `yarn lint:hook`
-
-Runs ESLint and auto-fixes errors in the `src` directory. It will also format your staged files using pretty-quick. It's recommended to use this command as a pre-commit hook to ensure code consistency.
+- The `public/` directory contains public assets such as icons.
+- The `src/` directory holds the main source code of the project.
+  - `assets/` contains static assets like images and data files.
+  - `components/` contains reusable React components organized by feature or section.
+  - `contexts/` contains React context files for managing global state.
+  - `hooks/` contains custom React hooks.
+  - `pages/` contains Next.js page components.
+  - `reducers/` contains reducer functions for managing state updates.
+  - `services/` contains service files for interacting with external APIs or utilities.
+  - `styles/` contains global styles and theme configuration.
+- Configuration files like `.eslintrc.json`, `next.config.js`, and `tsconfig.json` are located in the root directory.
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome. To contribute:
+
+1. Fork the repository.
+2. Create a new branch for your features or fixes.
+3. Commit your changes with descriptive commit messages.
+4. Push your branch and submit a pull request detailing your changes.
 
 ## License
 
-This project is open source and available under the [MIT License](https://opensource.org/licenses/MIT).
+This project is open-source under the MIT License. Feel free to use, modify, and distribute the code as permitted by the license.
 
-## Contact
+## Final Note
 
-Luis Guilherme - you can reach out to me through the contact form on my website.
+Thank you for visiting `luisguilher.me`. I hope you enjoy exploring my professional portfolio and find inspiration in the projects showcased. Happy coding!
