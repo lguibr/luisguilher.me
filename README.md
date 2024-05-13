@@ -25,6 +25,11 @@ Welcome to [luisguilher.me](https://luisguilher.me), an immersive web experience
 - **P5.js**: Powers the interactive animations.
 - **Deployment**: Hosted on Vercel for seamless production performance.
 
+## Data Structures
+
+- **Tree of Files**: Manages and represents the file structure in the application. Each node in this hierarchical tree represents a file or directory, with directories containing children nodes.
+- **Binary Tree of Views**: Manages the file views in the application. This binary tree structure represents the layout of opened files from a fileview and their orientations (top, bottom, right, left).
+
 ## Installation
 
 To run `luisguilher.me` locally:

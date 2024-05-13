@@ -8,7 +8,7 @@ export const Content = styled.div`
 export const Container = styled.div`
   display: grid;
   box-sizing: border-box;
-  grid-template-rows: min-content 1fr;
+  grid-template-rows: 22px 1fr;
   background: ${({ theme }) => theme.colors.editorBackground};
   max-height: 100vh;
   height: 100vh;

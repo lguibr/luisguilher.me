@@ -12,8 +12,6 @@ interface CanvasProps {
   sketchCanvas?: (theme: Theme) => (p5: P5) => void
 }
 const CanvasComponent: React.FC<CanvasProps> = ({ index, sketchCanvas }) => {
-  console.log('rerender canvas')
-
   const p5Ref = useRef<HTMLDivElement | null>(null)
   const parentRef = useRef<HTMLDivElement | null>(null)
   const [canvas, setCanvas] = useState<P5 | null>(null)
@@ -21,9 +19,6 @@ const CanvasComponent: React.FC<CanvasProps> = ({ index, sketchCanvas }) => {
 
   const height = parentRef?.current?.clientHeight
   const width = parentRef?.current?.clientWidth
-
-  console.log({ height })
-  console.log({ width })
 
   const resizeObserver = new ResizeObserver(([entry]) => {
     const { contentRect } = entry

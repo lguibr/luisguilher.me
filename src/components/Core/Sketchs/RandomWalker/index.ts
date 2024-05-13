@@ -7,7 +7,6 @@ const sketch =
   (theme: Theme) =>
   (p5: P5): void => {
     const calculator = new Calculator()
-    console.log({ theme })
     const bodies: Body[] = []
 
     const maxBodies = 1

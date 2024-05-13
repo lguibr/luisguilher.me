@@ -9,9 +9,7 @@ import useContextPrint from 'src/hooks/useContextPrint'
 const Home: React.FC = () => {
   const { getRootId } = useFileViewsContext()
   const rootId = getRootId()
-  console.log('rootId', rootId)
   const { Printable } = useContextPrint()
-
   return (
     <>
       <Printable />

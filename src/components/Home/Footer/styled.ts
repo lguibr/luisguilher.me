@@ -5,8 +5,10 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0px 20px;
-  height: 20px;
+  height: 1.5rem;
   z-index: 999;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 `
 
 export const Info = styled.div`

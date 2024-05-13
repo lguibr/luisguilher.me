@@ -4,11 +4,10 @@ import P5 from 'p5'
 import theme from 'src/styles/theme'
 type Theme = typeof theme['vs-dark']
 const sketch =
-  (theme: Theme) =>
+  (_theme: Theme) =>
   (p5: P5): void => {
     const calculator = new Calculator()
     const bodies: Body[] = []
-    console.log({ theme })
 
     const maxBodies = 100
 

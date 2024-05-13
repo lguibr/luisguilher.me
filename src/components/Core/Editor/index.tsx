@@ -16,7 +16,7 @@ const Editor: React.FC<EditorProps> = ({
   onChange
 }) => {
   const LoadingEditor = () => {
-    return <div>Editor in Loading state</div>
+    return <div></div>
   }
 
   const editorRef = useRef(null)

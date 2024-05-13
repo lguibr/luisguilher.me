@@ -174,35 +174,77 @@ export const FileViewsProvider: React.FC<{ initialOpenedFile?: string }> = ({
     }
   }
 
-  const rebalanceTree = (
-    node: FileViewsContextType,
-    isRoot = true
-  ): FileViewsContextType => {
-    if (node.openedFiles.length === 0 && node.children.length > 0) {
-      // Promote the first non-empty child to the parent position
-      const nonEmptyChildIndex = node.children.findIndex(
-        child => child.openedFiles.length > 0
-      )
-      if (nonEmptyChildIndex !== -1) {
-        const [nonEmptyChild] = node.children.splice(nonEmptyChildIndex, 1)
-        nonEmptyChild.children.push(...node.children)
-        if (isRoot) {
-          nonEmptyChild.id = 0 // Ensure root node's ID remains 0
-        }
-        return rebalanceTree(nonEmptyChild, isRoot)
+  const flattenTree = (node: FileViewsContextType): FileViewsContextType[] => {
+    const flatList: FileViewsContextType[] = []
+
+    const traverse = (node: FileViewsContextType) => {
+      flatList.push({ ...node, children: [] })
+      node.children.forEach(child => traverse(child))
+    }
+
+    traverse(node)
+    return flatList
+  }
+
+  const rebuildTree = (nodes: FileViewsContextType[]): FileViewsContextType => {
+    if (nodes.length === 0) {
+      return {
+        openedFiles: [],
+        currentFile: undefined,
+        orientation: 'bottom',
+        id: 0,
+        children: [],
+        openFile: noop,
+        closeFile: noop,
+        setCurrentFile: noop,
+        findNodeById: () => null,
+        getRootId: () => 0,
+        createChild: noop,
+        removeNode: noop,
+        setOrientation: noop,
+        fileViewsTree: {} as FileViewsContextType
       }
     }
 
-    if (isRoot && node.openedFiles.length === 0 && node.children.length === 0) {
-      node.openedFiles = ['placeholder'] // Keeping the last node with a placeholder
+    const root = {
+      ...nodes,
+      ...nodes[0],
+      id: 0,
+      children: [] as FileViewsContextType[]
     }
 
-    node.children = node.children.map(child => rebalanceTree(child, false))
-    return node
+    let currentNode = root
+
+    for (let i = 1; i < nodes.length; i++) {
+      const newNode = {
+        ...nodes,
+        ...nodes[i],
+        children: []
+      }
+
+      currentNode.children = [newNode]
+      currentNode = newNode
+    }
+
+    return root
+  }
+
+  const rebalanceTree = (node: FileViewsContextType): FileViewsContextType => {
+    // Flatten the tree
+    let nodes = flattenTree(node)
+    // Filter out nodes without openedFiles
+    nodes = nodes.filter(n => n.openedFiles.length > 0)
+    return rebuildTree(nodes)
   }
 
   useEffect(() => {
-    setFileViewsTree(rebalanceTree(fileViewsTree))
+    const newRebalancedTree = rebalanceTree(fileViewsTree)
+
+    const haveTreeViewsChanged =
+      flattenTree(newRebalancedTree).length !==
+      flattenTree(fileViewsTree).length
+
+    haveTreeViewsChanged && setFileViewsTree(newRebalancedTree)
   }, [fileViewsTree])
 
   const createChild = (

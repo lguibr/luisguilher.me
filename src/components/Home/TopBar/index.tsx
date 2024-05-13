@@ -6,7 +6,7 @@ const TopBar: React.FC = () => {
   const { isMedium } = useWindowSize()
   return (
     <Container>
-      <Image height="14" width="14" src="/favicon.png" />
+      <Image height="20" width="20" src="/favicon.png" />
       <Text size={13}>luisguilher.me - Visual Profile Code</Text>
       {!isMedium && <Text size={13}>Luís Guilherme Pelin Martins</Text>}
     </Container>
