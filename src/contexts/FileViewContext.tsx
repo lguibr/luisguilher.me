@@ -6,6 +6,7 @@ export type FileViewsContextType = {
   openedFiles: string[]
   currentFile: string | undefined
   orientation: Orientation
+  fileViewsTree: FileViewsContextType
   id: number
   children: FileViewsContextType[]
   openFile: (fileId: string, nodeId: number) => void
@@ -50,12 +51,11 @@ export const FileViewsProvider: React.FC<{ initialOpenedFile?: string }> = ({
     getRootId: () => 0,
     createChild: noop,
     removeNode: noop,
-    setOrientation: noop
+    setOrientation: noop,
+    fileViewsTree: {} as FileViewsContextType
   })
 
-  const getRootId = () => {
-    return fileViewsTree.id
-  }
+  const getRootId = () => fileViewsTree.id
 
   const setOrientation = (orientation: Orientation, nodeId: number) => {
     setFileViewsTree(prevTree => {
@@ -67,7 +67,6 @@ export const FileViewsProvider: React.FC<{ initialOpenedFile?: string }> = ({
     })
   }
 
-  console.log(fileViewsTree)
   const setCurrentFile = (fileId: string, nodeId: number) => {
     setFileViewsTree(prevTree => {
       const nodeToUpdate = findNodeById(nodeId, prevTree)
@@ -85,8 +84,9 @@ export const FileViewsProvider: React.FC<{ initialOpenedFile?: string }> = ({
     setFileViewsTree(prevTree => {
       const nodeToUpdate = findNodeById(nodeId, prevTree)
       if (nodeToUpdate) {
-        !nodeToUpdate.openedFiles.includes(fileId) &&
+        if (!nodeToUpdate.openedFiles.includes(fileId)) {
           nodeToUpdate.openedFiles.push(fileId)
+        }
         nodeToUpdate.currentFile = fileId
       }
       return { ...prevTree }
@@ -143,14 +143,16 @@ export const FileViewsProvider: React.FC<{ initialOpenedFile?: string }> = ({
   const removeNode = (nodeId: number) => {
     const targetNode = findNodeById(nodeId, fileViewsTree)
     const parentNode = getParentNode(nodeId, fileViewsTree)
-    const currentChildrensToRecover = targetNode?.children ?? []
+    const currentChildrenToRecover = targetNode?.children ?? []
 
     setFileViewsTree(prevTree => {
       if (prevTree.id === nodeId) return prevTree
       if (parentNode) {
-        parentNode.children = currentChildrensToRecover
+        parentNode.children = parentNode.children.filter(
+          child => child.id !== nodeId
+        )
+        parentNode.children.push(...currentChildrenToRecover)
       }
-
       return { ...prevTree }
     })
   }
@@ -172,19 +174,35 @@ export const FileViewsProvider: React.FC<{ initialOpenedFile?: string }> = ({
     }
   }
 
-  useEffect(() => {
-    const removeEmptyNodes = (node: FileViewsContextType) => {
-      node.children = node.children.filter(child => {
-        if (child.openedFiles.length === 0) {
-          removeNode(child.id)
-          return false
+  const rebalanceTree = (
+    node: FileViewsContextType,
+    isRoot = true
+  ): FileViewsContextType => {
+    if (node.openedFiles.length === 0 && node.children.length > 0) {
+      // Promote the first non-empty child to the parent position
+      const nonEmptyChildIndex = node.children.findIndex(
+        child => child.openedFiles.length > 0
+      )
+      if (nonEmptyChildIndex !== -1) {
+        const [nonEmptyChild] = node.children.splice(nonEmptyChildIndex, 1)
+        nonEmptyChild.children.push(...node.children)
+        if (isRoot) {
+          nonEmptyChild.id = 0 // Ensure root node's ID remains 0
         }
-        removeEmptyNodes(child)
-        return true
-      })
+        return rebalanceTree(nonEmptyChild, isRoot)
+      }
     }
 
-    removeEmptyNodes(fileViewsTree)
+    if (isRoot && node.openedFiles.length === 0 && node.children.length === 0) {
+      node.openedFiles = ['placeholder'] // Keeping the last node with a placeholder
+    }
+
+    node.children = node.children.map(child => rebalanceTree(child, false))
+    return node
+  }
+
+  useEffect(() => {
+    setFileViewsTree(rebalanceTree(fileViewsTree))
   }, [fileViewsTree])
 
   const createChild = (
@@ -199,6 +217,7 @@ export const FileViewsProvider: React.FC<{ initialOpenedFile?: string }> = ({
         orientation: orientation,
         id: Date.now(),
         children: [],
+        fileViewsTree,
         setCurrentFile,
         openFile,
         closeFile,
@@ -225,6 +244,7 @@ export const FileViewsProvider: React.FC<{ initialOpenedFile?: string }> = ({
         closeFile,
         createChild,
         findNodeById,
+        fileViewsTree,
         removeNode,
         setOrientation
       }}
