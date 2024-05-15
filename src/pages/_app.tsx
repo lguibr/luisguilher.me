@@ -1,3 +1,4 @@
+'use client'
 import type { AppProps } from 'next/app'
 import { FileProvider } from 'src/contexts/FileContext'
 import { UIProvider } from 'src/contexts/ThemeContext'
@@ -14,7 +15,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       <UIProvider>
         <SideBarProvider>
           <FileProvider>
-            <FileViewsProvider>
+            <FileViewsProvider initialOpenedFile={'resume/complete-resume.yml'}>
               <PrintProvider>
                 <Shell>
                   <Component {...pageProps} />

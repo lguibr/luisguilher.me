@@ -38,9 +38,13 @@ export const FileViewsProvider: React.FC<{ initialOpenedFile?: string }> = ({
   children,
   initialOpenedFile
 }) => {
+  const isGuiding =
+    typeof window !== 'undefined' &&
+    JSON.parse(localStorage?.getItem('GUIDE_TOUR') ?? 'false')
+
   const [fileViewsTree, setFileViewsTree] = useState<FileViewsContextType>({
-    openedFiles: initialOpenedFile ? [initialOpenedFile] : [],
-    currentFile: initialOpenedFile,
+    openedFiles: initialOpenedFile && !isGuiding ? [initialOpenedFile] : [],
+    currentFile: !isGuiding ? initialOpenedFile : undefined,
     orientation: 'bottom',
     id: 0,
     children: [],

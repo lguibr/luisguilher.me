@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react'
 import Step from 'src/components/Core/GuideTour/Step'
 import { ReactourStep } from 'reactour'
 import useContextSidebar from 'src/hooks/useSideBar'
+import useFileViewsContext from 'src/hooks/useContextFileView'
 
 export type GuideTourContextType = {
   steps: ReactourStep[]
@@ -13,6 +14,7 @@ export const GuideTourContext = createContext({} as GuideTourContextType)
 
 export const GuideTourProvider: React.FC = ({ children }) => {
   const { setOpen, setSelectedSection } = useContextSidebar()
+  const { openFile } = useFileViewsContext()
   const age = new Date().getFullYear() - 1992
   const totalExperience = new Date().getFullYear() - 2016
   const steps = [
@@ -150,7 +152,7 @@ export const GuideTourProvider: React.FC = ({ children }) => {
         <Step
           title="Profile"
           emoticon="🤓"
-          content={`Access all my contact information here. You can also download or print my resume as a PDF.`}
+          content={`Access all my contact information here. You can also download or print my resume as a PDF by pressing CTRL + P`}
         />
       )
     },
@@ -188,6 +190,9 @@ export const GuideTourProvider: React.FC = ({ children }) => {
   const setTour = (value: boolean) => {
     setIsTourOpen(value)
     localStorage.setItem('GUIDE_TOUR', JSON.stringify(value))
+    if (value === false) {
+      openFile('resume/complete-resume.yml', 0)
+    }
   }
 
   useEffect(() => {

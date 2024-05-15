@@ -4,6 +4,7 @@ import experiences from 'src/assets/experiences'
 import coverLetter from 'src/assets/coverLetter'
 import contacts from 'src/assets/contacts'
 import skills from 'src/assets/skills'
+import projects from 'src/assets/projects'
 
 export const getResumeData = (): {
   path: string
@@ -16,19 +17,21 @@ export const getResumeData = (): {
   const educationText = JSON.stringify(education, null, 2)
   const experiencesText = JSON.stringify(experiences, null, 2)
   const contactsText = JSON.stringify(contacts, null, 2)
+  const projectsText = JSON.stringify(projects, null, 2)
 
   const completeResumeText = YAML.stringify({
     'Cover Letter': coverLetter.join(''),
     Contacts: contacts,
     Education: education,
     Experiences: experiences,
-    Skills: skills
+    Skills: skills,
+    Projects: projects
   })
     .replace(
-      /(Education:|Experiences:|Contacts:|- Company:|- name:|- School:|Skills:|- Languages:|- Programming Languages:|- Development Tools:|- Testing\/QA:|- Front-end:|- Back-end:|- Cloud\/Infrastructure:)/g,
+      /(Projects:|Education:|Experiences:|Contacts:|- Company:|- name:|- title:|- School:|Skills:|- Languages:|- Programming Languages:|- Development Tools:|- Testing\/QA:|- Front-end:|- Back-end:|- Cloud\/Infrastructure:)/g,
       '\n$&'
     )
-    .replace(/(Cover Letter:|Contacts:)/g, '$&\n')
+    .replace(/(Cover Letter:|Contacts:|Projects:)/g, '$&\n')
     .replace(/Cover Letter:/, '$&\n')
 
   return [
@@ -61,6 +64,12 @@ export const getResumeData = (): {
       name: 'contacts.json',
       content: contactsText,
       newContent: contactsText
+    },
+    {
+      path: 'resume/projects.json',
+      name: 'projects.json',
+      content: projectsText,
+      newContent: projectsText
     },
     {
       path: 'resume/complete-resume.yml',
