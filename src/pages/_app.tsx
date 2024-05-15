@@ -7,6 +7,7 @@ import Shell from 'src/components/Core/Shell'
 import GlobalStyle from 'src/styles/global'
 import { SideBarProvider } from 'src/contexts/SideBarContext'
 import { FileViewsProvider } from 'src/contexts/FileViewContext'
+import { Analytics } from '@vercel/analytics/react'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -19,6 +20,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
               <PrintProvider>
                 <Shell>
                   <Component {...pageProps} />
+                  <Analytics />
                 </Shell>
               </PrintProvider>
             </FileViewsProvider>
