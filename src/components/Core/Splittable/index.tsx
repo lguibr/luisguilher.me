@@ -7,15 +7,15 @@ type Direction = 'horizontal' | 'vertical'
 interface SplittableContainerProps {
   defaultLayout?: number[]
   direction?: Direction
-  firstChild: ReactNode
-  secondChild?: ReactNode
+  targetView: ReactNode
+  newView?: ReactNode
   id: number
 }
 
 const SplittableContainer: React.FC<SplittableContainerProps> = ({
   direction = 'horizontal',
-  firstChild,
-  secondChild,
+  targetView,
+  newView,
   id
 }) => {
   const { isMedium } = useWindowSize()
@@ -25,17 +25,18 @@ const SplittableContainer: React.FC<SplittableContainerProps> = ({
       direction={isMedium ? 'vertical' : direction}
       id={`${id}`}
     >
-      {firstChild && (
-        <StyledPanel order={id + 1} defaultSize={secondChild ? 50 : 100}>
-          {firstChild}{' '}
+      {newView && (
+        <StyledPanel order={id + 1} defaultSize={25}>
+          {newView}
         </StyledPanel>
       )}
-      {!isMedium && secondChild && firstChild && (
+
+      {!isMedium && newView && targetView && (
         <StyledResizeHandle direction={direction} />
       )}
-      {secondChild && (
-        <StyledPanel order={id + 2} defaultSize={25}>
-          {secondChild}
+      {targetView && (
+        <StyledPanel order={id + 2} defaultSize={newView ? 50 : 100}>
+          {targetView}
         </StyledPanel>
       )}
     </StyledPanelGroup>

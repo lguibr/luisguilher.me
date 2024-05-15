@@ -13,7 +13,8 @@ export const GuideTourContext = createContext({} as GuideTourContextType)
 
 export const GuideTourProvider: React.FC = ({ children }) => {
   const { setOpen, setSelectedSection } = useContextSidebar()
-
+  const age = new Date().getFullYear() - 1992
+  const totalExperience = new Date().getFullYear() - 2016
   const steps = [
     {
       action: () => {
@@ -23,7 +24,7 @@ export const GuideTourProvider: React.FC = ({ children }) => {
         <Step
           title="Welcome"
           emoticon="❤️"
-          content={`Hello! Welcome to my page, a tribute to my favorite IDE, the Visual Studio Code`}
+          content={`Greetings! Welcome to my page, dedicated to my favorite IDE, Visual Studio Code. Let's start our journey!`}
         />
       )
     },
@@ -34,11 +35,10 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       },
       content: (
         <Step
-          title="Presentation"
+          title="About Me"
           emoticon="👨‍💻"
-          content={`My name is Luís Guilherme I'm a ${
-            new Date().getFullYear() - 1992
-          } years old dev, passionate about physics, cats and games `}
+          content={`I'm Luís Guilherme, a developer with ${age} years, and more than ${totalExperience} years of experience as Software Engineer specialized in Web Applications. 
+          I love physics, cats, and games. Let's dive in!`}
         />
       )
     },
@@ -50,9 +50,9 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       },
       content: (
         <Step
-          title="Section File Explorer"
+          title="File Explorer"
           emoticon="📁"
-          content={`This project have a cool file explorer ...`}
+          content={`Explore the project's file structure here. Everything you need is just a click away.`}
         />
       )
     },
@@ -64,9 +64,9 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       },
       content: (
         <Step
-          title="File Explorer - My Resume "
+          title="My Resume"
           emoticon="📔"
-          content={`Here you can explore my resume in sections as JSON files or in one single compact YAML file`}
+          content={`Check out my resume, organized in sections as JSON files or in a single compact YAML file.`}
         />
       )
     },
@@ -78,9 +78,9 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       },
       content: (
         <Step
-          title="File Explorer - Code Source "
+          title="Source Code"
           emoticon="💾"
-          content={`and here you can check all the source code of this app `}
+          content={`Here you can review the entire source code of this app. Feel free to explore!`}
         />
       )
     },
@@ -92,9 +92,9 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       },
       content: (
         <Step
-          title="Section : Search "
+          title="Search"
           emoticon="🔍"
-          content={`You can find and replace text from all loaded files`}
+          content={`Quickly find and replace text across all loaded files using this powerful search feature.`}
         />
       )
     },
@@ -106,9 +106,9 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       },
       content: (
         <Step
-          title="Section : Source Control"
+          title="Source Control"
           emoticon="🔤"
-          content={`All changes made in files can be tracked here`}
+          content={`Track all changes made to files here. Version control made simple.`}
         />
       )
     },
@@ -120,9 +120,9 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       },
       content: (
         <Step
-          title="Section : Debug Play"
+          title="Debug"
           emoticon="⏯️"
-          content={`Click here and you will see a random sketch animation`}
+          content={`Start debugging your code with a click. Watch random sketch animations to add some fun!`}
         />
       )
     },
@@ -134,9 +134,9 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       },
       content: (
         <Step
-          title="Section : Extensions"
+          title="Extensions"
           emoticon="🎬"
-          content={`You can also explore a list of all animations `}
+          content={`Explore a variety of extensions to enhance your development experience.`}
         />
       )
     },
@@ -148,9 +148,9 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       },
       content: (
         <Step
-          title="Section : Profile"
+          title="Profile"
           emoticon="🤓"
-          content={`Here you can access all my contact information and download/print my resume as a pdf`}
+          content={`Access all my contact information here. You can also download or print my resume as a PDF.`}
         />
       )
     },
@@ -162,9 +162,9 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       },
       content: (
         <Step
-          title="Section : Settings"
+          title="Settings"
           emoticon="⚙️"
-          content={`Here you can change the theme, open the project on Github and give me a little star or report an issue, both will help and make me happy!`}
+          content={`Customize the theme, open the project on GitHub, star it, or report an issue. Your feedback is valuable!`}
         />
       )
     },
@@ -177,7 +177,7 @@ export const GuideTourProvider: React.FC = ({ children }) => {
         <Step
           title="Thank You!"
           emoticon="👾"
-          content={`Hope we can connect, may the force be with you !`}
+          content={`Thank you for exploring! Let's connect. May the force be with you!`}
         />
       )
     }
@@ -206,7 +206,7 @@ export const GuideTourProvider: React.FC = ({ children }) => {
       value={{
         setTour,
         isTourOpen,
-        steps: steps
+        steps
       }}
     >
       {children}

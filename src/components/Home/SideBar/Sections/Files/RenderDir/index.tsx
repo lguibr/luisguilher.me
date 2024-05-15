@@ -4,6 +4,7 @@ import { RealContainer, Container, Children, File } from './styled'
 import FileTile from 'src/components/Core/TileFile'
 import { FileType } from 'src/contexts/FileContext'
 import useContextFile from 'src/hooks/useContextFile'
+import useContextSidebar from 'src/hooks/useSideBar'
 
 export type RenderDirectoryProps = {
   files: FileType[]
@@ -17,7 +18,7 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
   const resumeName = process.env.RESUME || 'resume'
   const { focusedFileView, focusedFile } = useContextFile()
   const { openFile } = useContextFileView()
-
+  const { setOpen: setSideBarOpen } = useContextSidebar()
   const openState = Object.fromEntries(
     files.map(({ path }) => [[path], path === resumeName])
   )
@@ -27,6 +28,7 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
 
     if (isFile) {
       openFile(file.path, focusedFileView)
+      setSideBarOpen(false)
     }
 
     setOpen((prevOpen: { [key: string]: boolean }) => ({

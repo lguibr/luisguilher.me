@@ -100,8 +100,8 @@ const FileViewComponent: React.FC<FileViewComponentProps> = ({
       <SplittableContainer
         direction={direction}
         id={depth}
-        firstChild={shouldSwap ? secondChild ?? null : firstChild ?? null}
-        secondChild={shouldSwap ? firstChild ?? null : secondChild ?? null}
+        targetView={shouldSwap ? secondChild ?? null : firstChild ?? null}
+        newView={shouldSwap ? firstChild ?? null : secondChild ?? null}
       />
     </>
   )
