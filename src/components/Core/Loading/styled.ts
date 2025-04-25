@@ -4,17 +4,11 @@ interface Props {
   isLoading: boolean
 }
 
+// This container might just be for positioning or a background if needed,
+// as the actual animation is handled by the global AnimationHost.
+// If Loading component becomes purely logical (triggering context), this might be removed.
 export const Container = styled.div<Pick<Props, 'isLoading'>>`
-  box-sizing: border-box;
-  position: absolute;
-
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  z-index: 999;
-  width: 100%;
-  height: 100%;
-  display: ${({ isLoading }) => (isLoading ? 'flex' : 'none')};
-  box-sizing: border-box;
+  /* display: ${({ isLoading }) => (isLoading ? 'block' : 'none')}; */
+  /* Remove positioning/sizing if AnimationHost handles it globally */
+  /* Keep if you want a specific background behind the global animation */
 `

@@ -1,12 +1,11 @@
 import Icon from 'src/components/Core/Icons'
-
 import { Section, Option, Container } from './styled'
 import useSideBar from 'src/hooks/useSideBar'
 import FloatMenu from 'src/components/Core/FloatMenu'
 import useContextTheme from 'src/hooks/useContextTheme'
 import { useContextPrint } from 'src/hooks/useContextPrint'
 import { useContextGuideTour } from 'src/hooks/useGuideTour'
-import { useContextLoading } from 'src/hooks/useLoading'
+import { useAnimationContext } from 'src/hooks/useAnimationContext' // Import new hook
 
 type Variant =
   | 'files'
@@ -17,12 +16,12 @@ type Variant =
   | 'profile'
   | 'settings'
 
-type Option = {
+type OptionType = { // Renamed to avoid conflict with HTML Option
   variant: Variant
   onClick?: () => void
 }
 
-interface OptionMenu extends Option {
+interface OptionMenu extends OptionType {
   options?: {
     labels: string[]
     onClick: () => void
@@ -30,17 +29,19 @@ interface OptionMenu extends Option {
 }
 
 const NavBar: React.FC = () => {
-  const { flashLoading, loading } = useContextLoading()
+  const { playAnimation, animationState } = useAnimationContext() // Use animation context
   const { toggleTheme } = useContextTheme()
   const { setTour } = useContextGuideTour()
-
   const { selectedSection, setSelectedSection, setOpen, open } = useSideBar()
 
-  const menuOptions: Option[] = [
+  const menuOptions: OptionType[] = [
     { variant: 'files' },
     { variant: 'search' },
     { variant: 'source' },
-    { variant: 'debug', onClick: () => !loading && flashLoading(5000) },
+    {
+      variant: 'debug',
+      onClick: () => !animationState.isVisible && playAnimation('random', { duration: 5000 }) // Use playAnimation
+    },
     { variant: 'extensions' }
   ]
   const { print } = useContextPrint()
