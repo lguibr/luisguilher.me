@@ -23,39 +23,40 @@ export default {
       selectedNavigationFile: '#FFFFFF',
       fileLine: '#CFCFCF',
       queryString: '#F0C1A3',
-      inputBackground: '#FFF',
+      inputBackground: '#FFFFFF',
       selectedBlue: '#CCE9FC',
       subString: '#99999A',
       vsBlue: '#1E88D0',
-      white: '#FFF',
-      black: '#000',
+      white: '#FFFFFF',
+      black: '#000000',
       shortCut: '#F3F3F3'
     },
     breakpoints
   },
+
   'vs-dark': {
     colors: {
-      editorBackground: '#1E1E1E',
-      menuBackground: '#252526',
-      listDropBackground: '#333333',
-      topBarBackground: '#323233',
-      text: '#CCCCCC',
-      sideHighlight: '#37373D',
-      sideHighlightHover: '#242d2e',
-      tileBorder: '#111111',
-      negativeHighlight: '#303131',
+      editorBackground: '#0A0A0A',
+      menuBackground: '#1A1A1A',
+      listDropBackground: '#282828',
+      topBarBackground: '#151515',
+      text: '#E0E0E0',
+      sideHighlight: '#2A2A2A',
+      sideHighlightHover: '#171717',
+      tileBorder: '#000000',
+      negativeHighlight: '#121212',
       accentColor: '#F44336',
-      navigationFile: '#252526',
-      selectedNavigationFile: '#1E1E1E',
-      fileLine: '#585858',
+      navigationFile: '#1A1A1A',
+      selectedNavigationFile: '#0A0A0A',
+      fileLine: '#424242',
       queryString: '#66371A',
-      inputBackground: '#3C3C3C',
-      selectedBlue: '#245779',
-      subString: '#99999A',
-      vsBlue: '#1E88D0',
-      white: '#FFF',
-      black: '#000',
-      shortCut: '#2B2B2B'
+      inputBackground: '#1F1F1F',
+      selectedBlue: '#245779', // your original blue
+      subString: '#7F7F7F',
+      vsBlue: '#1E88D0', // your original VS Code blue
+      white: '#FFFFFF',
+      black: '#000000',
+      shortCut: '#1A1A1A'
     },
     breakpoints
   }
