@@ -1,3 +1,4 @@
+// src/components/Home/FileView/Background/styled.ts
 import styled from 'styled-components'
 import Image from 'next/image'
 import Text from 'src/components/Core/Text'
@@ -31,6 +32,8 @@ export const Content = styled.div`
   grid-gap: 12px;
 `
 
+// Removed the VS styled component as it's no longer used
+/*
 export const VS = styled.div`
   background: url(/profisionalProfile.png);
   background-position: center;
@@ -63,3 +66,4 @@ export const VS = styled.div`
     width: 120px;
   }
 `
+*/

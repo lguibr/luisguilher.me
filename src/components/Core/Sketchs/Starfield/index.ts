@@ -76,7 +76,7 @@ const sketch =
   // Removed _theme parameter
   (p5: P5): void => {
     const stars: Star[] = []
-    const numStars = 800
+    const numStars = 4096
     let speed: number
 
     p5.setup = () => {
@@ -88,7 +88,7 @@ const sketch =
     }
 
     p5.draw = () => {
-      speed = 20 // Fixed speed example
+      speed = 40 // Fixed speed example
       p5.clear() // Use clear() for transparency instead of background()
       p5.translate(p5.width / 2, p5.height / 2) // Center the origin
 

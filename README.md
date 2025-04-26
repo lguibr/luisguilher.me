@@ -1,6 +1,10 @@
 
 Welcome to [luisguilher.me](https://luisguilher.me), an immersive web experience showcasing my professional portfolio through an interactive interface inspired by the VS Code IDE. This project demonstrates modern front-end development skills and provides a unique way to explore my resume, skills, and projects.
 
+<p align="center">
+  <img src="public/favicon.png" alt="AlphaTriangle Logo" width="300"/>
+</p>
+
 ## Features
 
 -   **VS Code-like Interface**: Offers a familiar and intuitive environment simulating the popular VS Code IDE.

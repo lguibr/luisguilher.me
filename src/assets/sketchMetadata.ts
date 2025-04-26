@@ -3,7 +3,6 @@ import { sketchs as sketchFactories } from 'src/components/Core/AnimationOverlay
 
 // Filter metadata based on available factories
 export const sketchs = [
-  // Removed SnowFlakes entry
   {
     name: 'DoublePendulum',
     description:
@@ -18,8 +17,7 @@ export const sketchs = [
   },
   {
     name: 'Starfield',
-    description:
-      'Simulates a starfield effect like hyperspace travel using Google colors.',
+    description: 'Simulates a starfield effect like hyperspace travel ',
     icon: '/icons/starfield.png'
   },
   {
@@ -33,24 +31,24 @@ export const sketchs = [
     icon: '/icons/hypercube.png'
   },
   {
-    name: 'GoogleFlowField',
-    description:
-      'Particles moving along a Perlin noise flow field using Google colors.',
-    icon: '/icons/flowfield.png'
+    // Updated name and description
+    name: 'NoiseFlowField',
+    description: 'Particles moving along a Perlin noise flow field',
+    icon: '/icons/flowfield.png' // Icon name remains the same
   },
   {
     name: 'BoidsSimulation',
-    description: 'Simulates flocking behavior (boids) using Google colors.',
+    description: 'Simulates flocking behavior (boids)', // Adjusted description
     icon: '/icons/boids.png'
   },
   {
     name: 'GameOfLife',
-    description: "Conway's Game of Life simulation with Google colors.",
+    description: "Conway's Game of Life simulation", // Adjusted description
     icon: '/icons/gol.png'
   },
   {
     name: 'Metaballs',
-    description: 'Generates a gooey metaball effect using Google colors.',
+    description: 'Generates a gooey metaball effect', // Adjusted description
     icon: '/icons/metaballs.png'
   },
   {

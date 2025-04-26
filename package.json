@@ -6,8 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint && prettier --write ./src",
-    "lint:hook": "eslint --fix ./src && pretty-quick --staged"
+    "lint": "next lint && prettier --write ./src && yarn typecheck",
+    "lint:hook": "yarn typecheck && eslint --fix ./src && pretty-quick --staged",
+    "typecheck": "tsc --noEmit"
   },
   "engines": {
     "node": "16.x"

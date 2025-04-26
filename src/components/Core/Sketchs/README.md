@@ -18,13 +18,13 @@ The inner function `(p5: P5) => void` is the standard P5.js instance mode setup,
 
 - **DoublePendulum**: Simulates the chaotic motion of a double pendulum with a velocity-based colored trail.
 - **HexagonCollision**: Features spinning hexagons releasing triangles that undergo elastic collisions.
-- **Starfield**: Creates a visual effect simulating high-speed travel through space using Google colors.
+- **Starfield**: Creates a visual effect simulating high-speed travel through space.
 - **PathfindingMaze**: Generates a random maze and visualizes the A\* pathfinding algorithm finding a route.
 - **Hypercube**: Renders a rotating 4-dimensional hypercube (tesseract) projected into 3D/2D space.
-- **GoogleFlowField**: Particles follow paths defined by a Perlin noise field, colored using the Google palette.
-- **BoidsSimulation**: Simulates flocking behavior (separation, alignment, cohesion) among agents (boids) using Google colors.
-- **GameOfLife**: Implements Conway's Game of Life cellular automaton using Google colors.
-- **Metaballs**: Creates an organic, "gooey" visual effect where circular shapes merge smoothly, using Google colors.
+- **NoiseFlowField**: Particles follow paths defined by a Perlin noise field, colored.
+- **BoidsSimulation**: Simulates flocking behavior (separation, alignment, cohesion) among agents (boids).
+- **GameOfLife**: Implements Conway's Game of Life cellular automaton.
+- **Metaballs**: Creates an organic, "gooey" visual effect where circular shapes merge smoothly.
 - **FourierDrawing**: Visualizes Fourier series by drawing complex shapes using rotating vectors (epicycles).
 
 _(Note: A random sketch from the available list is used for the loading animation)._

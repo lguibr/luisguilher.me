@@ -4,7 +4,10 @@
     "baseUrl": ".",
     "module": "esnext",
     "jsx": "preserve",
-    "lib": ["dom", "es2017"],
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "moduleResolution": "node",
     "allowJs": true,
     "noEmit": true,
@@ -23,7 +26,12 @@
   },
   "exclude": [
     "node_modules",
-    "**/*.md" // Corrected pattern
+    "**/*.md",
+    "src/components/Core/Sketchs/**/*" // Keep this exclude
   ],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
