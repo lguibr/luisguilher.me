@@ -1,29 +1,53 @@
+This directory contains various P5.js sketches used for animations within the application, primarily for loading indicators and the "Extensions" demonstration panel.
 
-This directory contains custom React hooks used throughout the application to encapsulate reusable logic and stateful interactions, often related to consuming contexts or handling specific browser/API features.
+## Structure
 
-## Hooks
+- **`index.ts`**: Exports an array of all available sketch _factories_ and a `sketchs` array containing metadata (name, description, icon) for each sketch, used by the UI (e.g., Extensions panel).
+- **Individual Sketch Directories (e.g., `Bouncing/`, `SnowFlakes/`, `DoublePendulum/`)**: Each directory typically contains an `index.ts` file that defines and exports a single sketch factory function.
 
--   **`useContextFile.ts`**: Provides access to the `FileContext`. Returns file state (`files`, `treeFiles`, `diffFiles`), focus state (`focusedFile`, `focusedFileView`), and actions (`setContent`, `setImage`, `setNewContent`, `setFiles`, `findTreeFile`, `setFocusedFile`, `setFocusedFileView`).
--   **`useContextFileView.ts`**: Provides access to the `FileViewsContext`. Returns the current view state/tree (`openedFiles`, `currentFile`, `orientation`, `id`, `children`, `fileViewsTree`) and actions (`openFile`, `closeFile`, `setCurrentFile`, `findNodeById`, `createChild`, `removeNode`, `getRootId`, `setOrientation`).
--   **`useContextPrint.ts`**: Provides access to the `PrintContext`. Returns the `Printable` component and the `print` function.
--   **`useContextTheme.ts`**: Provides access to the `ThemeContext`. Returns the `selectedTheme` and the `toggleTheme` function.
--   **`useExtension.ts`**: Provides utility functions related to file extensions and icons:
-    -   `extractIcon`: Determines the appropriate file/folder icon based on the file path, name, and folder status.
-    -   `extractExtension`: Determines the language mode (e.g., 'typescript', 'json') for the Monaco editor based on the file extension.
--   **`useGuideTour.ts`**: Provides access to the `GuideTourContext`. Returns the tour `steps`, `isTourOpen` state, and the `setTour` function.
--   **`useLoading.ts`**: Provides access to the `LoadingContext`. Returns the `loading` state, optional sketch `index`, and actions (`setLoading`, `flashLoading`).
--   **`useSideBar.ts`**: Provides access to the `SideBarContext`. Returns the `open` state, `selectedSection`, and actions (`setOpen`, `setSelectedSection`).
--   **`useTree.ts`**: Provides utility functions for working with file tree structures:
-    -   `build`: Constructs a nested tree structure from a flat list of file paths (typically from the GitHub API).
-    -   `rebuildPaths`: Takes a list of files (often diff files) and ensures all parent directory paths exist in the list, necessary for building a tree from sparse paths.
-    -   `flatTree`: Flattens a nested tree structure back into a flat array of files.
--   **`useWindow.ts`**: Provides information about the browser window size and derived breakpoints (e.g., `isMedium`, `isSmall`). Listens for resize events.
+## Sketch Factory
+
+Each sketch is defined as a _factory function_ that takes the current theme object as an argument and returns the actual P5.js sketch function. This allows sketches to adapt their appearance (e.g., colors) based on the selected theme.
+
+The signature is:
+`(theme: Theme) => (p5: P5) => void`
+
+The inner function `(p5: P5) => void` is the standard P5.js instance mode setup, containing `setup` and `draw` methods.
+
+## Available Sketches
+
+- **Bouncing**: Multiple particles bouncing off the canvas edges.
+- **LinearConservation**: A single particle bouncing with gravity, demonstrating basic physics.
+- **RandomWalker**: A single particle moving randomly.
+- **SnowFlakes**: Particles simulating falling snowflakes.
+- **DoublePendulum**: Simulates the chaotic motion of a double pendulum with a tracing effect.
+- **HexagonCollision**: Features spinning hexagons (with a missing edge) releasing triangles that undergo elastic collisions.
+- **Starfield**: Creates a visual effect simulating high-speed travel through space (like Star Wars hyperdrive).
+- **PathfindingMaze**: Generates a random maze and visualizes the A\* pathfinding algorithm finding a route.
+- **Hypercube**: Renders a rotating 4-dimensional hypercube (tesseract) projected into 3D/2D space.
+- **GoogleFlowField**: Particles follow paths defined by a Perlin noise field, colored using the Google palette.
+- **BoidsSimulation**: Simulates flocking behavior (separation, alignment, cohesion) among agents (boids) using Google colors.
+- **GameOfLife**: Implements Conway's Game of Life cellular automaton using Google colors.
+- **Metaballs**: Creates an organic, "gooey" visual effect where circular shapes merge smoothly, using Google colors.
+- **FourierDrawing**: Visualizes Fourier series by drawing complex shapes using rotating vectors (epicycles).
+- **ReactionDiffusion**: Simulates the formation of complex patterns based on the interaction of two chemicals (Turing patterns).
+
+## Adding New Sketches
+
+1.  Create a new directory (e.g., `MyNewSketch/`).
+2.  Inside, create `index.ts`.
+3.  Define your sketch factory function following the signature `(theme: Theme) => (p5: P5) => void`. Use the `theme` object to access colors if needed. Import `Body` and `Calculator` from `../Engine` if physics simulation is required.
+4.  Export the factory function as default from `MyNewSketch/index.ts`.
+5.  Import the new sketch factory into `src/components/Core/Sketchs/index.ts`.
+6.  Add the new factory to the default export array.
+7.  Add metadata (name, description, icon path) for the new sketch to the `sketchs` array in `src/components/Core/Sketchs/index.ts`. Remember to create a corresponding icon in `public/icons/`.
 
 ## Usage
 
-Import the desired hook into your component and call it to access its state and functions. Example: `const { files, setContent } = useContextFile();`
+Sketches are primarily rendered using the `AnimationOverlay` component (`src/components/Core/AnimationOverlay/index.tsx`), which handles dynamic loading, P5.js instance creation, display in a modal, and cleanup. The `Loading` component and the `Extensions` panel in the `SideBar` trigger the `AnimationOverlay`. The `Canvas` component (`src/components/Core/Canvas/index.tsx`) can still be used for embedding sketches directly within other components if needed.
 
 ## Related READMEs
 
--   [Contexts README](../contexts/README.md)
--   [Root README](../../README.md)
+- [Core Components README](../README.md)
+- [Engine README](../Engine/README.md)
+- [Root README](../../../../README.md)

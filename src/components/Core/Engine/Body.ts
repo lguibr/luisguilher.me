@@ -1,5 +1,5 @@
 import Calculator from './Calculator'
-import P5 from 'p5'
+import type P5 from 'p5' // Use type import
 const calculator = new Calculator()
 
 type Vector = {

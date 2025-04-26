@@ -1,6 +1,6 @@
 'use client'
 import type { AppProps } from 'next/app'
-import dynamic from 'next/dynamic' // Import dynamic
+// Removed unused dynamic import
 import { FileProvider } from 'src/contexts/FileContext'
 import { UIProvider } from 'src/contexts/ThemeContext'
 import { PrintProvider } from 'src/contexts/PrintContext'
@@ -10,16 +10,8 @@ import { SideBarProvider } from 'src/contexts/SideBarContext'
 import { FileViewsProvider } from 'src/contexts/FileViewContext'
 import { LoadingProvider } from 'src/contexts/LoadingContext'
 import { GuideTourProvider } from 'src/contexts/GuideTourContext'
-import { AnimationProvider } from 'src/contexts/AnimationContext'
-// Remove direct import of AnimationHost
-// import AnimationHost from 'src/components/Core/AnimationHost'
 import { Analytics } from '@vercel/analytics/react'
-
-// Dynamically import AnimationHost with ssr: false
-const AnimationHost = dynamic(
-  () => import('src/components/Core/AnimationHost'),
-  { ssr: false }
-)
+import P5Preloader from 'src/components/Core/P5Preloader' // Import the preloader
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -30,19 +22,15 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
           <FileProvider>
             <FileViewsProvider initialOpenedFile={'resume/complete-resume.yml'}>
               <PrintProvider>
-                {/* Wrap AnimationProvider first so the hook is available */}
-                <AnimationProvider>
-                  <LoadingProvider>
-                    <GuideTourProvider>
-                      <Shell>
-                        <Component {...pageProps} />
-                        {/* Render the dynamically imported AnimationHost */}
-                        <AnimationHost />
-                        <Analytics />
-                      </Shell>
-                    </GuideTourProvider>
-                  </LoadingProvider>
-                </AnimationProvider>
+                <LoadingProvider>
+                  <GuideTourProvider>
+                    <Shell>
+                      <P5Preloader /> {/* Add Preloader here */}
+                      <Component {...pageProps} />
+                      <Analytics />
+                    </Shell>
+                  </GuideTourProvider>
+                </LoadingProvider>
               </PrintProvider>
             </FileViewsProvider>
           </FileProvider>

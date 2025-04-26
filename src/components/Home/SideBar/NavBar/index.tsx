@@ -5,7 +5,15 @@ import FloatMenu from 'src/components/Core/FloatMenu'
 import useContextTheme from 'src/hooks/useContextTheme'
 import { useContextPrint } from 'src/hooks/useContextPrint'
 import { useContextGuideTour } from 'src/hooks/useGuideTour'
-import { useAnimationContext } from 'src/hooks/useAnimationContext' // Import new hook
+import { useState } from 'react'
+import { sketchs } from 'src/assets/sketchMetadata' // <--- UPDATED IMPORT PATH
+import dynamic from 'next/dynamic'
+
+// Dynamically import AnimationOverlay, disable SSR
+const DynamicAnimationOverlay = dynamic(
+  () => import('src/components/Core/AnimationOverlay'),
+  { ssr: false }
+)
 
 type Variant =
   | 'files'
@@ -16,7 +24,7 @@ type Variant =
   | 'profile'
   | 'settings'
 
-type OptionType = { // Renamed to avoid conflict with HTML Option
+type OptionType = {
   variant: Variant
   onClick?: () => void
 }
@@ -29,10 +37,37 @@ interface OptionMenu extends OptionType {
 }
 
 const NavBar: React.FC = () => {
-  const { playAnimation, animationState } = useAnimationContext() // Use animation context
   const { toggleTheme } = useContextTheme()
   const { setTour } = useContextGuideTour()
   const { selectedSection, setSelectedSection, setOpen, open } = useSideBar()
+  const [showDebugAnimation, setShowDebugAnimation] = useState(false)
+  const [debugSketchName, setDebugSketchName] = useState<string | null>(null)
+
+  const playRandomAnimation = () => {
+    console.log('[NavBar] playRandomAnimation called.')
+    console.log('[NavBar] Checking sketchs value:', sketchs)
+    if (Array.isArray(sketchs) && sketchs.length > 0) {
+      const randomIndex = Math.floor(Math.random() * sketchs.length)
+      const randomSketch = sketchs[randomIndex]
+      if (randomSketch) {
+        const sketchToPlay = randomSketch.name
+        console.log(`[NavBar] Random sketch selected: ${sketchToPlay}`)
+        console.log(
+          `[NavBar] Setting state: debugSketchName=${sketchToPlay}, showDebugAnimation=true`
+        )
+        setDebugSketchName(sketchToPlay)
+        setShowDebugAnimation(true)
+      } else {
+        console.error(
+          '[NavBar] Could not select a random sketch (index issue?).'
+        )
+      }
+    } else {
+      console.warn(
+        '[NavBar] No sketches available or sketchs not loaded correctly yet.'
+      )
+    }
+  }
 
   const menuOptions: OptionType[] = [
     { variant: 'files' },
@@ -40,7 +75,7 @@ const NavBar: React.FC = () => {
     { variant: 'source' },
     {
       variant: 'debug',
-      onClick: () => !animationState.isVisible && playAnimation('random', { duration: 5000 }) // Use playAnimation
+      onClick: playRandomAnimation
     },
     { variant: 'extensions' }
   ]
@@ -122,36 +157,48 @@ const NavBar: React.FC = () => {
   }
 
   return (
-    <Container>
-      <Section>
-        {menuOptions.map((option, index) => (
-          <Option
-            data-tut={`nav${index}`}
-            isSelectedSection={selectedSection === option.variant}
-            onClick={() => {
-              handleClick(option.variant)
-              option?.onClick && option?.onClick()
-            }}
-            key={option.variant}
-          >
-            <Icon variant={option.variant} height="30px" width="30px" />
-          </Option>
-        ))}
-      </Section>
-      <Section>
-        {menuExtras.map((option, index) => (
-          <Option
-            data-tut={`extra${index}`}
-            isSelectedSection={false}
-            key={option.variant}
-          >
-            <FloatMenu options={option?.options}>
+    <>
+      <Container>
+        <Section>
+          {menuOptions.map((option, index) => (
+            <Option
+              data-tut={`nav${index}`}
+              isSelectedSection={selectedSection === option.variant}
+              onClick={() => {
+                handleClick(option.variant)
+                option?.onClick && option?.onClick()
+              }}
+              key={option.variant}
+            >
               <Icon variant={option.variant} height="30px" width="30px" />
-            </FloatMenu>
-          </Option>
-        ))}
-      </Section>
-    </Container>
+            </Option>
+          ))}
+        </Section>
+        <Section>
+          {menuExtras.map((option, index) => (
+            <Option
+              data-tut={`extra${index}`}
+              isSelectedSection={false}
+              key={option.variant}
+            >
+              <FloatMenu options={option?.options}>
+                <Icon variant={option.variant} height="30px" width="30px" />
+              </FloatMenu>
+            </Option>
+          ))}
+        </Section>
+      </Container>
+      {showDebugAnimation && debugSketchName && (
+        <DynamicAnimationOverlay
+          key={debugSketchName}
+          sketchName={debugSketchName}
+          onClose={() => {
+            setShowDebugAnimation(false)
+            setDebugSketchName(null)
+          }}
+        />
+      )}
+    </>
   )
 }
 

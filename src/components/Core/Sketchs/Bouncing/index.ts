@@ -1,10 +1,12 @@
 import Calculator from 'src/components/Core/Engine/Calculator'
 import Body from 'src/components/Core/Engine/Body'
 import P5 from 'p5'
-import theme from 'src/styles/theme'
-type Theme = typeof theme['vs-dark']
+// Removed theme import
+// Removed Theme type definition
+
 const sketch =
-  (_theme: Theme) =>
+  () =>
+  // Removed _theme parameter
   (p5: P5): void => {
     const calculator = new Calculator()
     const bodies: Body[] = []
@@ -66,12 +68,14 @@ const sketch =
       }
     }
 
-    p5.setup = (w = p5.width, h = p5.height) => {
+    p5.setup = (w = p5.windowWidth, h = p5.windowHeight) => {
+      // Use windowWidth/Height
       p5.createCanvas(w, h)
+      bodies.length = 0 // Clear bodies on setup
     }
 
     p5.draw = () => {
-      p5.clear()
+      p5.clear() // Use clear() for transparency
       if (bodies.length < maxBodies) {
         addNewRandomBody()
       }
@@ -82,6 +86,11 @@ const sketch =
         body.update(forceField)
         body.draw(p5)
       })
+    }
+
+    p5.windowResized = () => {
+      p5.resizeCanvas(p5.windowWidth, p5.windowHeight)
+      p5.setup(p5.windowWidth, p5.windowHeight) // Re-run setup
     }
   }
 

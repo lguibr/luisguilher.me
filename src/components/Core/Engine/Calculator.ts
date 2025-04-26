@@ -1,3 +1,5 @@
+// Removed: import type P5 from 'p5'; // No longer needed here
+
 type Vector = {
   x: number
   y: number

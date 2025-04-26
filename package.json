@@ -26,6 +26,7 @@
     "@vercel/analytics": "^1.2.2",
     "next": "11.1.0",
     "p5": "^1.4.0",
+    "raw-loader": "^4.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-resizable-panels": "^2.0.16",

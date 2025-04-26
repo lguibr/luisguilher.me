@@ -7,11 +7,12 @@ import useContextFileView from 'src/hooks/useContextFileView'
 import CoreEditor from 'src/components/Core/Editor'
 import DiffEditor from 'src/components/Core/DiffEditor'
 import { FileType } from 'src/reducers/FileReducer'
+import Image from 'next/image' // Import next/image
 
 const Editor: React.FC<{ id: number }> = ({ id }) => {
   const { fetchFileContent } = githubService
   const { extractExtension } = useExtension()
-  const { setLoading } = useContextLoading()
+  const { setLoading } = useContextLoading() // Only need setLoading
 
   const { setContent, setNewContent, setImage, files } = useContextFile()
 
@@ -26,40 +27,51 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
   const currentFileData = files.find(file => file.path === currentFile)
 
   const handleFetchFileContent = async (fileData: FileType, path: string) => {
-    setLoading(true)
-    const data = await fetchFileContent(path)
-    const isImage = /\.(png|jpg|jpeg|ico)$/i.test(path)
+    console.log(`[CurrentFile] Fetching content for: ${path}`)
+    setLoading(true) // Start loading, context will pick random sketch
+    try {
+      const data = await fetchFileContent(path)
+      const isImage = /\.(png|jpg|jpeg|ico)$/i.test(path)
 
-    if (isImage) {
-      if (!fileData.image) {
-        const imageElement = (
-          <div
-            style={{
-              position: 'absolute',
-              top: '0%',
-              left: '0%',
-              height: '100%',
-              width: '100%',
-              zIndex: 9,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
-            <img
-              placeholder="blur"
-              src={` data:image/jpeg;charset=utf-8;base64, ${data.content}`}
-            />
-          </div>
-        )
-        setImage(fileData, imageElement)
+      if (isImage) {
+        if (!fileData.image) {
+          const imageSrc = `data:image/jpeg;charset=utf-8;base64,${data.content}`
+          const imageElement = (
+            <div
+              style={{
+                position: 'relative', // Changed to relative for next/image layout="fill"
+                width: '100%', // Ensure container takes space
+                height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '20px' // Add padding around image
+              }}
+            >
+              <Image
+                src={imageSrc}
+                alt={`Image for ${fileData.name}`}
+                layout="intrinsic" // Adjust layout as needed
+                width={500} // Provide estimated or max width
+                height={500} // Provide estimated or max height
+                objectFit="contain" // Ensure image fits within bounds
+              />
+            </div>
+          )
+          setImage(fileData, imageElement)
+        }
+      } else {
+        const rawFile = decodeURIComponent(escape(window.atob(data.content)))
+        setContent(fileData, rawFile)
+        setCurrentContent(rawFile)
       }
-    } else {
-      const rawFile = decodeURIComponent(escape(window.atob(data.content)))
-      setContent(fileData, rawFile)
-      setCurrentContent(rawFile) // Set content directly here to avoid extra re-render
+    } catch (error) {
+      console.error(`[CurrentFile] Error fetching content for ${path}:`, error)
+      // Optionally set an error state or display a message
+    } finally {
+      console.log(`[CurrentFile] Finished loading content for: ${path}`)
+      setLoading(false) // Stop loading, context will clear sketch name
     }
-    setLoading(false) // Set loading to false once the content is fetched and set
   }
 
   useEffect(() => {
@@ -74,9 +86,18 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
       currentFileData &&
       (currentFileData.content || currentFileData.image)
     ) {
+      // If content/image already exists, ensure loading is false
+      setLoading(false)
       setCurrentContent(currentFileData.content || '')
+    } else if (!currentFileData && currentFile) {
+      // Handle case where file data might not be found initially
+      console.warn(`[CurrentFile] File data not found for path: ${currentFile}`)
+      setLoading(false) // Ensure loading stops if file isn't found
+    } else if (!currentFile) {
+      // No file selected, ensure loading is off
+      setLoading(false)
     }
-  }, [currentFileData, currentFile])
+  }, [currentFileData, currentFile, setLoading, setContent, setImage]) // Added missing dependencies
 
   const currentExt = extractExtension(currentFileData?.path || 'default.json')
 
