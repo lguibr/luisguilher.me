@@ -1,46 +1,47 @@
 # Luís Guilherme
 
-**Senior Software Engineer | AI & Systems Architecture | TypeScript · Python · Go**  
+Senior Software Engineer | AI & Systems Architecture | TypeScript · Python · Go
+
 Remote (Brazil)
 
-email: lgpelin92@gmail.com  
-website: https://luisguilher.me  
-github: https://github.com/lguibr  
-linkedin: https://linkedin.com/in/lguibr/
+- email: [lgpelin92@gmail.com](mailto:lgpelin92@gmail.com)
+- website: [https://luisguilher.me](https://luisguilher.me)
+- github: [https://github.com/lguibr](https://github.com/lguibr)
+- linkedin: [https://linkedin.com/in/lguibr](https://linkedin.com/in/lguibr)
 
 ---
 
 ## PROFESSIONAL SUMMARY
 
-Senior Engineer specializing in **AI pipelines**, **high-performance systems**, and **cross-platform architecture**.  
-My style blends **physics-driven reasoning** with practical product execution:  
-**deterministic, optimized, and observable.**
-
-Experience across **Fintech (Crypto)**, **Logistics**, and **Supply Chain**, owning systems end-to-end from architecture → performance → delivery.
+Senior Software Engineer focused on AI systems, scalable backend architecture, and real-time pipelines.
+I design and ship production-grade LLM systems, optimize high-throughput services, and lead teams across AI, frontend, and backend initiatives.
+Experienced in logistics, fintech (crypto), and complex multi-platform products.
 
 ---
 
 ## TECHNICAL SKILLS
 
-**Languages:** TypeScript (Node/React), Python, Go  
-**AI/ML:** LLMs (GPT/Claude), PyTorch, TensorFlow.js, Reinforcement Learning (MCTS / AlphaZero)  
-**Infrastructure:** AWS, GCP, Terraform, Docker, Kubernetes  
-**Testing:** Playwright, Jest, PyTest
+Languages: TypeScript (Node/React), Python, Go
+AI/ML: LLMs, PyTorch, TensorFlow.js, Reinforcement Learning (MCTS / AlphaZero)
+Infrastructure: AWS, GCP, Terraform, Docker, Kubernetes
+Testing: Playwright, Jest, PyTest
 
 ---
 
 # PROFESSIONAL EXPERIENCE
 
-## trebu (YC S22) — _AI Software Engineer_ (1 yr 5 mos)
+## Trebu (YC S22) — AI Software Engineer
 
-**Jul 2024 – Nov 2025 · Remote**  
-Logistics automation platform utilizing LLMs for negotiation.
+Jul 2024 – Nov 2025 · Remote
+
+Logistics automation platform using LLMs for multi-party negotiation.
 
 ### Highlights
 
-- **Architecture:** Designed the _“Find Me a Truck”_ (external product) multi-agent system, enabling automated negotiations previously handled manually. Increased throughput & reduced handling time.
-- **Performance:** Achieved **50% latency reduction** via parallel LLM execution, conditional routing, and improved observability & caching.
-- **Computer Vision:** Added a segmentation layer to the recognition pipeline, increasing vehicle identification accuracy by **6%**.
+- Architecture: Designed the _Find Me a Truck_ multi-agent system, automating a negotiation flow previously handled manually. Reduced end-to-end response time from 3+ minutes → < 1 minute, reaching dozens of truckers per request.
+- Performance: Reduced LLM latency by +66% with parallel execution, conditional routing, and aggressive caching.
+- Computer Vision: Added segmentation to the OCR pipeline, improving vehicle identification accuracy by 6%.
+- Leadership: Documented internal architecture standards, Git processes, and delivery workflows. Mentored engineers across backend, AI, and frontend workstreams.
 
 ### Techs
 
@@ -48,17 +49,18 @@ TypeScript, Python, Django, React, LangChain, AWS (Lambda, ECS, RDS, SQS), Docke
 
 ---
 
-## Paradigm — _Software Engineer_ (2 yrs 1 mos)
+## Paradigm — Software Engineer
 
-**Apr 2022 – Apr 2024 · Remote**  
+Apr 2022 – Apr 2024 · Remote
+
 Institutional liquidity network for crypto derivatives.
 
 ### Highlights
 
-- **Unified UI:** Consolidated React, React Native, and Electron into a single shared architecture.
-- **High-Performance Systems:** Built & maintained real-time trading flows with **sub-second latency** requirements.
-- **Reliability:** Implemented Playwright E2E workflows for mission-critical trading paths.
-- **Backend:** Developed high-throughput Go microservices for real-time data ingestion & processing.
+- Unified UI: Consolidated React, React Native, and Electron into a shared component architecture.
+- High-Performance Systems: Built and maintained low-latency trading features with sub-second SLAs.
+- Reliability: Implemented Playwright E2E paths for mission-critical trading flows.
+- Leadership: Guided the UI team on architecture, reviewed PRs, and introduced Playwright-based E2E testing to additional teams.
 
 ### Techs
 
@@ -66,59 +68,87 @@ TypeScript, React, React Native, Electron, Go, Kafka, Docker, Node.js, Playwrigh
 
 ---
 
-## Trio — _Senior Software Engineer_ (11 mos)
+## Trio — Senior Software Engineer / Tech Lead
 
-**Jun 2021 – Apr 2022**  
-Technical lead on Node.js-based multi-team projects.
-
-### Highlights
-
-- Directed tech decisions, architecture, and cloud provisioning (AWS/GCP).
-- Led developers, code reviews, and delivery strategy for enterprise clients.
-- Migrated a monolithic UI into a **micro-frontend architecture**, reducing build times by **40%**.
-
-### Techs
-
-TypeScript, Vue.js, Next.js, React, Electron, Koa, Express, GraphQL, Strapi, PostgreSQL, MySQL, Redis, Webpack, GCP (Cloud Functions, BigQuery), Terraform
-
----
-
-## Trio — _Software Engineer_ (1 yr 2 mos)
-
-**May 2020 – Jun 2021**
+Jun 2021 – Apr 2022
 
 ### Highlights
 
-- Defined stacks, implemented features end-to-end, and provisioned infra.
-- Collaborated with clients to convert business constraints into architecture.
-- Shipped multiple apps across frontend, backend, and cloud.
+- Led architecture, delivery strategy, and cloud provisioning (AWS/GCP).
+- Acted as the tech reference across multiple squads (1–8 devs). Mentored juniors, conducted interviews, and advised on promotions.
+- Migrated a monolithic UI into a micro-frontend architecture, reducing build times by 40%.
 
 ### Techs
 
-TypeScript, React, Vue, Next.js, Electron, Express, Koa, Strapi, GraphQL, MySQL, PostgreSQL, Redis, GCP (Functions/BigQuery), AWS S3, Heroku
+TypeScript, Vue.js, Next.js, React, Electron, Koa, Express, GraphQL, Strapi, PostgreSQL, MySQL, Redis, Webpack, GCP, Terraform
 
 ---
 
-## TremTec — _Frontend Lead_ (11 mos)
+## Trio — Software Engineer
 
-**Jul 2019 – May 2020**
-Led the frontend team on multiple client projects, defining technical requirements and delivering scalable SPA solutions using **React**, **TypeScript**, and **GraphQL**.
+May 2020 – Jun 2021
+
+### Highlights
+
+- Delivered features across frontend, backend, and infra end-to-end.
+- Collaborated with clients to transform business constraints into architecture.
+- Shipped production apps across multiple environments.
+
+### Techs
+
+TypeScript, React, Vue, Next.js, Electron, Express, Koa, Strapi, GraphQL, MySQL, PostgreSQL, Redis, GCP, AWS
 
 ---
 
-## netLex — _Software Engineer_ (1 yr)
+## TremTec — Frontend Lead
 
-**Aug 2018 – Jul 2019**
-Full-stack development for a new SPA platform. Built API integrations, database models, and features using **AngularJS**, **Laravel**, and **MySQL**.
+Jul 2019 – May 2020
+
+Led the frontend/UI team. Defined technical requirements, mentored developers, and delivered scalable SPAs using React, TypeScript, and GraphQL.
+
+---
+
+## netLex — Software Engineer
+
+Aug 2018 – Jul 2019
+
+Full-stack development for a new SPA platform using AngularJS, Laravel, and MySQL.
+
+---
+
+# SELECTED PROJECTS
+
+## PonGo — Real-Time Multiplayer Game
+
+Real-time Pong/Breakout hybrid with multi-room support.
+Backend written in Go using a custom Actor Model (Bollywood) enabling high concurrency and zero dependencies.
+
+- Repo: [https://github.com/lguibr/pongo](https://github.com/lguibr/pongo)
+- Live: [https://pongo.luisguilher.me](https://pongo.luisguilher.me)
+
+---
+
+## AlphaTriangle — AlphaZero-Style Reinforcement Learning Agent
+
+AI agent trained to play a custom puzzle game using MCTS, PyTorch, and distributed self-play with Ray.
+Includes async training, stats logging, and exportable ONNX inference models.
+
+- Repo: [https://github.com/lguibr/alphatriangle](https://github.com/lguibr/alphatriangle)
+- Playable: [https://tricrack.luisguilher.me](https://tricrack.luisguilher.me)
+
+---
+
+## MimeFlow — Pose Matching PWA
+
+Real-time pose evaluation app for dance/yoga/martial arts.
+Runs fully in-browser using TensorFlow.js and BlazePose for body tracking and scoring.
+
+- Repo: [https://github.com/lguibr/Mimeflow](https://github.com/lguibr/Mimeflow)
+- Live: [https://mimeflow.luisguilher.me](https://mimeflow.luisguilher.me)
 
 ---
 
 # EDUCATION
 
-**Physics (Undergraduate Studies)** — Universidade Federal de Minas Gerais (2018–2022)  
-**Tech. Information Technology** — CEFET-MG (2006–2008)
-
---
-Interested in roles involving AI systems, distributed architectures, high-performance engineering, or LLM infrastructure.
-
----
+- Physics (Undergraduate Studies) — Universidade Federal de Minas Gerais (2018–2022)
+- Tech. Information Technology — CEFET-MG (2006–2008)
