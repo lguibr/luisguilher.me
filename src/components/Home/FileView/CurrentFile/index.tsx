@@ -340,6 +340,13 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
 
   const currentExt = extractExtension(currentFilePath)
 
+  console.log('[CurrentFile] Render:', {
+    path: currentFilePath,
+    isDiff: fileDataFromContext.isDiff,
+    isPreview,
+    displayContentLen: displayContent.length
+  })
+
   const content = (
     <>
       {isMarkdown && isPreview ? (

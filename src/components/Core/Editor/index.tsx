@@ -94,7 +94,7 @@ const Editor: React.FC<EditorProps> = ({
     <MonacoEditor
       options={options}
       language={currentExt}
-      value={currentContent}
+      defaultValue={currentContent}
       theme={selectedTheme === 'vs-dark' ? 'modern-dark' : 'modern-light'}
       beforeMount={defineMonacoThemes}
       onMount={handleOnMount}

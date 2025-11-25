@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit"
   },
   "engines": {
-    "node": "18.x"
+    "node": "22.x"
   },
   "husky": {
     "hooks": {
@@ -43,7 +43,6 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",
-    "@types/mermaid": "^8.2.22",
     "@types/react": "17.0.17",
     "@types/styled-components": "^5.1.12",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
