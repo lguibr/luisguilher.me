@@ -204,7 +204,9 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
             f.path === 'resume' ||
             f.path.startsWith('resume/') ||
             f.path === 'repositories' ||
-            f.path.startsWith('repositories/')
+            f.path.startsWith('repositories/') ||
+            f.path === 'CURRICULUM.md' ||
+            f.path === 'README.md'
         )
         // No explicit root node needed for main repo
       } else {

@@ -10,38 +10,16 @@
   <strong>Live:</strong> https://luisguilher.me  
 </p>
 
-<p align="center">
-  <a href="https://vercel.com"> <img src="https://img.shields.io/badge/Vercel-Deploy-black?logo=vercel" /> </a>
-  <img src="https://img.shields.io/badge/TypeScript-4.0-blue?logo=typescript" />
-  <img src="https://img.shields.io/badge/Next.js-11-black?logo=next.js" />
-  <img src="https://img.shields.io/badge/React-17-61dafb?logo=react&logoColor=black" />
-  <img src="https://img.shields.io/badge/Monaco_Editor-embedded-blue?logo=visual-studio-code" />
-</p>
+This is not just a portfolio. It is a **miniature IDE**, wired with real state management, a virtual file system, code rendering, and an internal architecture designed like a production system.
 
----
-
-# 🌌 Overview
-
-**`luisguilher.me`** is my personal playground:
-a fully interactive, VS Code–like environment where you can explore my resume, open files, read code, view diagrams, inspect repositories, and even print a professional CV using **Ctrl+P**.
-
-It’s not “a portfolio”.
-It's a **miniature IDE**, wired with real state management, real tree views, real code rendering, real diffing, and internal architecture designed like a production system.
-
-This repo is a mix of:
-
-* ⚡ Systems engineering
-* 🎨 UI architecture
-* 🧠 Developer experience design
-* 🔍 Observability + deterministic behavior
-* ⚙️ Physics-driven thinking applied to front-end
+You can explore my resume, open files, read code, view diagrams, inspect repositories, and even print a professional CV using **Ctrl+P** or the download button.
 
 ---
 
 # 🧭 Quick Navigation
 
 * **[Live App](https://luisguilher.me)**
-* **[Curriculum (Ctrl + P inside the app)](public/cv.pdf)**
+* **[Curriculum (Ctrl + P)](public/cv.pdf)**
 * **[My GitHub](https://github.com/lguibr)**
 
 ---
@@ -88,9 +66,8 @@ flowchart TD
 mindmap
   root((FileContext))
     Static Files
-      resume.md
-      projects.md
-      skills.json
+      CURRICULUM.md
+      README.md
     Local App Code
       /src
       /components
@@ -99,8 +76,6 @@ mindmap
       /repositories
         fetched from GitHub API
 ```
-
----
 
 ## **Binary Tree of Views**
 
@@ -111,103 +86,64 @@ graph TD
     A[Root Pane]
     A --> B[Left Pane]
     A --> C[Right Pane]
-    B --> D[file: README.md]
-    C --> E[file: projects.md]
-    C --> F[file: timing/src/index.ts]
+    B --> D[file: CURRICULUM.md]
+    C --> E[file: README.md]
+    C --> F[file: src/pages/_app.tsx]
 ```
 
 ---
 
 # ✨ Features
 
+### 📄 Interactive Curriculum
+My resume is a live markdown file (`CURRICULUM.md`). You can read it, edit it (in memory), and interact with it just like code.
+
+### 🖨️ Print-Ready PDF
+Need a copy? Click the **Download PDF** button in the sidebar or press **Ctrl + P**. The app generates a clean, ATS-friendly PDF of my curriculum, stripping away the UI and formatting it perfectly for recruiters.
+
 ### 🧩 VS Code–Inspired Interface
-
-Everything feels familiar: explorer, tabs, editor, markdown preview, diff viewer.
-
-### 🧭 Interactive Onboarding Tour
-
-Guides users through the environment step-by-step.
-
-### 🛠️ Self-Hosted Source Code Viewer
-
-Like opening a project folder inside VS Code.
+Everything feels familiar: explorer, tabs, editor, markdown preview, and diff viewer.
 
 ### 📁 GitHub Repositories Browser
-
-Your public repos appear as folders inside the app — fully browsable.
+My public repositories appear as folders inside the app. You can browse the actual code of my projects without leaving the site.
 
 ### 🔍 Global Text Search
-
-Search through open files or modified buffers.
-
-### 🧬 Diff Mode (Source Control Tab)
-
-Compare file content with the original version.
-
-### 📝 Markdown Preview (with Mermaid)
-
-Full diagram rendering, live toggling between raw/editor.
+Search through all open files and loaded repositories instantly.
 
 ### 🎨 Canvas Sketch Engine
-
-p5.js-powered animations tied to IDE interactions.
-
-### 🖨️ Print-Ready CV
-
-Generated via `Ctrl + P` with layout optimized for recruiters.
+p5.js-powered animations that react to your interactions, adding a layer of "physics" to the experience.
 
 ### 🎛️ Theme Toggle
-
-`Ctrl + Q` → Light/Dark
-
----
-
-# 🧪 Stack
-
-* **Next.js 14**
-* **React 18**
-* **TypeScript**
-* **Monaco Editor**
-* **p5.js**
-* **Styled Components**
-* **Mermaid**
-* **React Resizable Panels**
-* **Reactour**
-* **Vercel (Edge deploy)**
+**Ctrl + Q** switches between a sleek dark mode and a clean light mode.
 
 ---
 
-# 🏗️ Project Structure (Clean Overview)
+# 🚀 Selected Projects
 
-```bash
-luisguilher.me/
-├── public/              # Static assets
-├── src/
-│   ├── assets/          # Resume, projects, skillsets
-│   ├── components/      # UI components
-│   ├── contexts/        # File tree, views, theme, loading...
-│   ├── hooks/           # Custom hooks
-│   ├── pages/           # Next.js routes
-│   ├── reducers/        # State reducers
-│   ├── services/        # API integrations
-│   └── styles/          # Themes, global styles
-└── ...
-```
+### [PonGo](https://pongo.luisguilher.me)
+<img src="https://raw.githubusercontent.com/lguibr/pongo/main/bitmap.png" width="100px" />
 
----
+**Multi-Room Pong/Breakout Hybrid**
+A real-time multiplayer game combining Pong and Breakout. Built with a **Go backend** using a custom **Actor Model** library (Bollywood) for high concurrency and zero dependencies.
+* **Live:** [pongo.luisguilher.me](https://pongo.luisguilher.me)
+* **Repo:** [github.com/lguibr/pongo](https://github.com/lguibr/pongo)
 
-# 🧠 Why This Exists
+### [AlphaTriangle](https://tricrack.luisguilher.me)
+<img src="https://raw.githubusercontent.com/lguibr/alphatriangle/main/bitmap.png" width="100px" />
 
-I wanted a portfolio that **shows**, not “tells”.
+**AlphaZero-style AI Agent**
+An AI agent that learns to play a custom puzzle game using **Reinforcement Learning**, **MCTS**, and **PyTorch**. Features distributed self-play via Ray and asynchronous stats logging.
+* **Playable Game:** [tricrack.luisguilher.me](https://tricrack.luisguilher.me)
+* **Repo:** [github.com/lguibr/alphatriangle](https://github.com/lguibr/alphatriangle)
 
-Instead of a static page saying “I like TypeScript”,
-you actually interact with a **real TypeScript environment**.
+### [MimeFlow](https://mimeflow.luisguilher.me)
+<img src="https://raw.githubusercontent.com/lguibr/Mimeflow/main/bitmap.png" width="100px" />
 
-Instead of a PDF saying “I do system design”,
-you see system-level structures inside the app.
+**Pose Matching PWA**
+An interactive app for practicing poses (dance, yoga, martial arts). Uses **TensorFlow.js** and **BlazePose** for real-time body tracking and scoring in the browser.
+* **Live:** [mimeflow.luisguilher.me](https://mimeflow.luisguilher.me)
+* **Repo:** [github.com/lguibr/Mimeflow](https://github.com/lguibr/Mimeflow)
 
-Instead of reading “I think like an engineer”,
-you walk inside my mental model.
 
 ---
 
@@ -230,14 +166,13 @@ Visit `http://localhost:3000`.
 * Print CV → **Ctrl + P**
 * Restart tour → **Ctrl + Shift + 2**
 * Flash loading animation → **Ctrl + Space**
-* Toggle Markdown editor → *Double-click markdown preview*
+* Toggle Markdown preview → **Double-click editor**
 
 ---
 
 # 🤝 Contributing
 
-Open a PR.
-I care about code clarity and deterministic behavior — lint before committing:
+Open a PR. I care about code clarity and deterministic behavior.
 
 ```bash
 yarn lint
@@ -248,11 +183,3 @@ yarn lint
 # 📄 License
 
 MIT — feel free to fork, remix, or learn from the architecture.
-
----
-
-# 🛸 Final Note
-
-Thanks for visiting.
-Explore the code. Break it. Improve it.
-The whole point of this project is **experimentation**.

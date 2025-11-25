@@ -21,7 +21,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
         <SideBarProvider>
           <FileProvider>
             <FileViewsProvider
-              initialOpenedFile={['README.md', 'CURRICULUM.md']}
+              initialOpenedFile={['CURRICULUM.md', 'README.md']}
             >
               <PrintProvider>
                 <LoadingProvider>

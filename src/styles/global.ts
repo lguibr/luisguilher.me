@@ -148,4 +148,17 @@ export default createGlobalStyle`
       box-shadow: 0 0 20px rgba(102, 126, 234, 0.8), 0 0 40px rgba(118, 75, 162, 0.4);
     }
   }
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    #printable-content, #printable-content * {
+      visibility: visible;
+    }
+    #printable-content {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
 `

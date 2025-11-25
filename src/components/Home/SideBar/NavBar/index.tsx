@@ -24,6 +24,7 @@ type Variant =
   | 'extensions'
   | 'profile'
   | 'settings'
+  | 'download'
 
 type OptionType = {
   variant: Variant
@@ -139,6 +140,12 @@ const NavBar: React.FC = () => {
             window?.open('https://github.com/lguibr/luisguilher.me/issues/new')
         }
       ]
+    },
+    {
+      variant: 'download',
+      onClick: () => {
+        print && print()
+      }
     }
   ]
 
@@ -178,9 +185,18 @@ const NavBar: React.FC = () => {
               isSelectedSection={false}
               key={option.variant}
             >
-              <FloatMenu options={option?.options}>
-                <Icon variant={option.variant} height="30px" width="30px" />
-              </FloatMenu>
+              {option.options ? (
+                <FloatMenu options={option?.options}>
+                  <Icon variant={option.variant} height="30px" width="30px" />
+                </FloatMenu>
+              ) : (
+                <div
+                  onClick={option.onClick}
+                  style={{ cursor: 'pointer', display: 'flex' }}
+                >
+                  <Icon variant={option.variant} height="30px" width="30px" />
+                </div>
+              )}
             </Option>
           ))}
         </Section>

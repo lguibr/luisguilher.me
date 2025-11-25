@@ -8,6 +8,7 @@ type SelectedSectionType =
   | 'extensions'
   | 'profile'
   | 'settings'
+  | 'download'
 
 export type SideBasContextType = {
   open: boolean

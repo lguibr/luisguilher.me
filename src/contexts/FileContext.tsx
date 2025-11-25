@@ -270,7 +270,7 @@ export const FileProvider: React.FC = ({ children }) => {
 
   // --- Other State ---
   const diffFiles = files.filter(({ isDiff, diff }) => isDiff && diff)
-  const [focusedFile, setFocusedFile] = useState<string | null>('README.md')
+  const [focusedFile, setFocusedFile] = useState<string | null>('CURRICULUM.md')
   const [focusedFileView, setFocusedFileView] = useState<number>(0)
 
   // --- Provider Value ---
