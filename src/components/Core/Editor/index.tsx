@@ -3,7 +3,7 @@ import useContextTheme from 'src/hooks/useContextTheme'
 import MonacoEditor, { Monaco } from '@monaco-editor/react'
 import { defineMonacoThemes } from 'src/styles/monaco'
 
-import { useRef } from 'react'
+import { useMemo, useCallback, useEffect, useRef } from 'react'
 
 type EditorProps = {
   currentExt: string
@@ -11,85 +11,100 @@ type EditorProps = {
   onChange: (value?: string | undefined) => void
 }
 
+const LoadingEditor = () => {
+  return <div></div>
+}
+
 const Editor: React.FC<EditorProps> = ({
   currentExt,
   currentContent,
   onChange
 }) => {
-  const LoadingEditor = () => {
-    return <div></div>
-  }
+  useEffect(() => {
+    console.log('[CoreEditor] Mounted')
+    return () => console.log('[CoreEditor] Unmounted')
+  }, [])
 
   const editorRef = useRef(null)
 
   const { selectedTheme } = useContextTheme()
   const { isMedium } = useWindow()
 
-  const agnosticConfig = {
-    quickSuggestions: false
-  }
+  const handleEditorDidMount = useCallback(
+    (monaco: Monaco, editor: Monaco) => {
+      monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+        noLib: true,
+        allowNonTsExtensions: true
+      })
 
-  const hideLineNumberOptions = {
-    lineNumbers: 'off',
-    glyphMargin: false,
-    folding: false,
-    lineDecorationsWidth: 0,
-    lineNumbersMinChars: 0,
-    ...agnosticConfig,
-    wordWrap: 'on',
-    fontSize: '12px',
-    tabSize: 1,
-    minimap: {
-      enabled: false
+      editorRef.current = editor
+
+      monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+        noSemanticValidation: true,
+        noSyntaxValidation: true,
+        onlyVisible: true
+      })
+
+      monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+        comments: 'ignore'
+      })
+    },
+    [editorRef]
+  )
+
+  const options = useMemo(() => {
+    const agnosticConfig = {
+      quickSuggestions: false
     }
-  }
 
-  const showLineNumberOptions = {
-    lineNumbers: 'on',
-    glyphMargin: true,
-    wordWrap: 'on',
-    folding: true,
-    ...agnosticConfig,
-    minimap: {
-      enabled: true
+    const hideLineNumberOptions = {
+      lineNumbers: 'off',
+      glyphMargin: false,
+      folding: false,
+      lineDecorationsWidth: 0,
+      lineNumbersMinChars: 0,
+      ...agnosticConfig,
+      wordWrap: 'on',
+      fontSize: '12px',
+      tabSize: 1,
+      minimap: {
+        enabled: false
+      }
     }
-  }
 
-  const handleEditorDidMount = (monaco: Monaco, editor: Monaco) => {
-    monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
-      noLib: true,
-      allowNonTsExtensions: true
-    })
+    const showLineNumberOptions = {
+      lineNumbers: 'on',
+      glyphMargin: true,
+      wordWrap: 'on',
+      folding: true,
+      ...agnosticConfig,
+      minimap: {
+        enabled: true
+      }
+    }
 
-    editorRef.current = editor
+    return isMedium
+      ? { ...hideLineNumberOptions }
+      : { ...showLineNumberOptions }
+  }, [isMedium])
 
-    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
-      noSemanticValidation: true,
-      noSyntaxValidation: true,
-      onlyVisible: true
-    })
-
-    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-      comments: 'ignore'
-    })
-  }
-
-  const options = isMedium
-    ? { ...hideLineNumberOptions }
-    : { ...showLineNumberOptions }
+  const handleOnMount = useCallback(
+    (editor: Monaco, monaco: Monaco) => {
+      handleEditorDidMount(monaco, editor)
+    },
+    [handleEditorDidMount]
+  )
 
   return (
     <MonacoEditor
       options={options}
       language={currentExt}
       value={currentContent}
-
       theme={selectedTheme === 'vs-dark' ? 'modern-dark' : 'modern-light'}
       beforeMount={defineMonacoThemes}
-      onMount={(editor, monaco) => handleEditorDidMount(monaco, editor)}
+      onMount={handleOnMount}
       loading={<LoadingEditor />}
       onChange={onChange}
-      line={1}
     />
   )
 }

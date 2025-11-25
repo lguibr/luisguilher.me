@@ -19,7 +19,11 @@ export default class MyDocument extends Document {
           <meta charSet="utf-8" />
           {/* Preconnect to Google Fonts for performance */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+          <link
+            rel="preconnect"
+            href="https://fonts.gstatic.com"
+            crossOrigin="anonymous"
+          />
 
           {/* Modern font families */}
           <link

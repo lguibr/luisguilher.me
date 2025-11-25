@@ -64,7 +64,7 @@ export const useTree = (): {
         ...(isFileType(node) ? node : {}), // Spread existing FileType first
         path: cleanPath,
         name: name,
-        type: initialType, // Will be refined later
+        type: initialType as FileType['type'], // Will be refined later
         sha:
           ('sha' in node ? node.sha : undefined) ??
           (isRawTreeNode(node) ? node.sha : undefined),

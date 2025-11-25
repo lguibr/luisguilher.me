@@ -1,5 +1,5 @@
 // File: src/components/Home/FileView/CurrentFile/index.tsx
-import { useEffect, useState, useRef, useMemo } from 'react'
+import { useEffect, useState, useRef, useMemo, useCallback } from 'react'
 import githubService from 'src/services/github'
 import useExtension from 'src/hooks/useExtension'
 import useContextLoading from 'src/hooks/useLoading'
@@ -17,7 +17,12 @@ import PenIcon from 'public/icons/pen.svg'
 
 const DynamicMarkdownPreview = dynamic(
   () => import('src/components/Core/MarkdownPreview'),
-  { ssr: false, loading: () => <SkeletonLoader /> }
+  {
+    ssr: false,
+    loading: function Loading() {
+      return <SkeletonLoader />
+    }
+  }
 )
 
 const parsePath = (
@@ -239,8 +244,9 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
             `[CurrentFile] Error fetching content for ${currentFilePath}:`,
             error
           )
-          const errorMsg = `// Error loading file: ${fileData.name}\n// ${error.message || error
-            }`
+          const errorMsg = `// Error loading file: ${fileData.name}\n// ${
+            error.message || error
+          }`
           if (displayContent !== errorMsg) setDisplayContent(errorMsg)
           const currentFileData = findTreeFile(currentFilePath)
           if (currentFileData?.image) setImage(currentFileData, undefined)
@@ -293,15 +299,16 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
     }
   }
 
-  const handleContentChange = (value?: string) => {
-    const fileData = currentFileObject
-    if (fileData && !isCurrentDirectory) {
-      setNewContent(fileData, value || '')
-      if (displayContent !== (value || '')) {
+  const handleContentChange = useCallback(
+    (value?: string) => {
+      const fileData = currentFileObject
+      if (fileData && !isCurrentDirectory) {
+        setNewContent(fileData, value || '')
         setDisplayContent(value || '')
       }
-    }
-  }
+    },
+    [currentFileObject, isCurrentDirectory, setNewContent]
+  )
 
   // --- Render Logic ---
   if (!currentFilePath) {
@@ -320,7 +327,7 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
   if (isCurrentDirectory) {
     return (
       <CoreEditor
-        onChange={() => { }}
+        onChange={() => undefined}
         currentContent={displayContent}
         currentExt={'plaintext'}
       />
@@ -367,8 +374,15 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
   if (isMarkdown && !isCurrentDirectory) {
     return (
       <Container>
-        <ToggleButton onClick={() => setIsPreview(prev => !prev)} title={isPreview ? "Edit Markdown" : "Preview Markdown"}>
-          {isPreview ? <PenIcon width="16px" height="16px" /> : <EyeIcon width="16px" height="16px" />}
+        <ToggleButton
+          onClick={() => setIsPreview(prev => !prev)}
+          title={isPreview ? 'Edit Markdown' : 'Preview Markdown'}
+        >
+          {isPreview ? (
+            <PenIcon width="16px" height="16px" />
+          ) : (
+            <EyeIcon width="16px" height="16px" />
+          )}
         </ToggleButton>
         {content}
       </Container>

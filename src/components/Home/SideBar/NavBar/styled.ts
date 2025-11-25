@@ -29,4 +29,22 @@ export const Option = styled.div<OptionProp>`
   padding: 10px;
   border-left: ${({ theme, isSelectedSection }) =>
     isSelectedSection && `2px solid  ${theme.colors.accentColor}`};
+  position: relative;
+`
+
+export const Badge = styled.div`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: bold;
+  pointer-events: none;
 `

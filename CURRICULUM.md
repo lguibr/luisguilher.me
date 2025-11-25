@@ -34,7 +34,7 @@ Experience across **Fintech (Crypto)**, **Logistics**, and **Supply Chain**, own
 
 ---
 
-# 💼 PROFESSIONAL EXPERIENCE
+# PROFESSIONAL EXPERIENCE
 
 ## trebu (YC S22) — *AI Software Engineer*  (1 yr 5 mos)
 **Jul 2024 – Nov 2025 · Remote**  

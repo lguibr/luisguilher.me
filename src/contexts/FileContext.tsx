@@ -34,6 +34,7 @@ export type FileContextType = {
   focusedFileView: number
   setFocusedFileView: (file: number) => void
   fetchAndMergeRepoTree: (repoName: string) => Promise<void>
+  setFiles: (files: FileType[]) => void
 }
 
 export const FileContext = createContext({} as FileContextType)
@@ -64,6 +65,22 @@ export const FileProvider: React.FC = ({ children }) => {
       type: 'blob',
       content: curriculumContent,
       newContent: curriculumContent
+    },
+    {
+      path: 'README.md__working__tree__',
+      name: 'README.md',
+      type: 'blob',
+      content: readmeContent,
+      newContent: readmeContent,
+      isDiff: true
+    },
+    {
+      path: 'CURRICULUM.md__working__tree__',
+      name: 'CURRICULUM.md',
+      type: 'blob',
+      content: curriculumContent,
+      newContent: curriculumContent,
+      isDiff: true
     }
   ]
 
@@ -75,6 +92,10 @@ export const FileProvider: React.FC = ({ children }) => {
   const fetchingReposRef = useRef<Record<string, boolean>>({})
 
   // --- Stable Action Dispatchers ---
+  const setFiles = useCallback((files: FileType[]) => {
+    dispatch({ type: 'SET_FILES', payload: files })
+  }, [])
+
   const setImage = useCallback(
     (selectedFile: FileType, image: JSX.Element | undefined) => {
       dispatch({ type: 'SET_IMAGE', payload: { ...selectedFile, image } })
@@ -249,9 +270,7 @@ export const FileProvider: React.FC = ({ children }) => {
 
   // --- Other State ---
   const diffFiles = files.filter(({ isDiff, diff }) => isDiff && diff)
-  const [focusedFile, setFocusedFile] = useState<string | null>(
-    'README.md'
-  )
+  const [focusedFile, setFocusedFile] = useState<string | null>('README.md')
   const [focusedFileView, setFocusedFileView] = useState<number>(0)
 
   // --- Provider Value ---
@@ -269,7 +288,8 @@ export const FileProvider: React.FC = ({ children }) => {
         findTreeFile,
         focusedFileView,
         setFocusedFileView,
-        fetchAndMergeRepoTree
+        fetchAndMergeRepoTree,
+        setFiles
       }}
     >
       {children}

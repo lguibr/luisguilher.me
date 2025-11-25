@@ -1,8 +1,9 @@
 import Icon from 'src/components/Core/Icons'
-import { Section, Option, Container } from './styled'
+import { Section, Option, Container, Badge } from './styled'
 import useSideBar from 'src/hooks/useSideBar'
 import FloatMenu from 'src/components/Core/FloatMenu'
 import useContextTheme from 'src/hooks/useContextTheme'
+import useContextFile from 'src/hooks/useContextFile'
 import { useContextPrint } from 'src/hooks/useContextPrint'
 import { useContextGuideTour } from 'src/hooks/useGuideTour'
 import { useState } from 'react'
@@ -40,6 +41,7 @@ const NavBar: React.FC = () => {
   const { toggleTheme } = useContextTheme()
   const { setTour } = useContextGuideTour()
   const { selectedSection, setSelectedSection, setOpen, open } = useSideBar()
+  const { diffFiles } = useContextFile()
   const [showDebugAnimation, setShowDebugAnimation] = useState(false)
   const [debugSketchName, setDebugSketchName] = useState<string | null>(null)
 
@@ -163,6 +165,9 @@ const NavBar: React.FC = () => {
               key={option.variant}
             >
               <Icon variant={option.variant} height="30px" width="30px" />
+              {option.variant === 'source' && diffFiles.length > 0 && (
+                <Badge>{diffFiles.length}</Badge>
+              )}
             </Option>
           ))}
         </Section>

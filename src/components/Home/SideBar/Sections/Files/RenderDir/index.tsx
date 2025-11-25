@@ -89,11 +89,14 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
             <Container
               embedded={embedded}
               isHighLighted={
-                file?.path === focusedFile ||
-                (focusedFile &&
-                  hasLoadedChildren &&
-                  file.children.length > 0 &&
-                  focusedFile.startsWith(file.path + '/'))
+                !!(
+                  file?.path === focusedFile ||
+                  (focusedFile &&
+                    hasLoadedChildren &&
+                    file.children &&
+                    file.children.length > 0 &&
+                    focusedFile.startsWith(file.path + '/'))
+                )
               }
               key={file.path}
             >

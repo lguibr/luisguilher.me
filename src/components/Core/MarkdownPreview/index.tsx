@@ -1,4 +1,5 @@
 // File: src/components/Core/MarkdownPreview/index.tsx
+// eslint-disable-next-line no-use-before-define
 import React, { useEffect, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -54,7 +55,10 @@ const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({ markdown }) => {
             const mermaidElements =
               containerRef.current.querySelectorAll('.language-mermaid')
             if (mermaidElements.length > 0) {
-              mermaid.init(undefined, mermaidElements as NodeListOf<HTMLElement>)
+              mermaid.init(
+                undefined,
+                mermaidElements as NodeListOf<HTMLElement>
+              )
             }
           }
         }, 100)
@@ -68,10 +72,7 @@ const MarkdownPreview: React.FC<MarkdownPreviewProps> = ({ markdown }) => {
 
   return (
     <MarkdownContainer ref={containerRef}>
-      <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw]}
-      >
+      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
         {markdown}
       </ReactMarkdown>
     </MarkdownContainer>

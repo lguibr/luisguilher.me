@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-use-before-define
 import React from 'react'
 import styled from 'styled-components'
 
@@ -20,7 +21,13 @@ const GradientLayer = styled.div`
   opacity: 1;
 `
 
-const AnimatedOrb = styled.div<{ size: number; left: string; top: string; delay: number; duration: number }>`
+const AnimatedOrb = styled.div<{
+  size: number
+  left: string
+  top: string
+  delay: number
+  duration: number
+}>`
   position: absolute;
   width: ${props => props.size}px;
   height: ${props => props.size}px;
@@ -31,9 +38,10 @@ const AnimatedOrb = styled.div<{ size: number; left: string; top: string; delay:
   opacity: 0.4;
   animation: float ${props => props.duration}s ease-in-out infinite;
   animation-delay: ${props => props.delay}s;
-  
+
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translate(0, 0) scale(1);
     }
     25% {
@@ -49,15 +57,27 @@ const AnimatedOrb = styled.div<{ size: number; left: string; top: string; delay:
 `
 
 const PurpleOrb = styled(AnimatedOrb)`
-  background: radial-gradient(circle, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.4) 100%);
+  background: radial-gradient(
+    circle,
+    rgba(102, 126, 234, 0.8) 0%,
+    rgba(118, 75, 162, 0.4) 100%
+  );
 `
 
 const CyanOrb = styled(AnimatedOrb)`
-  background: radial-gradient(circle, rgba(0, 245, 255, 0.6) 0%, rgba(0, 150, 255, 0.3) 100%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 245, 255, 0.6) 0%,
+    rgba(0, 150, 255, 0.3) 100%
+  );
 `
 
 const PinkOrb = styled(AnimatedOrb)`
-  background: radial-gradient(circle, rgba(255, 107, 157, 0.6) 0%, rgba(245, 87, 108, 0.3) 100%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 107, 157, 0.6) 0%,
+    rgba(245, 87, 108, 0.3) 100%
+  );
 `
 
 const NoiseOverlay = styled.div`
@@ -70,21 +90,21 @@ const NoiseOverlay = styled.div`
 `
 
 const AmbientBackground: React.FC = () => {
-    return (
-        <BackgroundContainer>
-            <GradientLayer />
+  return (
+    <BackgroundContainer>
+      <GradientLayer />
 
-            {/* Floating orbs */}
-            <PurpleOrb size={600} left="10%" top="20%" delay={0} duration={20} />
-            <CyanOrb size={500} left="70%" top="60%" delay={2} duration={25} />
-            <PinkOrb size={450} left="50%" top="10%" delay={4} duration={22} />
-            <PurpleOrb size={400} left="80%" top="30%" delay={6} duration={28} />
-            <CyanOrb size={350} left="20%" top="70%" delay={8} duration={24} />
+      {/* Floating orbs */}
+      <PurpleOrb size={600} left="10%" top="20%" delay={0} duration={20} />
+      <CyanOrb size={500} left="70%" top="60%" delay={2} duration={25} />
+      <PinkOrb size={450} left="50%" top="10%" delay={4} duration={22} />
+      <PurpleOrb size={400} left="80%" top="30%" delay={6} duration={28} />
+      <CyanOrb size={350} left="20%" top="70%" delay={8} duration={24} />
 
-            {/* Subtle noise texture */}
-            <NoiseOverlay />
-        </BackgroundContainer>
-    )
+      {/* Subtle noise texture */}
+      <NoiseOverlay />
+    </BackgroundContainer>
+  )
 }
 
 export default AmbientBackground

@@ -1,4 +1,5 @@
 // File: src/services/github/index.ts
+/* eslint-disable camelcase */
 const defaultBranchSha = process.env.SHA_BRANCH || 'main'
 const defaultRepo = process.env.REPO
 const defaultOwner = process.env.OWNER

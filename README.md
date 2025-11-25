@@ -3,7 +3,7 @@
 ### *An interactive, VS Code–powered portfolio. Built with systems thinking, physics-driven design, and stupidly high standards.*
 
 <p align="center">
-  <img src="https://github.com/lguibr/luisguilher.me/blob/main/public/favicon.png" width="180" />
+  <img src="https://raw.githubusercontent.com/lguibr/luisguilher.me/main/public/favicon.png" width="180" />
 </p>
 
 <p align="center">
@@ -57,15 +57,15 @@ Everything inside the site simulates **how I think**, **how I design systems**, 
 
 ```mermaid
 flowchart TD
-    A[User visits luisguilher.me] --> B[Next.js App Shell]
-    B --> C[IDE UI Layer]
-    C --> D[Tree of Files]
-    C --> E[Binary Tree of Views]
-    C --> F[Monaco Editor Instance]
-    F --> G[Markdown Renderer + Mermaid]
-    C --> H[Interactive Canvas Engine (p5.js)]
-    C --> I[Repositories Fetcher]
-    I --> J[GitHub API]
+    A["User visits luisguilher.me"] --> B["Next.js App Shell"]
+    B --> C["IDE UI Layer"]
+    C --> D["Tree of Files"]
+    C --> E["Binary Tree of Views"]
+    C --> F["Monaco Editor Instance"]
+    F --> G["Markdown Renderer + Mermaid"]
+    C --> H["Interactive Canvas Engine (p5.js)"]
+    C --> I["Repositories Fetcher"]
+    I --> J["GitHub API"]
 
     D <---> E
     E <---> F

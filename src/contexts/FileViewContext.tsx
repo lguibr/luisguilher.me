@@ -297,7 +297,8 @@ export const FileViewsProvider: React.FC<{
         findNodeById,
         fileViewsTree,
         removeNode,
-        setOrientation
+        setOrientation,
+        getRootId
       }}
     >
       {children}

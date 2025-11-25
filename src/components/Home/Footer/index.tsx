@@ -8,14 +8,14 @@ const Footer: React.FC = () => {
   const [isDeleting, setIsDeleting] = useState(false)
 
   const messages = [
-    "Compiling...",
-    "Downloading more RAM...",
-    "Refactoring the universe...",
-    "Debugging life...",
-    "Asking Stack Overflow...",
-    "Drinking coffee...",
-    "Centering a div...",
-    "Merging to main...",
+    'Compiling...',
+    'Downloading more RAM...',
+    'Refactoring the universe...',
+    'Debugging life...',
+    'Asking Stack Overflow...',
+    'Drinking coffee...',
+    'Centering a div...',
+    'Merging to main...'
   ]
 
   useEffect(() => {
@@ -29,7 +29,9 @@ const Footer: React.FC = () => {
         setIsDeleting(false)
         setMessageIndex((prev: number) => (prev + 1) % messages.length)
       } else {
-        setText(currentMessage.substring(0, text.length + (isDeleting ? -1 : 1)))
+        setText(
+          currentMessage.substring(0, text.length + (isDeleting ? -1 : 1))
+        )
       }
     }, typeSpeed)
 
@@ -41,7 +43,10 @@ const Footer: React.FC = () => {
       <Content>
         <Info>
           <Text color="white" weight="600" size={13}>
-            <span>{text}<span style={{ opacity: 0.5 }}>|</span></span>
+            <span>
+              {text}
+              <span style={{ opacity: 0.5 }}>|</span>
+            </span>
           </Text>
         </Info>
       </Content>
