@@ -1,3 +1,4 @@
+# File: src/components/Core/README.md
 # src/components/Core/README.md
 
 This directory houses the core, reusable React components of the application. These components are designed to be generic building blocks, independent of the specific features of the main "Home" view.
@@ -16,6 +17,7 @@ This directory houses the core, reusable React components of the application. Th
 - **`Icons/`**: A simple component to render SVG icons.
 - **`InputText/`**: A basic styled text input component.
 - **`Loading/`**: Displays loading animations using the `AnimationOverlay` component (defaults to "Bouncing" sketch).
+- **`MarkdownPreview/`**: Renders Markdown content as HTML, including support for Mermaid diagrams. Used for `.md` files.
 - **`Modal/`**: A generic modal component with a background overlay.
 - **`P5Preloader/`**: A simple, invisible component that triggers the dynamic `import('p5')` on client-side mount to preload the library.
 - **`Printable/`**: A component containing the resume content formatted specifically for printing via `react-to-print`.

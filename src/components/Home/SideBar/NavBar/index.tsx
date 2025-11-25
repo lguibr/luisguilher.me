@@ -86,14 +86,6 @@ const NavBar: React.FC = () => {
       variant: 'profile',
       options: [
         {
-          labels: ['Send me a Whatsapp'],
-          onClick: () => {
-            window.open(
-              'https://web.whatsapp.com/send?phone=5537991640818&lang=en'
-            )
-          }
-        },
-        {
           labels: ['Send me a Email'],
           onClick: () => {
             window.open(

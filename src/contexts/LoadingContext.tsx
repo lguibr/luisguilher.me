@@ -48,33 +48,10 @@ export const LoadingProvider: React.FC = ({ children }) => {
     [hideOverlay]
   )
 
-  // setLoading controls the overlay state during general loading periods
+  // setLoading controls the general loading state
   const setLoading = useCallback((isLoading: boolean) => {
-    setLoadingState(isLoading) // Update the general loading state first
-    if (isLoading) {
-      const sketchNames = Object.keys(sketchFactoryMap)
-      if (sketchNames.length > 0) {
-        const randomIndex = Math.floor(Math.random() * sketchNames.length)
-        const randomSketchName = sketchNames[randomIndex]
-        console.log(
-          `[LoadingContext] setLoading(true) triggered. Showing random sketch: ${randomSketchName}`
-        )
-        // Set sketch directly, showOverlay isn't needed here as it's tied to loading state
-        setCurrentSketch(randomSketchName)
-      } else {
-        console.warn(
-          '[LoadingContext] setLoading(true) triggered, but no sketches available.'
-        )
-        setCurrentSketch(null) // Ensure overlay is hidden if no sketches
-      }
-    } else {
-      console.log(
-        '[LoadingContext] setLoading(false) triggered. Hiding overlay.'
-      )
-      // Hide overlay when loading stops
-      setCurrentSketch(null)
-    }
-  }, []) // Removed showOverlay/hideOverlay dependencies as they are not called directly
+    setLoadingState(isLoading)
+  }, [])
 
   return (
     <LoadingContext.Provider

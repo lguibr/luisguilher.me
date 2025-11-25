@@ -2,6 +2,7 @@ import useWindow from 'src/hooks/useWindow'
 import useContextTheme from 'src/hooks/useContextTheme'
 import { useEffect, useRef } from 'react'
 import { DiffEditor, Monaco } from '@monaco-editor/react'
+import { defineMonacoThemes } from 'src/styles/monaco'
 
 type EditorProps = {
   currentExt: string
@@ -91,7 +92,8 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
       language={currentExt}
       original={currentContent}
       modified={currentNewContent}
-      theme={selectedTheme}
+      theme={selectedTheme === 'vs-dark' ? 'modern-dark' : 'modern-light'}
+      beforeMount={defineMonacoThemes}
       onMount={(editor, monaco) => handleEditorDidMount(monaco, editor)}
       loading={<LoadingEditor />}
     />

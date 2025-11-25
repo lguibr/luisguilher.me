@@ -34,17 +34,22 @@ const noop = () => {
   // no op;
 }
 
-export const FileViewsProvider: React.FC<{ initialOpenedFile?: string }> = ({
-  children,
-  initialOpenedFile
-}) => {
+export const FileViewsProvider: React.FC<{
+  initialOpenedFile?: string | string[]
+}> = ({ children, initialOpenedFile }) => {
   const isGuiding =
     typeof window !== 'undefined' &&
     JSON.parse(localStorage?.getItem('GUIDE_TOUR') ?? 'false')
 
+  const initialFiles = Array.isArray(initialOpenedFile)
+    ? initialOpenedFile
+    : initialOpenedFile
+      ? [initialOpenedFile]
+      : []
+
   const [fileViewsTree, setFileViewsTree] = useState<FileViewsContextType>({
-    openedFiles: initialOpenedFile && !isGuiding ? [initialOpenedFile] : [],
-    currentFile: !isGuiding ? initialOpenedFile : undefined,
+    openedFiles: !isGuiding ? initialFiles : [],
+    currentFile: !isGuiding ? initialFiles[0] : undefined,
     orientation: 'bottom',
     id: 0,
     children: [],

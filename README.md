@@ -1,117 +1,258 @@
+# `luisguilher.me`
 
-Welcome to [luisguilher.me](https://luisguilher.me), an immersive web experience showcasing my professional portfolio through an interactive interface inspired by the VS Code IDE. This project demonstrates modern front-end development skills and provides a unique way to explore my resume, skills, and projects.
+### *An interactive, VS Code–powered portfolio. Built with systems thinking, physics-driven design, and stupidly high standards.*
 
 <p align="center">
-  <img src="public/favicon.png" alt="AlphaTriangle Logo" width="300"/>
+  <img src="https://github.com/lguibr/luisguilher.me/blob/main/public/favicon.png" width="180" />
 </p>
 
-## Features
+<p align="center">
+  <strong>Live:</strong> https://luisguilher.me  
+</p>
 
--   **VS Code-like Interface**: Offers a familiar and intuitive environment simulating the popular VS Code IDE.
--   **Welcome Tour**: Guides users through the features interactively.
--   **Self-Hosted Source Code**: Allows code exploration directly within the interface, similar to an IDE.
--   **Multiple File Viewing**: Supports opening and working with multiple files simultaneously with a split-screen feature.
--   **Drag and Drop**: Facilitates easy organization of file views within the workspace.
--   **Text Search**: Enables quick searching for text across all open (and modified) files.
--   **Diff Comparison**: Allows users to track changes and view differences between current and original files in the "Source Control" view.
--   **Interactive Canvas Animations**: Adds visual interest during file loading and when interacting with specific UI elements (e.g., Extensions menu).
--   **Extensive Canvas Collection**: Offers a range of animations accessible through the extensions menu.
--   **Print-Ready CV**: Generate a formatted CV using the shortcut `Ctrl+P`.
--   **Theme Customization**: Personalize the interface with light and dark themes (`Ctrl+Q`).
+<p align="center">
+  <a href="https://vercel.com"> <img src="https://img.shields.io/badge/Vercel-Deploy-black?logo=vercel" /> </a>
+  <img src="https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript" />
+  <img src="https://img.shields.io/badge/Next.js-14-black?logo=next.js" />
+  <img src="https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=black" />
+  <img src="https://img.shields.io/badge/Monaco_Editor-embedded-blue?logo=visual-studio-code" />
+</p>
 
-## Technologies Used
+---
 
--   **Front-end Frameworks/Libraries**: React, Next.js
--   **TypeScript**: Ensures type safety across the project.
--   **Styled Components**: Manages component-level styles and theming. ([See Styling README](./src/styles/README.md))
--   **Monaco Editor**: Provides the core code editor functionality.
--   **P5.js**: Powers the interactive canvas animations. ([See Sketches README](./src/components/Core/Sketchs/README.md))
--   **React Resizable Panels**: Enables splittable view layouts.
--   **Reactour**: Drives the interactive welcome guide.
--   **Deployment**: Hosted on Vercel with Analytics.
+# 🌌 Overview
 
-## Data Structures & State Management
+**`luisguilher.me`** is my personal playground:
+a fully interactive, VS Code–like environment where you can explore my resume, open files, read code, view diagrams, inspect repositories, and even print a professional CV using **Ctrl+P**.
 
--   **Tree of Files**: A hierarchical structure representing the file system (both resume data and project source code), managed within `FileContext`. ([See Contexts README](./src/contexts/README.md))
--   **Binary Tree of Views**: Manages the layout and state (opened files, current file) of potentially split editor panes, managed within `FileViewsContext`. ([See Contexts README](./src/contexts/README.md))
--   **React Context API & `useReducer`**: Used extensively for global state management (Files, Views, Theme, Loading, etc.). ([See Contexts README](./src/contexts/README.md), [Reducers README](./src/reducers/README.md))
+It’s not “a portfolio”.
+It's a **miniature IDE**, wired with real state management, real tree views, real code rendering, real diffing, and internal architecture designed like a production system.
 
-## Installation
+This repo is a mix of:
 
-To run `luisguilher.me` locally:
+* ⚡ Systems engineering
+* 🎨 UI architecture
+* 🧠 Developer experience design
+* 🔍 Observability + deterministic behavior
+* ⚙️ Physics-driven thinking applied to front-end
 
-1.  Clone the repository:
-    ```bash
-    git clone https://github.com/lguibr/luisguilher.me.git
-    ```
-2.  Navigate to the project directory:
-    ```bash
-    cd luisguilher.me
-    ```
-3.  Install dependencies:
-    ```bash
-    yarn install
-    ```
-4.  Start the development server:
-    ```bash
-    yarn dev
-    ```
+---
 
-Visit `http://localhost:3000` in your browser.
+# 🧭 Quick Navigation
 
-## Usage Shortcuts
+* **[Live App](https://luisguilher.me)**
+* **[Curriculum (Ctrl + P inside the app)](public/cv.pdf)**
+* **[My GitHub](https://github.com/lguibr)**
 
--   **Toggle Theme**: `Ctrl + Q`
--   **Print/Download Resume**: `Ctrl + P`
--   **Restart Tour**: `Ctrl + Shift + 2` (or `Ctrl + @`)
--   **Flash Loading Animation**: `Ctrl + Space`
+---
 
-## Project Structure
+# 🔥 Core Idea
 
+*A portfolio that behaves like real software.*
+Everything inside the site simulates **how I think**, **how I design systems**, and **how I write code**.
+
+---
+
+# 🖥️ Architecture (High-Level)
+
+```mermaid
+flowchart TD
+    A[User visits luisguilher.me] --> B[Next.js App Shell]
+    B --> C[IDE UI Layer]
+    C --> D[Tree of Files]
+    C --> E[Binary Tree of Views]
+    C --> F[Monaco Editor Instance]
+    F --> G[Markdown Renderer + Mermaid]
+    C --> H[Interactive Canvas Engine (p5.js)]
+    C --> I[Repositories Fetcher]
+    I --> J[GitHub API]
+
+    D <---> E
+    E <---> F
 ```
+
+**Design Principles**
+
+* Deterministic UIs
+* Stateful, reversible actions
+* Tree-based architectures (like real editors)
+* Zero magic — everything explicit
+
+---
+
+# 🗂️ Editor Internals
+
+## **File Tree (Domain Data + Repo Fusion)**
+
+```mermaid
+mindmap
+  root((FileContext))
+    Static Files
+      resume.md
+      projects.md
+      skills.json
+    Local App Code
+      /src
+      /components
+      /reducers
+    External Repos
+      /repositories
+        fetched from GitHub API
+```
+
+---
+
+## **Binary Tree of Views**
+
+Your split-pane layout is stored as a **binary tree**, just like VS Code.
+
+```mermaid
+graph TD
+    A[Root Pane]
+    A --> B[Left Pane]
+    A --> C[Right Pane]
+    B --> D[file: README.md]
+    C --> E[file: projects.md]
+    C --> F[file: timing/src/index.ts]
+```
+
+---
+
+# ✨ Features
+
+### 🧩 VS Code–Inspired Interface
+
+Everything feels familiar: explorer, tabs, editor, markdown preview, diff viewer.
+
+### 🧭 Interactive Onboarding Tour
+
+Guides users through the environment step-by-step.
+
+### 🛠️ Self-Hosted Source Code Viewer
+
+Like opening a project folder inside VS Code.
+
+### 📁 GitHub Repositories Browser
+
+Your public repos appear as folders inside the app — fully browsable.
+
+### 🔍 Global Text Search
+
+Search through open files or modified buffers.
+
+### 🧬 Diff Mode (Source Control Tab)
+
+Compare file content with the original version.
+
+### 📝 Markdown Preview (with Mermaid)
+
+Full diagram rendering, live toggling between raw/editor.
+
+### 🎨 Canvas Sketch Engine
+
+p5.js-powered animations tied to IDE interactions.
+
+### 🖨️ Print-Ready CV
+
+Generated via `Ctrl + P` with layout optimized for recruiters.
+
+### 🎛️ Theme Toggle
+
+`Ctrl + Q` → Light/Dark
+
+---
+
+# 🧪 Stack
+
+* **Next.js 14**
+* **React 18**
+* **TypeScript**
+* **Monaco Editor**
+* **p5.js**
+* **Styled Components**
+* **Mermaid**
+* **React Resizable Panels**
+* **Reactour**
+* **Vercel (Edge deploy)**
+
+---
+
+# 🏗️ Project Structure (Clean Overview)
+
+```bash
 luisguilher.me/
-│
-├── public/             # Static assets (icons, images)
-│
+├── public/              # Static assets
 ├── src/
-│   ├── assets/         # Static data (contacts, resume sections)
-│   ├── components/     # React components ([README](./src/components/README.md))
-│   │   ├── Core/       # Reusable UI/logic components ([README](./src/components/Core/README.md))
-│   │   └── Home/       # Components specific to the main IDE layout
-│   ├── contexts/       # React Context providers ([README](./src/contexts/README.md))
-│   ├── hooks/          # Custom React hooks ([README](./src/hooks/README.md))
-│   ├── pages/          # Next.js page routes
-│   ├── reducers/       # State reducer functions ([README](./src/reducers/README.md))
-│   ├── services/       # External API interactions ([README](./src/services/README.md))
-│   └── styles/         # Global styles, themes, type definitions ([README](./src/styles/README.md))
-│
-├── .editorconfig       # Editor configuration
-├── .eslintrc.json      # ESLint configuration
-├── .gitignore          # Git ignore rules
-├── next.config.js      # Next.js configuration
-├── package.json        # Project dependencies and scripts
-├── README.md           # This file
-├── tsconfig.json       # TypeScript configuration
-└── yarn.lock           # Dependency lock file
+│   ├── assets/          # Resume, projects, skillsets
+│   ├── components/      # UI components
+│   ├── contexts/        # File tree, views, theme, loading...
+│   ├── hooks/           # Custom hooks
+│   ├── pages/           # Next.js routes
+│   ├── reducers/        # State reducers
+│   ├── services/        # API integrations
+│   └── styles/          # Themes, global styles
+└── ...
 ```
 
-## Contributing
+---
 
-Contributions are welcome!
+# 🧠 Why This Exists
 
-1.  Fork the repository.
-2.  Create a new branch (`git checkout -b feature/your-feature`).
-3.  Make your changes.
-4.  Commit your changes (`git commit -m 'Add some feature'`).
-5.  Push to the branch (`git push origin feature/your-feature`).
-6.  Open a Pull Request.
+I wanted a portfolio that **shows**, not “tells”.
 
-Please ensure your code adheres to the existing linting rules (`yarn lint`).
+Instead of a static page saying “I like TypeScript”,
+you actually interact with a **real TypeScript environment**.
 
-## License
+Instead of a PDF saying “I do system design”,
+you see system-level structures inside the app.
 
-This project is open-source under the MIT License.
+Instead of reading “I think like an engineer”,
+you walk inside my mental model.
 
-## Final Note
+---
 
-Thank you for visiting `luisguilher.me`. Explore, interact, and feel free to connect!
+# 🚦 Local Development
+
+```bash
+git clone https://github.com/lguibr/luisguilher.me
+cd luisguilher.me
+yarn install
+yarn dev
+```
+
+Visit `http://localhost:3000`.
+
+---
+
+# ⌨️ Shortcuts
+
+* Toggle theme → **Ctrl + Q**
+* Print CV → **Ctrl + P**
+* Restart tour → **Ctrl + Shift + 2**
+* Flash loading animation → **Ctrl + Space**
+* Toggle Markdown editor → *Double-click markdown preview*
+
+---
+
+# 🤝 Contributing
+
+Open a PR.
+I care about code clarity and deterministic behavior — lint before committing:
+
+```bash
+yarn lint
+```
+
+---
+
+# 📄 License
+
+MIT — feel free to fork, remix, or learn from the architecture.
+
+---
+
+# 🛸 Final Note
+
+Thanks for visiting.
+Explore the code. Break it. Improve it.
+The whole point of this project is **experimentation**.

@@ -1,18 +1,21 @@
+# File: src/services/README.md
 This directory contains modules responsible for interacting with external services or APIs.
 
 ## Services
 
 - **`github/index.ts`**: Handles communication with the GitHub REST API.
-  - **`fetchFileContent(path)`**: Fetches the content of a specific file from the repository defined by environment variables (`OWNER`, `REPO`, `SHA_BRANCH`). Returns the base64 encoded content.
-  - **`fetchRepoTree()`**: Fetches the entire file tree structure of the repository recursively for the specified branch (`SHA_BRANCH`). Returns a flat array of file/directory objects.
+  - **`fetchFileContent(owner, repo, path, branch)`**: Fetches the content of a specific file from the specified repository, owner, path, and branch. Returns the base64 encoded content.
+  - **`fetchRepoTree(owner, repo, branch)`**: Fetches the entire file tree structure of the specified repository and branch recursively. Returns a flat array of file/directory objects relative to the repo root.
+  - **`fetchUserRepos(username)`**: Fetches a list of public repositories for the specified GitHub username.
 
 ## Configuration
 
 The GitHub service relies on the following environment variables set in `next.config.js`:
 
-- `REPO`: The name of the GitHub repository (e.g., 'luisguilher.me').
-- `OWNER`: The owner of the GitHub repository (e.g., 'lguibr').
-- `SHA_BRANCH`: The branch or commit SHA to fetch data from (e.g., 'main').
+- `REPO`: The name of the *main* GitHub repository (e.g., 'luisguilher.me').
+- `OWNER`: The owner of the *main* GitHub repository (e.g., 'lguibr').
+- `SHA_BRANCH`: The branch or commit SHA to fetch data from for the *main* repository (e.g., 'main').
+- `GITHUB_USERNAME`: The GitHub username whose public repositories should be fetched (e.g., 'lguibr').
 
 ## Usage
 

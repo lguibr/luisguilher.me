@@ -1,6 +1,7 @@
 import useWindow from 'src/hooks/useWindow'
 import useContextTheme from 'src/hooks/useContextTheme'
 import MonacoEditor, { Monaco } from '@monaco-editor/react'
+import { defineMonacoThemes } from 'src/styles/monaco'
 
 import { useRef } from 'react'
 
@@ -82,7 +83,9 @@ const Editor: React.FC<EditorProps> = ({
       options={options}
       language={currentExt}
       value={currentContent}
-      theme={selectedTheme}
+
+      theme={selectedTheme === 'vs-dark' ? 'modern-dark' : 'modern-light'}
+      beforeMount={defineMonacoThemes}
       onMount={(editor, monaco) => handleEditorDidMount(monaco, editor)}
       loading={<LoadingEditor />}
       onChange={onChange}

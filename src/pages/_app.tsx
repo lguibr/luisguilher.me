@@ -20,7 +20,9 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       <UIProvider>
         <SideBarProvider>
           <FileProvider>
-            <FileViewsProvider initialOpenedFile={'resume/complete-resume.yml'}>
+            <FileViewsProvider
+              initialOpenedFile={['README.md', 'CURRICULUM.md']}
+            >
               <PrintProvider>
                 <LoadingProvider>
                   <GuideTourProvider>

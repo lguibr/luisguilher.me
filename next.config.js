@@ -1,4 +1,4 @@
-// next.config.js
+// File: next.config.js
 /** @type {import('next').NextConfig} */
 
 module.exports = {
@@ -6,7 +6,11 @@ module.exports = {
     REPO: 'luisguilher.me',
     OWNER: 'lguibr',
     SHA_BRANCH: 'main',
-    RESUME: 'resume'
+    RESUME: 'resume',
+    GITHUB_USERNAME: 'lguibr',
+    // Expose the PAT from the build environment (e.g., .env.local)
+    // For Vercel deployment, set this as an Environment Variable in the project settings.
+    GITHUB_PAT: process.env.GITHUB_PAT
   },
   reactStrictMode: true,
   webpack(config) {

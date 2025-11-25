@@ -4,14 +4,17 @@ export const Content = styled.div`
   display: flex;
   height: 100%;
   box-sizing: border-box;
+  grid-template-rows: 22px 1fr 1.5rem;
+  overflow: hidden;
 `
 export const Container = styled.div`
   display: grid;
   box-sizing: border-box;
-  grid-template-rows: 22px 1fr;
+  grid-template-rows: 30px 1fr 1.5rem;
   background: ${({ theme }) => theme.colors.editorBackground};
   max-height: 100vh;
   height: 100vh;
+  overflow: hidden;
   @media print {
     display: none;
   }

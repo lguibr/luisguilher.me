@@ -22,7 +22,7 @@ export const Container = styled.div`
 
 export const EditorContainer = styled.div<Pick<Props, 'currentFile'>>`
   display: ${({ currentFile }) => (currentFile ? 'flex' : 'none')};
-  background-color: ${({ theme }) => theme.colors.editorBackground};
+  background: ${({ theme }) => theme.colors.editorBackground};
   position: absolute;
   top: 0px;
   left: 0px;

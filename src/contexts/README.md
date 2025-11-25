@@ -1,12 +1,13 @@
+# File: src/contexts/README.md
 This directory contains React Context providers responsible for managing global application state.
 
 ## Contexts
 
 - **`FileContext.tsx`**:
-  - **Purpose**: Manages the state of all files (resume data and fetched repository files). This includes their content, modified content (`newContent`), diff status, associated images, and the hierarchical tree structure (`treeFiles`).
-  - **State**: `files` (flat array), `treeFiles` (nested structure), `diffFiles` (filtered array of changed files), `focusedFile`, `focusedFileView`.
-  - **Actions**: Provided via `useReducer` (`fileReducer`) for setting content, images, new content, and replacing the entire file set. Also includes functions to find files within the tree.
-  - **Related**: [Reducers README](../reducers/README.md), [useTree Hook README](../hooks/README.md)
+  - **Purpose**: Manages the state of all files (local resume data, main project repo files, and fetched public repository files). This includes their content, modified content (`newContent`), diff status, associated images, and the hierarchical tree structure (`treeFiles`).
+  - **State**: `files` (flat array), `treeFiles` (nested structure including `resume/`, main repo, and `repositories/`), `diffFiles` (filtered array of changed files), `focusedFile`, `focusedFileView`.
+  - **Actions**: Provided via `useReducer` (`fileReducer`) for setting content, images, new content, and replacing the entire file set. Also includes functions to find files within the tree. Fetches repository list and trees on mount.
+  - **Related**: [Reducers README](../reducers/README.md), [useTree Hook README](../hooks/README.md), [GitHub Service README](../services/README.md)
 - **`FileViewContext.tsx`**:
   - **Purpose**: Manages the state and structure of the editor panes (file views). This allows for multiple, splittable views, each with its own set of opened files and a currently active file.
   - **State**: A tree structure where each node represents a view pane (`FileViewsContextType`) containing `openedFiles`, `currentFile`, `orientation` (for splitting), `id`, and `children` (representing nested splits).

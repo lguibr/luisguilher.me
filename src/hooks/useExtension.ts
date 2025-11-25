@@ -14,6 +14,9 @@ import YarnIcon from 'public/icons/yarn.svg'
 import YamlIcon from 'public/icons/yaml.svg'
 import NodeIcon from 'public/icons/nodejs.svg'
 import FileIcon from 'public/icons/file.svg'
+import GoIcon from 'public/icons/go.svg'
+import PythonIcon from 'public/icons/python.svg'
+import MarkdownIcon from 'public/icons/markdown.svg'
 import React from 'react'
 import useContextFile from './useContextFile'
 
@@ -50,7 +53,7 @@ export const useExtension = (): useExtension => {
       },
       {
         name: 'markdown',
-        regex: /\.md/
+        regex: /md/
       },
       {
         name: 'html',
@@ -88,6 +91,9 @@ export const useExtension = (): useExtension => {
       { expression: /.(t|j)sx/, icon: ReactIcon },
       { expression: '.js', icon: JavascriptIcon },
       { expression: '.ts', icon: TypescriptIcon },
+      { expression: /.go/, icon: GoIcon },
+      { expression: /.py/, icon: PythonIcon },
+      { expression: /.md/, icon: MarkdownIcon },
       { expression: /.yml|.yaml/, icon: YamlIcon },
       { expression: /./, icon: FileIcon },
       { expression: /./, icon: OpenFolderIcon },

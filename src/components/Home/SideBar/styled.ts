@@ -5,7 +5,6 @@ export const Container = styled.div`
   grid-template-columns: max-content 1fr;
   background-color: ${({ theme }) => theme.colors.menuBackground};
   height: 100%;
-  max-height: calc(100vh);
   box-sizing: border-box;
   z-index: 99;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -22,8 +21,7 @@ export const ModalContent = styled.div`
   left: 52px;
   box-sizing: border-box;
   overflow: hidden;
-  height: calc(100%);
-  padding-bottom: 36px;
+  height: 100%;
 `
 
 export const Main = styled.div`

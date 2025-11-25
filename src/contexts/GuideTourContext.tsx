@@ -191,7 +191,7 @@ export const GuideTourProvider: React.FC = ({ children }) => {
     setIsTourOpen(value)
     localStorage.setItem('GUIDE_TOUR', JSON.stringify(value))
     if (value === false) {
-      openFile('resume/complete-resume.yml', 0)
+      openFile('README.md', 0)
     }
   }
 
