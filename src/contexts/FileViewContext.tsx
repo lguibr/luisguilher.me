@@ -44,8 +44,8 @@ export const FileViewsProvider: React.FC<{
   const initialFiles = Array.isArray(initialOpenedFile)
     ? initialOpenedFile
     : initialOpenedFile
-      ? [initialOpenedFile]
-      : []
+    ? [initialOpenedFile]
+    : []
 
   const [fileViewsTree, setFileViewsTree] = useState<FileViewsContextType>({
     openedFiles: !isGuiding ? initialFiles : [],

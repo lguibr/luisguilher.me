@@ -1,4 +1,5 @@
 # File: src/components/Core/README.md
+
 # src/components/Core/README.md
 
 This directory houses the core, reusable React components of the application. These components are designed to be generic building blocks, independent of the specific features of the main "Home" view.

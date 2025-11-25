@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react'
 
-type SelectedSectionType =
+export type SelectedSectionType =
   | 'files'
   | 'search'
   | 'source'

@@ -1,4 +1,5 @@
 # File: src/services/README.md
+
 This directory contains modules responsible for interacting with external services or APIs.
 
 ## Services
@@ -12,9 +13,9 @@ This directory contains modules responsible for interacting with external servic
 
 The GitHub service relies on the following environment variables set in `next.config.js`:
 
-- `REPO`: The name of the *main* GitHub repository (e.g., 'luisguilher.me').
-- `OWNER`: The owner of the *main* GitHub repository (e.g., 'lguibr').
-- `SHA_BRANCH`: The branch or commit SHA to fetch data from for the *main* repository (e.g., 'main').
+- `REPO`: The name of the _main_ GitHub repository (e.g., 'luisguilher.me').
+- `OWNER`: The owner of the _main_ GitHub repository (e.g., 'lguibr').
+- `SHA_BRANCH`: The branch or commit SHA to fetch data from for the _main_ repository (e.g., 'main').
 - `GITHUB_USERNAME`: The GitHub username whose public repositories should be fetched (e.g., 'lguibr').
 
 ## Usage

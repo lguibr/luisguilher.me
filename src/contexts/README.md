@@ -1,4 +1,5 @@
 # File: src/contexts/README.md
+
 This directory contains React Context providers responsible for managing global application state.
 
 ## Contexts

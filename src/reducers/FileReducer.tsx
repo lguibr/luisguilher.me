@@ -27,13 +27,13 @@ export type FileType = {
   diff?: boolean
   isDiff?: boolean
   type?:
-  | 'blob'
-  | 'tree'
-  | 'resume'
-  | 'repo-root'
-  | 'placeholder-repo-root'
-  | 'root-file'
-  | 'root-dir'
+    | 'blob'
+    | 'tree'
+    | 'resume'
+    | 'repo-root'
+    | 'placeholder-repo-root'
+    | 'root-file'
+    | 'root-dir'
   sha?: string
   // childrenFetched?: boolean; // Removed this flag
 }
@@ -42,13 +42,13 @@ export type FileType = {
 
 type SingleTargetAction = {
   type:
-  | 'SET_CURRENT'
-  | 'CLEAN_CURRENT'
-  | 'SET_HIGHLIGHTED'
-  | 'CLEAN_HIGHLIGHTED'
-  | 'SET_IMAGE'
-  | 'SET_CONTENT'
-  | 'SET_NEW_CONTENT'
+    | 'SET_CURRENT'
+    | 'CLEAN_CURRENT'
+    | 'SET_HIGHLIGHTED'
+    | 'CLEAN_HIGHLIGHTED'
+    | 'SET_IMAGE'
+    | 'SET_CONTENT'
+    | 'SET_NEW_CONTENT'
   payload: FileType
 }
 
@@ -102,11 +102,11 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
       return state.map(file =>
         file?.path === action.payload.path
           ? {
-            ...file,
-            image: action.payload.image,
-            content: undefined,
-            newContent: undefined
-          }
+              ...file,
+              image: action.payload.image,
+              content: undefined,
+              newContent: undefined
+            }
           : file
       )
     case 'SET_CONTENT': {

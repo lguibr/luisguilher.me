@@ -17,7 +17,8 @@ const Printable: React.FC<PrintableProps> = ({ printRef }) => {
       <Content>
         <MarkdownWrapper>
           <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {curriculum?.content || 'Curriculum content not found. Please reload the page.'}
+            {curriculum?.content ||
+              'Curriculum content not found. Please reload the page.'}
           </ReactMarkdown>
         </MarkdownWrapper>
       </Content>
@@ -118,7 +119,7 @@ const MarkdownWrapper = styled.div`
     text-decoration: none;
     font-weight: 500;
   }
-  
+
   /* Horizontal Rules */
   hr {
     border: 0;
@@ -136,7 +137,9 @@ const MarkdownWrapper = styled.div`
   }
 
   /* Contact Info Formatting (assuming it's in the first few lines) */
-  p:nth-of-type(1), p:nth-of-type(2), p:nth-of-type(3) {
+  p:nth-of-type(1),
+  p:nth-of-type(2),
+  p:nth-of-type(3) {
     text-align: center;
     margin-bottom: 2px;
   }

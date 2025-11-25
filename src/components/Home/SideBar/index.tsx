@@ -9,34 +9,32 @@ import useWindowSize from 'src/hooks/useWindow'
 import Modal from 'src/components/Core/Modal'
 import useSideBar from 'src/hooks/useSideBar'
 
-type SelectedSectionType =
-  | 'files'
-  | 'search'
-  | 'source'
-  | 'debug'
-  | 'extensions'
+import { SelectedSectionType } from 'src/contexts/SideBarContext'
 
 const SideBar: React.FC = () => {
   const { open, setOpen, selectedSection } = useSideBar()
   const { isMedium } = useWindowSize()
 
-  const sections: {
-    [name in SelectedSectionType]: {
-      component?: React.FC | undefined
-      onClick?: () => void
+  const sections: Partial<
+    {
+      [name in SelectedSectionType]: {
+        component?: React.FC | undefined
+        onClick?: () => void
+      }
     }
-  } = {
+  > = {
     files: { component: Files }, // NOTE : Core/Editor
     source: { component: Source }, // NOTE : Releases/Features/Commits
     debug: {}, // NOTE :  Play the sketchs
     extensions: { component: Extensions },
-    search: { component: Search } // NOTE : Search on downloaded files
+    search: { component: Search }, // NOTE : Search on downloaded files
+    download: {}
   }
 
   const Section =
     selectedSection !== 'profile' &&
     selectedSection !== 'settings' &&
-    sections[selectedSection].component
+    sections[selectedSection]?.component
 
   return (
     <Container>

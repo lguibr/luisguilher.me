@@ -7,7 +7,7 @@ export const Container = styled.div.attrs({ id: 'printable-content' })`
   width: 1px;
   height: 1px;
   overflow: hidden;
-  
+
   @media print {
     position: absolute;
     top: 0;
