@@ -29,7 +29,7 @@ export default Printable
 const MarkdownWrapper = styled.div`
   @media print {
     @page {
-      margin: 12mm 15mm;
+      margin: 10mm;
       size: auto;
     }
     body {

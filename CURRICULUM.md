@@ -2,12 +2,7 @@
 
 Senior Software Engineer | AI & Systems Architecture | TypeScript · Python · Go
 
-Remote (Brazil)
-
-- email: [lgpelin92@gmail.com](mailto:lgpelin92@gmail.com)
-- website: [https://luisguilher.me](https://luisguilher.me)
-- github: [https://github.com/lguibr](https://github.com/lguibr)
-- linkedin: [https://linkedin.com/in/lguibr](https://linkedin.com/in/lguibr)
+[lgpelin92@gmail.com](mailto:lgpelin92@gmail.com) · [luisguilher.me](https://luisguilher.me) · [github.com/lguibr](https://github.com/lguibr) · [linkedin.com/in/lguibr](https://linkedin.com/in/lguibr)
 
 ---
 
