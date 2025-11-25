@@ -44,7 +44,7 @@ const MarkdownWrapper = styled.div`
   color: #000000;
   font-family: 'Arial', 'Helvetica', sans-serif;
   font-size: 10.5pt;
-  line-height: 1.45;
+  line-height: 1.4;
   width: 100%;
   max-width: 100%;
 
@@ -54,7 +54,7 @@ const MarkdownWrapper = styled.div`
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     margin-top: 0;
     color: #000;
     border: none;
@@ -74,8 +74,8 @@ const MarkdownWrapper = styled.div`
     text-transform: uppercase;
     border-bottom: 1px solid #000;
     padding-bottom: 3px;
-    margin-top: 18px;
-    margin-bottom: 10px;
+    margin-top: 12px;
+    margin-bottom: 6px;
     page-break-after: avoid;
     color: #000;
     letter-spacing: 0.5px;
@@ -85,8 +85,8 @@ const MarkdownWrapper = styled.div`
   h3 {
     font-size: 11pt;
     font-weight: 700;
-    margin-top: 12px;
-    margin-bottom: 4px;
+    margin-top: 8px;
+    margin-bottom: 2px;
     page-break-after: avoid;
     color: #000;
     display: flex;
@@ -95,17 +95,17 @@ const MarkdownWrapper = styled.div`
 
   /* Body Text */
   p {
-    margin-bottom: 6px;
-    orphans: 3;
-    widows: 3;
+    margin-bottom: 4px;
+    orphans: 2;
+    widows: 2;
     text-align: left;
   }
 
   /* Lists */
   ul {
     padding-left: 18px;
-    margin-bottom: 8px;
-    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-top: 2px;
   }
   li {
     margin-bottom: 3px;

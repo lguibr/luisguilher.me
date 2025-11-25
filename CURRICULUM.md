@@ -25,7 +25,7 @@ Testing: Playwright, Jest, PyTest
 
 # PROFESSIONAL EXPERIENCE
 
-## Trebu (YC S22) — AI Software Engineer
+## Trebu (YC S22) — AI Software Engineer (1 year 5 months)
 
 Jul 2024 – Nov 2025 · Remote
 
@@ -44,7 +44,7 @@ TypeScript, Python, Django, React, LangChain, AWS (Lambda, ECS, RDS, SQS), Docke
 
 ---
 
-## Paradigm — Software Engineer
+## Paradigm — Software Engineer (2 years 1 month)
 
 Apr 2022 – Apr 2024 · Remote
 
@@ -63,15 +63,15 @@ TypeScript, React, React Native, Electron, Go, Kafka, Docker, Node.js, Playwrigh
 
 ---
 
-## Trio — Senior Software Engineer / Tech Lead
+## Trio — Senior Software Engineer / Tech Lead (2 years)
 
-Jun 2021 – Apr 2022
+May 2020 – Apr 2022
 
 ### Highlights
 
-- Led architecture, delivery strategy, and cloud provisioning (AWS/GCP).
-- Acted as the tech reference across multiple squads (1–8 devs). Mentored juniors, conducted interviews, and advised on promotions.
-- Migrated a monolithic UI into a micro-frontend architecture, reducing build times by 40%.
+- Leadership: Promoted from Engineer to Tech Lead. Directed architecture, cloud provisioning (AWS/GCP), and delivery strategy across multiple squads (1–8 devs).
+- Modernization: Migrated a monolithic UI into a micro-frontend architecture, reducing build times by 40%.
+- Delivery: Shipped multiple production apps end-to-end, converting business constraints into scalable architecture across frontend, backend, and cloud.
 
 ### Techs
 
@@ -79,23 +79,7 @@ TypeScript, Vue.js, Next.js, React, Electron, Koa, Express, GraphQL, Strapi, Pos
 
 ---
 
-## Trio — Software Engineer
-
-May 2020 – Jun 2021
-
-### Highlights
-
-- Delivered features across frontend, backend, and infra end-to-end.
-- Collaborated with clients to transform business constraints into architecture.
-- Shipped production apps across multiple environments.
-
-### Techs
-
-TypeScript, React, Vue, Next.js, Electron, Express, Koa, Strapi, GraphQL, MySQL, PostgreSQL, Redis, GCP, AWS
-
----
-
-## TremTec — Frontend Lead
+## TremTec — Frontend Lead (11 months)
 
 Jul 2019 – May 2020
 
@@ -103,7 +87,7 @@ Led the frontend/UI team. Defined technical requirements, mentored developers, a
 
 ---
 
-## netLex — Software Engineer
+## netLex — Software Engineer (1 year)
 
 Aug 2018 – Jul 2019
 
@@ -145,5 +129,5 @@ Runs fully in-browser using TensorFlow.js and BlazePose for body tracking and sc
 
 # EDUCATION
 
-- Physics (Undergraduate Studies) — Universidade Federal de Minas Gerais (2018–2022)
+- Physics (Incomplete) — Universidade Federal de Minas Gerais (2018–2022)
 - Tech. Information Technology — CEFET-MG (2006–2008)
