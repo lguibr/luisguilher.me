@@ -12,9 +12,9 @@
 
 <p align="center">
   <a href="https://vercel.com"> <img src="https://img.shields.io/badge/Vercel-Deploy-black?logo=vercel" /> </a>
-  <img src="https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript" />
-  <img src="https://img.shields.io/badge/Next.js-14-black?logo=next.js" />
-  <img src="https://img.shields.io/badge/React-18-61dafb?logo=react&logoColor=black" />
+  <img src="https://img.shields.io/badge/TypeScript-4.0-blue?logo=typescript" />
+  <img src="https://img.shields.io/badge/Next.js-11-black?logo=next.js" />
+  <img src="https://img.shields.io/badge/React-17-61dafb?logo=react&logoColor=black" />
   <img src="https://img.shields.io/badge/Monaco_Editor-embedded-blue?logo=visual-studio-code" />
 </p>
 

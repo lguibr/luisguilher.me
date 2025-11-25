@@ -3,7 +3,7 @@ import useContextTheme from 'src/hooks/useContextTheme'
 import MonacoEditor, { Monaco } from '@monaco-editor/react'
 import { defineMonacoThemes } from 'src/styles/monaco'
 
-import { useMemo, useCallback, useEffect, useRef } from 'react'
+import { useMemo, useCallback, useRef } from 'react'
 
 type EditorProps = {
   currentExt: string
@@ -20,11 +20,6 @@ const Editor: React.FC<EditorProps> = ({
   currentContent,
   onChange
 }) => {
-  useEffect(() => {
-    console.log('[CoreEditor] Mounted')
-    return () => console.log('[CoreEditor] Unmounted')
-  }, [])
-
   const editorRef = useRef(null)
 
   const { selectedTheme } = useContextTheme()
