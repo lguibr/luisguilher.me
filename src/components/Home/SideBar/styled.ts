@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const Container = styled.div`
   display: grid;
   grid-template-columns: max-content 1fr;
-  background-color: ${({ theme }) => theme.colors.menuBackground};
+  background: ${({ theme }) => theme.colors.menuBackground};
   height: 100%;
   box-sizing: border-box;
   z-index: 99;
@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 export const ModalContent = styled.div`
   position: fixed;
-  background-color: ${({ theme }) => theme.colors.menuBackground};
+  background: ${({ theme }) => theme.colors.menuBackground};
   width: max-content;
   min-width: 150px;
   width: 100%;
@@ -33,7 +33,7 @@ export const Main = styled.div`
   min-width: 300px;
   position: relative;
 
-  background-color: ${({ theme }) => theme.colors.menuBackground};
+  background: ${({ theme }) => theme.colors.menuBackground};
 
   ::after {
     content: ' ';
