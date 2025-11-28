@@ -25,6 +25,7 @@
     "@types/reactour": "^1.18.2",
     "@types/yaml": "^1.9.7",
     "@vercel/analytics": "^1.2.2",
+    "@vercel/speed-insights": "^1.2.0",
     "mermaid": "^9.4.3",
     "monaco-editor": "0.55.1",
     "next": "11.1.0",

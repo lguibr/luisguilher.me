@@ -12,6 +12,7 @@ import { LoadingProvider } from 'src/contexts/LoadingContext'
 import { GuideTourProvider } from 'src/contexts/GuideTourContext'
 import { Analytics } from '@vercel/analytics/react'
 import P5Preloader from 'src/components/Core/P5Preloader' // Import the preloader
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -29,6 +30,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                     <Shell>
                       <P5Preloader /> {/* Add Preloader here */}
                       <Component {...pageProps} />
+                      <SpeedInsights />
                       <Analytics />
                     </Shell>
                   </GuideTourProvider>
