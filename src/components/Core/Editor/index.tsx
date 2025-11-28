@@ -25,22 +25,27 @@ const Editor: React.FC<EditorProps> = ({
   const { selectedTheme } = useContextTheme()
   const { isMedium } = useWindow()
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleEditorDidMount = useCallback(
-    (monaco: Monaco, editor: Monaco) => {
-      monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+    (monaco: Monaco, editor: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const tsLanguages = monaco.languages.typescript as any
+      tsLanguages.typescriptDefaults.setCompilerOptions({
         noLib: true,
         allowNonTsExtensions: true
       })
 
       editorRef.current = editor
 
-      monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+      tsLanguages.typescriptDefaults.setDiagnosticsOptions({
         noSemanticValidation: true,
         noSyntaxValidation: true,
         onlyVisible: true
       })
 
-      monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const jsonLanguages = monaco.languages.json as any
+      jsonLanguages.jsonDefaults.setDiagnosticsOptions({
         comments: 'ignore'
       })
 
@@ -77,7 +82,7 @@ const Editor: React.FC<EditorProps> = ({
       minimap: {
         enabled: false
       }
-    }
+    } as const
 
     const showLineNumberOptions = {
       lineNumbers: 'on',
@@ -88,7 +93,7 @@ const Editor: React.FC<EditorProps> = ({
       minimap: {
         enabled: true
       }
-    }
+    } as const
 
     return isMedium
       ? { ...hideLineNumberOptions }
@@ -96,7 +101,8 @@ const Editor: React.FC<EditorProps> = ({
   }, [isMedium])
 
   const handleOnMount = useCallback(
-    (editor: Monaco, monaco: Monaco) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (editor: any, monaco: Monaco) => {
       handleEditorDidMount(monaco, editor)
     },
     [handleEditorDidMount]
@@ -106,7 +112,7 @@ const Editor: React.FC<EditorProps> = ({
     <MonacoEditor
       height="100%"
       width="100%"
-      options={options}
+      options={options as any}
       language={currentExt}
       value={currentContent}
       theme={selectedTheme === 'vs-dark' ? 'modern-dark' : 'modern-light'}

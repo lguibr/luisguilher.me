@@ -12,7 +12,7 @@ import { LoadingProvider } from 'src/contexts/LoadingContext'
 import { GuideTourProvider } from 'src/contexts/GuideTourContext'
 import { Analytics } from '@vercel/analytics/react'
 import P5Preloader from 'src/components/Core/P5Preloader' // Import the preloader
-import { SpeedInsights } from '@vercel/speed-insights/next'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (

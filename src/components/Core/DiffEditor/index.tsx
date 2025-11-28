@@ -43,7 +43,7 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
     minimap: {
       enabled: false
     }
-  }
+  } as const
 
   const showLineNumberOptions = {
     enableSplitViewResizing: true,
@@ -56,28 +56,33 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
     minimap: {
       enabled: true
     }
-  }
+  } as const
   const editorRef = useRef({ revealLine: (n: number) => !n && console.log(n) })
 
   useEffect(() => {
     if (editorRef?.current?.revealLine) editorRef?.current?.revealLine(1)
   }, [])
 
-  const handleEditorDidMount = (monaco: Monaco, editor: Monaco) => {
-    monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleEditorDidMount = (monaco: Monaco, editor: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const tsLanguages = monaco.languages.typescript as any
+    tsLanguages.typescriptDefaults.setCompilerOptions({
       noLib: true,
       allowNonTsExtensions: true
     })
 
     editorRef.current = editor
 
-    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+    tsLanguages.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
       noSyntaxValidation: true,
       onlyVisible: true
     })
 
-    monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const jsonLanguages = monaco.languages.json as any
+    jsonLanguages.jsonDefaults.setDiagnosticsOptions({
       comments: 'ignore'
     })
   }
@@ -88,7 +93,7 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
 
   return (
     <DiffEditor
-      options={options}
+      options={options as any}
       language={currentExt}
       original={currentContent}
       modified={currentNewContent}

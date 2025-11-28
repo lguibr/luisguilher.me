@@ -1,13 +1,7 @@
 import SideBar from './SideBar'
 import TopBar from './TopBar'
-import {
-  Container,
-  Content,
-  StyledPanelGroup,
-  StyledPanel,
-  StyledResizeHandle
-} from './styled'
-import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels'
+import { Container, Content, StyledResizeHandle } from './styled'
+import { PanelGroup, Panel } from 'react-resizable-panels'
 
 import Footer from './Footer'
 import FileViewComponent from './FileViewComponent'
@@ -51,16 +45,7 @@ const Home: React.FC = () => {
             >
               <SideBar />
             </Panel>
-            <PanelResizeHandle
-              style={{
-                width: '2px',
-                backgroundColor: 'transparent',
-                cursor: 'col-resize',
-                zIndex: 10,
-                // We can't easily do hover styles inline, but let's just make it visible for now to test
-                borderRight: '2px solid rgba(0,0,0,0.1)'
-              }}
-            />
+            <StyledResizeHandle />
             <Panel
               order={2}
               id="content"
