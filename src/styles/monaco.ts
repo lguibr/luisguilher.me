@@ -14,7 +14,20 @@ export const defineMonacoThemes = (monaco: Monaco) => {
       { token: 'function', foreground: '50fa7b' },
       { token: 'variable', foreground: 'f8f8f2' },
       { token: 'operator', foreground: 'ff79c6' },
-      { token: 'delimiter', foreground: 'f8f8f2' }
+      { token: 'delimiter', foreground: 'f8f8f2' },
+      // Markdown specific
+      { token: 'string.md', foreground: 'f1fa8c' },
+      { token: 'keyword.md', foreground: 'ff79c6', fontStyle: 'bold' },
+      { token: 'strong.md', foreground: 'ffb86c', fontStyle: 'bold' },
+      { token: 'emphasis.md', foreground: 'f1fa8c', fontStyle: 'italic' },
+      { token: 'link.md', foreground: '8be9fd' },
+      { token: 'image.md', foreground: '8be9fd' },
+      { token: 'code.md', foreground: '50fa7b' },
+      { token: 'tag.md', foreground: 'ff79c6' },
+      { token: 'attribute.name.md', foreground: '50fa7b' },
+      { token: 'attribute.value.md', foreground: 'f1fa8c' },
+      { token: 'comment.md', foreground: '6272a4' },
+      { token: 'variable.md', foreground: 'f8f8f2' }
     ],
     colors: {
       'editor.background': '#00000000', // Transparent to show gradient

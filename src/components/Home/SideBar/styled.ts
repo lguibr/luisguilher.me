@@ -27,24 +27,9 @@ export const ModalContent = styled.div`
 export const Main = styled.div`
   height: calc(100% - 10px);
   box-sizing: border-box;
-  resize: horizontal;
   overflow: hidden;
-  width: 300px;
-  min-width: 300px;
+  width: 100%;
   position: relative;
 
   background: ${({ theme }) => theme.colors.menuBackground};
-
-  ::after {
-    content: ' ';
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    height: 16px;
-    width: 16px;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: url('/icons/arrow-both.svg');
-  }
 `

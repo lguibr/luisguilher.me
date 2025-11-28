@@ -43,13 +43,25 @@ const Editor: React.FC<EditorProps> = ({
       monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
         comments: 'ignore'
       })
+
+      // Force layout calculation after a short delay to ensure container is stable
+      setTimeout(() => {
+        editor.layout()
+      }, 100)
     },
     [editorRef]
   )
 
   const options = useMemo(() => {
     const agnosticConfig = {
-      quickSuggestions: false
+      quickSuggestions: false,
+      automaticLayout: true,
+      scrollBeyondLastLine: false,
+      scrollbar: {
+        vertical: 'visible',
+        horizontal: 'visible'
+      },
+      fixedOverflowWidgets: true
     }
 
     const hideLineNumberOptions = {
@@ -92,9 +104,11 @@ const Editor: React.FC<EditorProps> = ({
 
   return (
     <MonacoEditor
+      height="100%"
+      width="100%"
       options={options}
       language={currentExt}
-      defaultValue={currentContent}
+      value={currentContent}
       theme={selectedTheme === 'vs-dark' ? 'modern-dark' : 'modern-light'}
       beforeMount={defineMonacoThemes}
       onMount={handleOnMount}

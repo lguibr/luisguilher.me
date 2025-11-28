@@ -67,11 +67,13 @@ TypeScript, React, React Native, Electron, Go, Kafka, Docker, Node.js, Playwrigh
 
 May 2020 – Apr 2022
 
+Technical lead for multiple application teams.
+
 ### Highlights
 
 - Leadership: Promoted from Engineer to Tech Lead. Directed architecture, cloud provisioning (AWS/GCP), and delivery strategy across multiple squads (1–8 devs).
-- Modernization: Migrated a monolithic UI into a micro-frontend architecture, reducing build times by 40%.
 - Delivery: Shipped multiple production apps end-to-end, converting business constraints into scalable architecture across frontend, backend, and cloud.
+- Delivered large-scale systems for clients in the brewery and traceability industries.
 
 ### Techs
 

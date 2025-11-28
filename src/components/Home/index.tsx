@@ -1,6 +1,14 @@
 import SideBar from './SideBar'
 import TopBar from './TopBar'
-import { Container, Content } from './styled'
+import {
+  Container,
+  Content,
+  StyledPanelGroup,
+  StyledPanel,
+  StyledResizeHandle
+} from './styled'
+import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels'
+
 import Footer from './Footer'
 import FileViewComponent from './FileViewComponent'
 import useFileViewsContext from 'src/hooks/useContextFileView'
@@ -23,9 +31,50 @@ const Home: React.FC = () => {
       <Container>
         <TopBar />
         <Content>
-          <SideBar />
-          {/* Only render FileViewComponent on the client */}
-          {isClient && <FileViewComponent id={rootId} />}
+          <PanelGroup
+            direction="horizontal"
+            id="home-layout"
+            style={{ height: '100%', width: '100%' }}
+          >
+            <Panel
+              defaultSize={20}
+              minSize={15}
+              maxSize={40}
+              order={1}
+              id="sidebar"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                overflow: 'hidden'
+              }}
+            >
+              <SideBar />
+            </Panel>
+            <PanelResizeHandle
+              style={{
+                width: '2px',
+                backgroundColor: 'transparent',
+                cursor: 'col-resize',
+                zIndex: 10,
+                // We can't easily do hover styles inline, but let's just make it visible for now to test
+                borderRight: '2px solid rgba(0,0,0,0.1)'
+              }}
+            />
+            <Panel
+              order={2}
+              id="content"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Only render FileViewComponent on the client */}
+              {isClient && <FileViewComponent id={rootId} />}
+            </Panel>
+          </PanelGroup>
         </Content>
         <Footer />
       </Container>

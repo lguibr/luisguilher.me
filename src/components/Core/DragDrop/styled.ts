@@ -11,6 +11,7 @@ export type HighlightPosition =
 export const Container = styled.div<{ highlight: HighlightPosition }>`
   width: 100%;
   height: 100%;
+  overflow: hidden;
   border-radius: 8px;
   position: relative;
   display: flex;

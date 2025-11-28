@@ -4,9 +4,10 @@ import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
 type Direction = 'horizontal' | 'vertical'
 
 export const StyledPanelGroup = styled(PanelGroup)<{ direction: Direction }>`
+  flex: 1;
   width: 100%;
   max-width: 100%;
-  height: 400px;
+  height: 100%;
   overflow: hidden;
 
   ${({ direction }) =>
@@ -23,6 +24,7 @@ export const StyledPanel = styled(Panel)`
   font-size: 24px;
   color: #888;
   min-width: 300px;
+  height: 100%;
 `
 
 export const StyledResizeHandle = styled(PanelResizeHandle)<{
