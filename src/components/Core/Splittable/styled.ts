@@ -23,7 +23,7 @@ export const StyledPanel = styled(Panel)`
   align-items: center;
   font-size: 24px;
   color: #888;
-  min-width: 300px;
+  min-width: 0;
   height: 100%;
 `
 

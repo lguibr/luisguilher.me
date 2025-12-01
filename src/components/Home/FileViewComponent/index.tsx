@@ -94,7 +94,7 @@ const FileViewComponent: React.FC<FileViewComponentProps> = ({
       ? renderChildren(childContext)
       : undefined
 
-  const shouldSwap = orientation === 'right' || orientation === 'top'
+  const shouldSwap = orientation === 'right' || orientation === 'bottom'
   return (
     <>
       <SplittableContainer

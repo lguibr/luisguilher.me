@@ -60,19 +60,22 @@ const DragDropComponent: React.FC<DragDropComponentProps> = ({
 
   const updateHighlightPosition = (e: React.DragEvent<HTMLDivElement>) => {
     const { clientX, clientY } = e
-    const { left, right, top, bottom, width, height } =
-      e.currentTarget.getBoundingClientRect()
-    const thresholdX = width * 0.25
-    const thresholdY = height * 0.25
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
+
+    // Calculate relative position (0 to 1)
+    const relX = (clientX - left) / width
+    const relY = (clientY - top) / height
+
+    const threshold = 0.25
     let newPosition: HighlightPosition
 
-    if (clientX < left + thresholdX) {
+    if (relX < threshold) {
       newPosition = 'left'
-    } else if (clientX > right - thresholdX) {
+    } else if (relX > 1 - threshold) {
       newPosition = 'right'
-    } else if (clientY < top + thresholdY) {
+    } else if (relY < threshold) {
       newPosition = 'top'
-    } else if (clientY > bottom - thresholdY) {
+    } else if (relY > 1 - threshold) {
       newPosition = 'bottom'
     } else {
       newPosition = 'center'
