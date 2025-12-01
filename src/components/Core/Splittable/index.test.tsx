@@ -1,21 +1,46 @@
+/* eslint-disable no-use-before-define */
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom'
 import SplittableContainer from './index'
 
 // Mock react-resizable-panels
-jest.mock('react-resizable-panels', () => ({
-  PanelGroup: ({ children, direction }: any) => (
+jest.mock('react-resizable-panels', () => {
+  const PanelGroup = ({
+    children,
+    direction
+  }: {
+    children: React.ReactNode
+    direction: string
+  }) => (
     <div data-testid="panel-group" data-direction={direction}>
       {children}
     </div>
-  ),
-  Panel: ({ children, defaultSize }: any) => (
+  )
+  PanelGroup.displayName = 'PanelGroup'
+
+  const Panel = ({
+    children,
+    defaultSize
+  }: {
+    children: React.ReactNode
+    defaultSize: number
+  }) => (
     <div data-testid="panel" data-size={defaultSize}>
       {children}
     </div>
-  ),
-  PanelResizeHandle: () => <div data-testid="resize-handle" />
-}))
+  )
+  Panel.displayName = 'Panel'
+
+  const PanelResizeHandle = () => <div data-testid="resize-handle" />
+  PanelResizeHandle.displayName = 'PanelResizeHandle'
+
+  return {
+    PanelGroup,
+    Panel,
+    PanelResizeHandle
+  }
+})
 
 // Mock useWindowSize
 jest.mock('src/hooks/useWindow', () => ({

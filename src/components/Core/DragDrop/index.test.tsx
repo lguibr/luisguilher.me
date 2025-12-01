@@ -1,6 +1,8 @@
+/* eslint-disable no-use-before-define */
 import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
 import DragDropComponent from './index'
+import '@testing-library/jest-dom'
 
 describe('DragDropComponent', () => {
   const mockOnPosition = jest.fn()
@@ -31,9 +33,10 @@ describe('DragDropComponent', () => {
     )
 
     const container = screen.getByText('Child').parentElement
+    if (!container) throw new Error('Container not found')
 
     // Mock getBoundingClientRect
-    jest.spyOn(container!, 'getBoundingClientRect').mockReturnValue({
+    jest.spyOn(container, 'getBoundingClientRect').mockReturnValue({
       left: 0,
       top: 0,
       width: 100,
@@ -42,20 +45,22 @@ describe('DragDropComponent', () => {
       bottom: 100,
       x: 0,
       y: 0,
-      toJSON: () => {}
+      toJSON: () => {
+        return {}
+      }
     })
 
     // Drag over left side (less than 25%)
-    fireEvent.dragOver(container!, { clientX: 10, clientY: 50 })
+    fireEvent.dragOver(container, { clientX: 10, clientY: 50 })
     // We can't easily check the internal state, but we can check if the drop works with the expected position
 
     // Simulate drop
-    const dataTransfer = {
-      getData: jest.fn().mockReturnValue(JSON.stringify('test-file'))
-    }
+    // const dataTransfer = {
+    //   getData: jest.fn().mockReturnValue(JSON.stringify('test-file'))
+    // }
 
     // Trigger drag start/enter to set isDragging
-    fireEvent.dragEnter(container!, { clientX: 10, clientY: 50 })
+    fireEvent.dragEnter(container, { clientX: 10, clientY: 50 })
 
     // Trigger drag end on document
     const dragEndEvent = new Event('dragend')
