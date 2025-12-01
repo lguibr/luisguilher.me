@@ -120,7 +120,7 @@ Includes async training, stats logging, and exportable ONNX inference models.
 
 ---
 
-## MimeFlow — Pose Matching PWA
+## MimeFlow — Pose Matching Game
 
 Real-time pose evaluation app for dance/yoga/martial arts.
 Runs fully in-browser using TensorFlow.js and BlazePose for body tracking and scoring.
@@ -129,6 +129,13 @@ Runs fully in-browser using TensorFlow.js and BlazePose for body tracking and sc
 - Live: [https://mimeflow.luisguilher.me](https://mimeflow.luisguilher.me)
 
 ---
+
+## LuisGuilher.ME - Miniature IDE Personal Website
+
+Clone of an IDE, wired with a virtual file system, code rendering using Monaco Editor, with several advanced frontend features and a few easter eggs.
+
+- Repo: [https://github.com/lguibr/luisguilher.me](https://github.com/lguibr/luisguilher.me)
+- Live: [https://luisguilher.me](https://luisguilher.me)
 
 # EDUCATION
 
