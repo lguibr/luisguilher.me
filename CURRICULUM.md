@@ -16,10 +16,10 @@ Experienced in logistics, fintech (crypto), and complex multi-platform products.
 
 ## TECHNICAL SKILLS
 
-Languages: TypeScript (Node/React), Python, Go
-AI/ML: LLMs, PyTorch, TensorFlow.js, Reinforcement Learning (MCTS / AlphaZero)
-Infrastructure: AWS, GCP, Terraform, Docker, Kubernetes
-Testing: Playwright, Jest, PyTest
+- Languages: TypeScript (Node/React), Python, Go
+- AI/ML: LLMs, PyTorch, TensorFlow.js, Reinforcement Learning (MCTS / AlphaZero)
+- Infrastructure: AWS, GCP, Terraform, Docker, Kubernetes
+- Testing: Playwright, Jest, PyTest
 
 ---
 
@@ -33,10 +33,11 @@ Logistics automation platform using LLMs for multi-party negotiation.
 
 ### Highlights
 
-- Architecture: Designed the _Find Me a Truck_ multi-agent system, automating a negotiation flow previously handled manually. Reduced end-to-end response time from 3+ minutes → < 1 minute, reaching dozens of truckers per request.
+- Architecture: Designed the _Find Me a Truck_ multi-agent system, automating a negotiation flow previously handled manually by clients.
 - Performance: Reduced LLM latency by +66% with parallel execution, conditional routing, and aggressive caching.
-- Computer Vision: Added segmentation to the OCR pipeline, improving vehicle identification accuracy by 6%.
-- Leadership: Documented internal architecture standards, Git processes, and delivery workflows. Mentored engineers across backend, AI, and frontend workstreams.
+- Reduced end-to-end response time from 3+ minutes → < 1 minute, from requesting a truck to reach several truckers at whatsapp.
+- Computer Vision: Added segmentation to the OCR pipeline, using SAM (Segment Anything Model) improving vehicle identification accuracy by 6%.
+- Leadership: Documented internal architecture standards, Git processes, and delivery workflows. Mentored engineers across backend, AI, and frontend workstreams. Present several knowledge sharing sessions to the team.
 
 ### Techs
 
