@@ -30,7 +30,7 @@ export default Printable
 const MarkdownWrapper = styled.div`
   @media print {
     @page {
-      margin: 10mm;
+      margin: 8mm;
       size: auto;
     }
     body {
@@ -44,14 +44,14 @@ const MarkdownWrapper = styled.div`
 
   color: #000000;
   font-family: 'Arial', 'Helvetica', sans-serif;
-  font-size: 10.5pt;
-  line-height: 1.4;
+  font-size: 9pt;
+  line-height: 1.25;
   width: 100%;
   max-width: 100%;
 
   /* Header Section (Name & Contact) */
   h1 {
-    font-size: 22pt;
+    font-size: 16pt;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -64,19 +64,19 @@ const MarkdownWrapper = styled.div`
 
   /* Subtitle / Role */
   p:first-of-type strong {
-    font-size: 11pt;
+    font-size: 9pt;
     font-weight: 600;
   }
 
   /* Section Headings */
   h2 {
-    font-size: 12pt;
+    font-size: 10.5pt;
     font-weight: 700;
     text-transform: uppercase;
     border-bottom: 1px solid #000;
-    padding-bottom: 3px;
+    padding-bottom: 2px;
     margin-top: 12px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     page-break-after: avoid;
     color: #000;
     letter-spacing: 0.5px;
@@ -84,10 +84,10 @@ const MarkdownWrapper = styled.div`
 
   /* Job Titles / Sub-headings */
   h3 {
-    font-size: 11pt;
+    font-size: 9.5pt;
     font-weight: 700;
-    margin-top: 8px;
-    margin-bottom: 2px;
+    margin-top: 6px;
+    margin-bottom: 1px;
     page-break-after: avoid;
     color: #000;
     display: flex;
@@ -96,7 +96,7 @@ const MarkdownWrapper = styled.div`
 
   /* Body Text */
   p {
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     orphans: 2;
     widows: 2;
     text-align: left;
@@ -104,13 +104,13 @@ const MarkdownWrapper = styled.div`
 
   /* Lists */
   ul {
-    padding-left: 18px;
-    margin-bottom: 4px;
-    margin-top: 2px;
+    padding-left: 14px;
+    margin-bottom: 2px;
+    margin-top: 1px;
   }
   li {
-    margin-bottom: 3px;
-    padding-left: 2px;
+    margin-bottom: 1px;
+    padding-left: 1px;
   }
 
   /* Links */
@@ -124,7 +124,7 @@ const MarkdownWrapper = styled.div`
   hr {
     border: 0;
     border-top: 1px solid #000;
-    margin: 15px 0;
+    margin: 10px 0;
     display: none; /* Hide HRs in print to save space if using H2 borders */
   }
 
@@ -141,6 +141,6 @@ const MarkdownWrapper = styled.div`
   p:nth-of-type(2),
   p:nth-of-type(3) {
     text-align: center;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
   }
 `

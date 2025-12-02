@@ -100,16 +100,6 @@ Full-stack development for a new SPA platform using AngularJS, Laravel, and MySQ
 
 # SELECTED PROJECTS
 
-## TonAI — AI Music Generator
-
-Create and visualize music from text using a chat interface.
-Built with React, Tailwind, Tone.js, and Google Gemini. Features a real-time audio visualizer and playback controls.
-
-- Repo: [https://github.com/lguibr/tonai](https://github.com/lguibr/tonai)
-- Live: [https://tonai.luisguilher.me](https://tonai.luisguilher.me)
-
----
-
 ## PonGo — Real-Time Multiplayer Game
 
 Real-time Pong/Breakout hybrid with multi-room support.
@@ -137,6 +127,16 @@ Runs fully in-browser using TensorFlow.js and BlazePose for body tracking and sc
 
 - Repo: [https://github.com/lguibr/Mimeflow](https://github.com/lguibr/Mimeflow)
 - Live: [https://mimeflow.luisguilher.me](https://mimeflow.luisguilher.me)
+
+---
+
+## TonAI — AI Music Generator
+
+Create and visualize music from text using a chat interface.
+Built with React, Tailwind, Tone.js, and Google Gemini. Features a real-time audio visualizer and playback controls.
+
+- Repo: [https://github.com/lguibr/tonai](https://github.com/lguibr/tonai)
+- Live: [https://tonai.luisguilher.me](https://tonai.luisguilher.me)
 
 ---
 
