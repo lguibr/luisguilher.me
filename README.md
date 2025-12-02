@@ -157,6 +157,16 @@ An interactive app for practicing poses (dance, yoga, martial arts). Uses **Tens
 - **Live:** [mimeflow.luisguilher.me](https://mimeflow.luisguilher.me)
 - **Repo:** [github.com/lguibr/Mimeflow](https://github.com/lguibr/Mimeflow)
 
+### [TonAI](https://tonai.luisguilher.me)
+
+<img src="https://raw.githubusercontent.com/lguibr/tonai/main/public/logo.png" width="100px" />
+
+**Create music from text.**
+TonAI is a simple web app that lets you create and visualize music using a chat interface. Just describe what you want to hear, and it plays it for you. Built with **React**, **Tailwind**, **Tone.js**, and **Google Gemini**.
+
+- **Live:** [tonai.luisguilher.me](https://tonai.luisguilher.me)
+- **Repo:** [github.com/lguibr/tonai](https://github.com/lguibr/tonai)
+
 ---
 
 # 🚦 Local Development
