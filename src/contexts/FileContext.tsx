@@ -53,6 +53,19 @@ export const FileProvider: React.FC = ({ children }) => {
       children: []
     },
     {
+      path: 'repositories/lguibr',
+      name: 'lguibr',
+      type: 'placeholder-repo-root',
+      children: undefined
+    },
+    {
+      path: 'repositories/lguibr/README.md',
+      name: 'README.md',
+      type: 'blob',
+      content: undefined,
+      newContent: undefined
+    },
+    {
       path: 'README.md',
       name: 'README.md',
       type: 'blob',
@@ -229,6 +242,13 @@ export const FileProvider: React.FC = ({ children }) => {
         await fetchRepoListCallback()
         // No need to check didCancel here as it's the last step
       }
+
+      // Pre-fetch the profile repository (lguibr/lguibr) so README is available
+      const profileRepo = 'lguibr'
+      if (githubUsername && !fetchingReposRef.current[profileRepo]) {
+        // console.log(`[FileContext] Pre-fetching profile repo: ${profileRepo}`);
+        await fetchAndMergeRepoTree(profileRepo)
+      }
     }
 
     runInitialFetches()
@@ -269,8 +289,11 @@ export const FileProvider: React.FC = ({ children }) => {
   )
 
   // --- Other State ---
+
   const diffFiles = files.filter(({ isDiff, diff }) => isDiff && diff)
-  const [focusedFile, setFocusedFile] = useState<string | null>('CURRICULUM.md')
+  const [focusedFile, setFocusedFile] = useState<string | null>(
+    'repositories/lguibr/README.md'
+  )
   const [focusedFileView, setFocusedFileView] = useState<number>(0)
 
   // --- Provider Value ---

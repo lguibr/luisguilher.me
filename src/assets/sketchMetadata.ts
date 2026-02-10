@@ -3,12 +3,12 @@ import { sketchs as sketchFactories } from 'src/components/Core/AnimationOverlay
 
 // Filter metadata based on available factories
 export const sketchs = [
-  {
-    name: 'DoublePendulum',
-    description:
-      'Simulates the chaotic motion of a double pendulum with trace.',
-    icon: '/icons/pendulum.png'
-  },
+  // {
+  //   name: 'DoublePendulum',
+  //   description:
+  //     'Simulates the chaotic motion of a double pendulum with trace.',
+  //   icon: '/icons/pendulum.png'
+  // },
   {
     name: 'HexagonCollision',
     description:
@@ -50,12 +50,12 @@ export const sketchs = [
     name: 'Metaballs',
     description: 'Generates a gooey metaball effect', // Adjusted description
     icon: '/icons/metaballs.png'
-  },
-  {
-    name: 'FourierDrawing',
-    description: 'Draws shapes using epicycles based on Fourier series.',
-    icon: '/icons/fourier.png'
   }
+  // {
+  //   name: 'FourierDrawing',
+  //   description: 'Draws shapes using epicycles based on Fourier series.',
+  //   icon: '/icons/fourier.png'
+  // }
 ].filter(meta => sketchFactories[meta.name]) // Ensure only available sketches are listed
 
 export default sketchs

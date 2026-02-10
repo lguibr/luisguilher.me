@@ -1,153 +1,80 @@
 # Luís Guilherme
-
-Senior Software Engineer | AI & Systems Architecture | TypeScript · Python · Go
-
-[lgpelin92@gmail.com](mailto:lgpelin92@gmail.com) · [luisguilher.me](https://luisguilher.me) · [github.com/lguibr](https://github.com/lguibr) · [linkedin.com/in/lguibr](https://linkedin.com/in/lguibr)
+**Senior Software Engineer | Distributed Systems & AI Architect**
+Remote (Brazil Based) · lgpelin92@gmail.com · [github.com/lguibr](https://github.com/lguibr) · [luisguilher.me](https://luisguilher.me)
 
 ---
 
-## PROFESSIONAL SUMMARY
-
-Senior Software Engineer focused on AI systems, scalable backend architecture, and real-time pipelines.
-I design and ship production-grade LLM systems, optimize high-throughput services, and lead teams across AI, frontend, and backend initiatives.
-Experienced in logistics, fintech (crypto), and complex multi-platform products.
+##  PROFESSIONAL SUMMARY
+**Senior Software Engineer** bridging the gap between theoretical complexity (Physics background) and production reliability. Specializing in **Agentic AI workflows**, **High-Frequency Trading interfaces**, and **Distributed Actor Models**.
+I build tools that build software. From architecting multi-agent negotiation protocols at YC startups to writing custom MCTS engines in C++, I ˝deliver systems that are mathematically sound and commercially scalable.
 
 ---
 
-## TECHNICAL SKILLS
-
-- Languages: TypeScript (Node/React), Python, Go
-- AI/ML: LLMs, PyTorch, TensorFlow.js, Reinforcement Learning (MCTS / AlphaZero)
-- Infrastructure: AWS, GCP, Terraform, Docker, Kubernetes
-- Testing: Playwright, Jest, PyTest
-
----
-
-# PROFESSIONAL EXPERIENCE
-
-## Trebu (YC S22) — AI Software Engineer (1 year 5 months)
-
-Jul 2024 – Nov 2025 · Remote
-
-Logistics automation platform using LLMs for multi-party negotiation.
-
-### Highlights
-
-- Architecture: Designed the _Find Me a Truck_ multi-agent system, automating a negotiation flow previously handled manually by clients.
-- Performance: Reduced LLM latency by +66% with parallel execution, conditional routing, and aggressive caching.
-- Reduced end-to-end response time from 3+ minutes → < 1 minute, from requesting a truck to reach several truckers at whatsapp.
-- Computer Vision: Added segmentation to the OCR pipeline, using SAM (Segment Anything Model) improving vehicle identification accuracy by 6%.
-- Leadership: Documented internal architecture standards, Git processes, and delivery workflows. Mentored engineers across backend, AI, and frontend workstreams. Present several knowledge sharing sessions to the team.
-
-### Techs
-
-TypeScript, Python, Django, React, LangChain, AWS (Lambda, ECS, RDS, SQS), Docker, PostgreSQL, OCR, OpenAI & Claude toolchains
+##  TECHNICAL ARSENAL
+*   **Core Stack:** TypeScript (Expert), Python (Advanced), Go (Systems), C++ (Engine).
+*   **AI & Data:** LLM Orchestration (LangChain/Claude), RAG Pipelines, AlphaZero/MCTS, PyTorch, Vector Search.
+*   **Infrastructure:** AWS (ECS/Lambda), GCP, Terraform, Docker, Kubernetes, Ray (Distributed Compute).
+*   **Architecture:** Event-Driven Systems, Actor Models, Microservices, Real-time WebSockets.
 
 ---
 
-## Paradigm — Software Engineer (2 years 1 month)
+##  PROFESSIONAL EXPERIENCE
 
-Apr 2022 – Apr 2024 · Remote
+**Trebu (YC S22)** | *AI Software Engineer*
+*Jul 2024 – Nov 2025*
+*Architected the autonomous logistics negotiation engine for a high-growth YC startup.*
+*   **Multi-Agent Orchestration:** Designed and shipped the *Find Me a Truck* protocol, an autonomous multi-agent system that negotiates pricing with truckers via WhatsApp, replacing manual operations.
+*   **Latency Optimization:** Reduced LLM pipeline latency by **66%** through parallel execution trees, semantic caching, and aggressive prompt engineering.
+*   **Business Impact:** Slashed end-to-end negotiation time from **3+ minutes to <60 seconds**, directly increasing booking conversion rates.
+*   **Computer Vision:** Integrated SAM (Segment Anything Model) into the OCR pipeline, improving document parsing accuracy by **6%** for non-standard logistics paperwork.
 
-Institutional liquidity network for crypto derivatives.
+**Paradigm** | *Software Engineer (High-Frequency Trading)*
+*Apr 2022 – Apr 2024*
+*Engineered mission-critical frontend systems for the world’s largest institutional crypto derivatives network.*
+*   **Performance Engineering:** Built low-latency trading interfaces (sub-second updates) capable of handling millions in daily volume without rendering lag.
+*   **System Unification:** Consolidated three disparate codebases (React Web, React Native, Electron) into a single monorepo architecture, reducing feature delivery time by **40%**.
+*   **Reliability:** Implemented critical-path E2E testing (Playwright) for trade execution flows, preventing regression in financial logic.
 
-### Highlights
-
-- Unified UI: Consolidated React, React Native, and Electron into a shared component architecture.
-- High-Performance Systems: Built and maintained low-latency trading features with sub-second SLAs.
-- Reliability: Implemented Playwright E2E paths for mission-critical trading flows.
-- Leadership: Guided the UI team on architecture, reviewed PRs, and introduced Playwright-based E2E testing to additional teams.
-
-### Techs
-
-TypeScript, React, React Native, Electron, Go, Kafka, Docker, Node.js, Playwright, CSS/HTML, Linux
-
----
-
-## Trio — Senior Software Engineer / Tech Lead (2 years)
-
-May 2020 – Apr 2022
-
-Technical lead for multiple application teams.
-
-### Highlights
-
-- Leadership: Promoted from Engineer to Tech Lead. Directed architecture, cloud provisioning (AWS/GCP), and delivery strategy across multiple squads (1–8 devs).
-- Delivery: Shipped multiple production apps end-to-end, converting business constraints into scalable architecture across frontend, backend, and cloud.
-- Delivered large-scale systems for clients in the brewery and traceability industries.
-
-### Techs
-
-TypeScript, Vue.js, Next.js, React, Electron, Koa, Express, GraphQL, Strapi, PostgreSQL, MySQL, Redis, Webpack, GCP, Terraform
+**Trio** | *Tech Lead*
+*May 2020 – Apr 2022*
+*Technical leadership for multiple squads, delivering enterprise solutions for brewery and traceability clients.*
+*   **Architecture & Scale:** Led the migration from monolithic structures to scalable microservices on GCP/AWS using Terraform.
+*   **Leadership:** Mentored 8+ developers, introducing strict code review standards and CI/CD pipelines that reduced deployment failures to near zero.
 
 ---
 
-## TremTec — Frontend Lead (11 months)
+##  SELECTED ENGINEERING PROJECTS
+*Projects demonstrating Systems Thinking & Architecture.*
 
-Jul 2019 – May 2020
+**Pongo** (Go, WebSockets, Actor Model)
+*   **What it is:** A distributed, real-time multiplayer game engine.
+*   **The Tech:** Built a custom **Actor Model library (Bollywood)** from scratch in Go to handle high-concurrency state management without race conditions. Achieved zero-dependency architecture for maximum performance.
+*   **Live:** [pongo.luisguilher.me](https://pongo.luisguilher.me)
 
-Led the frontend/UI team. Defined technical requirements, mentored developers, and delivered scalable SPAs using React, TypeScript, and GraphQL.
+**AlphaTriangle** (Python, Ray, C++, PyTorch)
+*   **What it is:** An AlphaZero-style AI agent trained via distributed self-play.
+*   **The Tech:** Implemented Monte Carlo Tree Search (MCTS) in C++ for performance, wrapped in Python for training. Orchestrated distributed training jobs using **Ray** to scale self-play simulations across cores.
+*   **Live:** [tricrack.luisguilher.me](https://tricrack.luisguilher.me)
 
----
+**MimeFlow** (TypeScript, TensorFlow.js, WebGL)
+*   **What it is:** Browser-based computer vision engine for pose estimation.
+*   **The Tech:** Utilizes **5D vector cosine similarity** to calculate movement accuracy against video feeds in real-time, running entirely on the client-side GPU via WebGL.
+*   **Live:** [mimeflow.luisguilher.me](https://mimeflow.luisguilher.me)
 
-## netLex — Software Engineer (1 year)
-
-Aug 2018 – Jul 2019
-
-Full-stack development for a new SPA platform using AngularJS, Laravel, and MySQL.
-
----
-
-# SELECTED PROJECTS
-
-## PonGo — Real-Time Multiplayer Game
-
-Real-time Pong/Breakout hybrid with multi-room support.
-Backend written in Go using a custom Actor Model (Bollywood) enabling high concurrency and zero dependencies.
-
-- Repo: [https://github.com/lguibr/pongo](https://github.com/lguibr/pongo)
-- Live: [https://pongo.luisguilher.me](https://pongo.luisguilher.me)
+**LuisGuilher.me** (Next.js, Virtual File System)
+*   **What it is:** A portfolio that simulates a complete Operating System / IDE.
+*   **The Tech:** Engineered a **Virtual File System (VFS)** and window manager in the browser. Features a fully functional code editor (Monaco) and command-line interface.
 
 ---
 
-## AlphaTriangle — AlphaZero-Style Reinforcement Learning Agent
+##  EDUCATION
 
-AI agent trained to play a custom puzzle game using MCTS, PyTorch, and distributed self-play with Ray.
-Includes async training, stats logging, and exportable ONNX inference models.
+**Universidade Federal de Minas Gerais (UFMG)**
+*Undergraduate Studies in Physics (2018–2022)*
+*   **Focus:** Computational Physics, Complex Systems, Linear Algebra, and Calculus.
+*   *Pivoted to full-time Software Engineering to apply computational models to production systems.*
 
-- Repo: [https://github.com/lguibr/alphatriangle](https://github.com/lguibr/alphatriangle)
-- Playable: [https://tricrack.luisguilher.me](https://tricrack.luisguilher.me)
-
----
-
-## MimeFlow — Pose Matching Game
-
-Real-time pose evaluation app for dance/yoga/martial arts.
-Runs fully in-browser using TensorFlow.js and BlazePose for body tracking and scoring.
-
-- Repo: [https://github.com/lguibr/Mimeflow](https://github.com/lguibr/Mimeflow)
-- Live: [https://mimeflow.luisguilher.me](https://mimeflow.luisguilher.me)
+**CEFET-MG**
+*Technical Degree in Information Technology (2006–2008)*
 
 ---
-
-## TonAI — AI Music Generator
-
-Create and visualize music from text using a chat interface.
-Built with React, Tailwind, Tone.js, and Google Gemini. Features a real-time audio visualizer and playback controls.
-
-- Repo: [https://github.com/lguibr/tonai](https://github.com/lguibr/tonai)
-- Live: [https://tonai.luisguilher.me](https://tonai.luisguilher.me)
-
----
-
-## LuisGuilher.ME - Miniature IDE Personal Website
-
-Clone of an IDE, wired with a virtual file system, code rendering using Monaco Editor, with several advanced frontend features and a few easter eggs.
-
-- Repo: [https://github.com/lguibr/luisguilher.me](https://github.com/lguibr/luisguilher.me)
-- Live: [https://luisguilher.me](https://luisguilher.me)
-
-# EDUCATION
-
-- Physics (Incomplete) — Universidade Federal de Minas Gerais (2018–2022)
-- Tech. Information Technology — CEFET-MG (2006–2008)

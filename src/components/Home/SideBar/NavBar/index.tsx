@@ -6,7 +6,7 @@ import useContextTheme from 'src/hooks/useContextTheme'
 import useContextFile from 'src/hooks/useContextFile'
 import { useContextPrint } from 'src/hooks/useContextPrint'
 import { useContextGuideTour } from 'src/hooks/useGuideTour'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { sketchs } from 'src/assets/sketchMetadata' // <--- UPDATED IMPORT PATH
 import dynamic from 'next/dynamic'
 
@@ -71,6 +71,19 @@ const NavBar: React.FC = () => {
       )
     }
   }
+
+  useEffect(() => {
+    // Play random animation on mount (first load)
+    playRandomAnimation()
+
+    // Close it after 1.5 seconds
+    const timer = setTimeout(() => {
+      setShowDebugAnimation(false)
+      setDebugSketchName(null)
+    }, 1500)
+
+    return () => clearTimeout(timer)
+  }, [])
 
   const menuOptions: OptionType[] = [
     { variant: 'files' },
