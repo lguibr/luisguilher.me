@@ -5,7 +5,7 @@ Remote (Brazil Based) · lgpelin92@gmail.com · [github.com/lguibr](https://gith
 ---
 
 ## PROFESSIONAL SUMMARY
-**Senior Software Engineer** bridging the gap between theoretical complexity (Physics background) and production reliability. I specialize in the intersection of **Agentic AI workflows**, **Distributed Actor Models**, and **High-Performance Full Stack Architecture**.
+**Senior Software Engineer** with over 10 years of experience, bridging the gap between theoretical complexity (Physics background) and production reliability. I specialize in the intersection of **Agentic AI workflows**, **Distributed Actor Models**, and **High-Performance Full Stack Architecture**.
 I design and deploy production-grade systems, ranging from multi-agent LLM orchestrations and low-latency high-frequency trading interfaces to custom 3D game engines and distributed reinforcement learning pipelines. My mathematical foundation enables me to solve complex computational problems, ensuring systems are both theoretically sound and commercially scalable.
 
 ---
@@ -21,21 +21,21 @@ I design and deploy production-grade systems, ranging from multi-agent LLM orche
 ## PROFESSIONAL EXPERIENCE
 
 **Trebu (YC S22)** | *AI Software Engineer*
-*Jul 2024 – Nov 2025*
+*Jul 2024 – Nov 2025 (1 year 5 months)*
 *Architected autonomous negotiation engines and AI workflows for a high-growth logistics startup.*
 * **Multi-Agent Orchestration:** Designed and deployed the *Find Me a Truck* protocol, an autonomous multi-agent system that negotiates pricing with truckers via WhatsApp, replacing manual operations with deterministic state machines and LLMs.
 * **Latency Optimization:** Reduced LLM pipeline latency by **66%** through parallel execution trees, semantic caching, and aggressive prompt engineering. Slashed end-to-end negotiation time from **3+ minutes to <60 seconds**, directly increasing booking conversion rates.
 * **Computer Vision:** Integrated Segment Anything Model (SAM) into the OCR pipeline, improving document parsing accuracy by **6%** for non-standard paperwork.
 
 **Paradigm** | *Software Engineer (High-Frequency Trading)*
-*Apr 2022 – Apr 2024*
+*Apr 2022 – Apr 2024 (2 years)*
 *Engineered mission-critical frontend systems for the world’s largest institutional crypto derivatives network.*
 * **Performance Engineering:** Built high-frequency trading interfaces requiring sub-second updates, capable of handling millions in daily volume without rendering lag or frame drops.
-* **System Unification:** Consolidated three disparate codebases (React Web, React Native, Electron) into a single monorepo architecture, reducing feature delivery time by **40%**.
+* **System Unification:** Consolidated three disparate codebases (React Web, React Native, Electron) into a single monorepo architecture, reducing feature delivery time.
 * **Reliability:** Implemented critical-path E2E testing (Playwright) for trade execution flows, preventing regressions in complex financial and state management logic.
 
 **Trio** | *Tech Lead*
-*May 2020 – Apr 2022*
+*May 2020 – Apr 2022 (1 year 11 months)*
 *Technical leadership for multiple squads, delivering enterprise traceability solutions.*
 * **Architecture & Scale:** Led the migration from monolithic structures to scalable microservices on GCP/AWS using Terraform.
 * **Leadership:** Mentored 8+ developers, introducing strict code review standards and CI/CD pipelines that reduced deployment failures to near zero.
