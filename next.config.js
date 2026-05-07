@@ -22,6 +22,13 @@ module.exports = {
       test: /\.md$/,
       use: ['raw-loader']
     })
+    // Force Next.js to use the same React instance for local symlinked packages
+    const path = require('path');
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      react: path.resolve(__dirname, '.', 'node_modules', 'react'),
+      'react-dom': path.resolve(__dirname, '.', 'node_modules', 'react-dom'),
+    };
     return config
   }
 }
