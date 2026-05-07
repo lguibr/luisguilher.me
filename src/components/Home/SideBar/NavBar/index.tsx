@@ -9,7 +9,7 @@ import { useContextGuideTour } from 'src/hooks/useGuideTour'
 import { useState, useEffect } from 'react'
 import { sketchs } from 'src/assets/sketchMetadata' // <--- UPDATED IMPORT PATH
 import dynamic from 'next/dynamic'
-import { useL0g1n } from '@l0g1n/sdk'
+import { useL0g1n } from 'l0g1n-sdk'
 // Dynamically import AnimationOverlay, disable SSR
 const DynamicAnimationOverlay = dynamic(
   () => import('src/components/Core/AnimationOverlay'),

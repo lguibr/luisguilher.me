@@ -1,6 +1,6 @@
 // File: src/services/github/index.ts
 /* eslint-disable camelcase */
-import { useL0g1n } from '@l0g1n/sdk'
+import { useL0g1n } from 'l0g1n-sdk'
 
 const defaultBranchSha = process.env.SHA_BRANCH || 'main'
 const defaultRepo = process.env.REPO

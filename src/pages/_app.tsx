@@ -14,7 +14,7 @@ import { Analytics } from '@vercel/analytics/react'
 import P5Preloader from 'src/components/Core/P5Preloader' // Import the preloader
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { ChatProvider } from 'src/contexts/ChatContext'
-import { L0g1nProvider } from '@l0g1n/sdk'
+import { L0g1nProvider } from 'l0g1n-sdk'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSy...",

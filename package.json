@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@firebase/app": "^0.9.13",
-    "@l0g1n/sdk": "file:../l0g1n/sdk",
+    "l0g1n-sdk": "file:../l0g1n/sdk",
     "firebase": "^9.23.0",
     "@google/genai": "^1.52.0",
     "@monaco-editor/react": "4.7.0",
