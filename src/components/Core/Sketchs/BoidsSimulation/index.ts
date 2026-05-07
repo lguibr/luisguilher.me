@@ -19,7 +19,7 @@ class Boid {
   width: number
   height: number
   history: P5.Vector[] = [] // Array to store previous positions
-  trailLength = 10 // Number of trail segments
+  trailLength = 4 // Number of trail segments (reduced for performance)
   perceptionRadius = 50 // How far a boid can see neighbors
 
   constructor(p5: P5, x: number, y: number, width: number, height: number) {
@@ -31,130 +31,92 @@ class Boid {
     this.velocity = p5
       .createVector(p5.random(-1, 1), p5.random(-1, 1))
       .normalize()
-    this.velocity.setMag(p5.random(2, 10)) // Random initial speed
+    this.velocity.setMag(p5.random(4, 20)) // Random initial speed
 
     this.position = p5.createVector(x, y)
     this.r = 5.0 // Slightly larger boids
-    this.maxspeed = 4 // Slightly faster max speed
+    this.maxspeed = 8 // Slightly faster max speed
     this.maxforce = 0.05
     this.color = p5.random(GOOGLE_COLORS)
   }
 
   // --- Flocking behavior methods ---
   flock(boids: Boid[]): void {
-    const sep = this.separate(boids)
-    const ali = this.align(boids)
-    const coh = this.cohesion(boids)
+    const desiredseparation = 25.0
+    const neighborDist = this.perceptionRadius
+
+    const sepSteer = this.p5.createVector(0, 0)
+    const aliSum = this.p5.createVector(0, 0)
+    const cohSum = this.p5.createVector(0, 0)
+
+    let sepCount = 0
+    let aliCount = 0
+    let cohCount = 0
+
+    for (const other of boids) {
+      if (other === this) continue
+
+      const dx = this.position.x - other.position.x
+      const dy = this.position.y - other.position.y
+      const dSq = dx * dx + dy * dy
+
+      if (dSq > 0 && dSq < neighborDist * neighborDist) {
+        aliSum.add(other.velocity)
+        aliCount++
+        cohSum.add(other.position)
+        cohCount++
+
+        if (dSq < desiredseparation * desiredseparation) {
+          const d = Math.sqrt(dSq)
+          const diff = this.p5.createVector(dx, dy)
+          diff.normalize()
+          diff.div(d)
+          sepSteer.add(diff)
+          sepCount++
+        }
+      }
+    }
+
+    if (sepCount > 0) {
+      sepSteer.div(sepCount)
+    }
+    if (sepSteer.mag() > 0) {
+      sepSteer.normalize()
+      sepSteer.mult(this.maxspeed)
+      sepSteer.sub(this.velocity)
+      sepSteer.limit(this.maxforce)
+    }
+
+    let aliSteer = this.p5.createVector(0, 0)
+    if (aliCount > 0) {
+      aliSum.div(aliCount)
+      aliSum.normalize()
+      aliSum.mult(this.maxspeed)
+      aliSteer = this.p5.createVector(
+        aliSum.x - this.velocity.x,
+        aliSum.y - this.velocity.y
+      )
+      aliSteer.limit(this.maxforce)
+    }
+
+    let cohSteer = this.p5.createVector(0, 0)
+    if (cohCount > 0) {
+      cohSum.div(cohCount)
+      cohSteer = this.seek(cohSum)
+    }
 
     // Apply weights to forces
-    sep.mult(1.8) // Stronger separation
-    ali.mult(1.0)
-    coh.mult(1.0)
+    sepSteer.mult(1.8) // Stronger separation
+    aliSteer.mult(1.0)
+    cohSteer.mult(1.0)
 
-    this.applyForce(sep)
-    this.applyForce(ali)
-    this.applyForce(coh)
+    this.applyForce(sepSteer)
+    this.applyForce(aliSteer)
+    this.applyForce(cohSteer)
   }
 
   applyForce(force: P5.Vector): void {
     this.acceleration.add(force)
-  }
-
-  // Separation: steer away from neighbors to avoid crowding
-  separate(boids: Boid[]): P5.Vector {
-    const desiredseparation = 25.0
-    const steer = this.p5.createVector(0, 0)
-    let count = 0
-    for (const other of boids) {
-      // Replace p5.constructor.Vector.dist() with p5.dist()
-      const d = this.p5.dist(
-        this.position.x,
-        this.position.y,
-        other.position.x,
-        other.position.y
-      )
-      if (d > 0 && d < desiredseparation) {
-        // Replace p5.constructor.Vector.sub() with manual creation
-        const diff = this.p5.createVector(
-          this.position.x - other.position.x,
-          this.position.y - other.position.y
-        )
-        diff.normalize()
-        diff.div(d) // Weight by distance
-        steer.add(diff)
-        count++
-      }
-    }
-    if (count > 0) {
-      steer.div(count)
-    }
-    if (steer.mag() > 0) {
-      steer.normalize()
-      steer.mult(this.maxspeed)
-      steer.sub(this.velocity) // Instance method is fine
-      steer.limit(this.maxforce)
-    }
-    return steer
-  }
-
-  // Alignment: steer towards the average heading of neighbors
-  align(boids: Boid[]): P5.Vector {
-    const neighborDist = this.perceptionRadius
-    const sum = this.p5.createVector(0, 0)
-    let count = 0
-    for (const other of boids) {
-      // Replace p5.constructor.Vector.dist() with p5.dist()
-      const d = this.p5.dist(
-        this.position.x,
-        this.position.y,
-        other.position.x,
-        other.position.y
-      )
-      if (d > 0 && d < neighborDist) {
-        sum.add(other.velocity)
-        count++
-      }
-    }
-    if (count > 0) {
-      sum.div(count)
-      sum.normalize()
-      sum.mult(this.maxspeed)
-      // Replace p5.constructor.Vector.sub() with manual creation
-      const steer = this.p5.createVector(
-        sum.x - this.velocity.x,
-        sum.y - this.velocity.y
-      )
-      steer.limit(this.maxforce)
-      return steer
-    } else {
-      return this.p5.createVector(0, 0)
-    }
-  }
-
-  // Cohesion: steer towards the average position (center of mass) of neighbors
-  cohesion(boids: Boid[]): P5.Vector {
-    const neighborDist = this.perceptionRadius
-    const sum = this.p5.createVector(0, 0)
-    let count = 0
-    for (const other of boids) {
-      // Replace p5.constructor.Vector.dist() with p5.dist()
-      const d = this.p5.dist(
-        this.position.x,
-        this.position.y,
-        other.position.x,
-        other.position.y
-      )
-      if (d > 0 && d < neighborDist) {
-        sum.add(other.position)
-        count++
-      }
-    }
-    if (count > 0) {
-      sum.div(count)
-      return this.seek(sum)
-    } else {
-      return this.p5.createVector(0, 0)
-    }
   }
 
   seek(target: P5.Vector): P5.Vector {
@@ -243,7 +205,7 @@ const sketch =
   () =>
   (p5: P5): void => {
     const flock: Boid[] = []
-    const numBoids = 256
+    const numBoids = 512
 
     p5.setup = (): void => {
       p5.createCanvas(p5.windowWidth, p5.windowHeight)

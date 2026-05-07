@@ -1,9 +1,10 @@
 // File: src/services/github/index.ts
 /* eslint-disable camelcase */
+import { useL0g1n } from '@l0g1n/sdk'
+
 const defaultBranchSha = process.env.SHA_BRANCH || 'main'
 const defaultRepo = process.env.REPO
 const defaultOwner = process.env.OWNER
-const githubPat = process.env.GITHUB_PAT // Get the PAT from env
 
 type ResTreeFileType = {
   path: string
@@ -28,96 +29,105 @@ type ResRepoType = {
   default_branch: string
 }
 
-// Common headers for authenticated requests
+let hasWarnedAboutPat = false
+
 const getHeaders = (): HeadersInit => {
   const headers: HeadersInit = {
     Accept: 'application/vnd.github.v3+json'
   }
-  if (githubPat) {
-    headers.Authorization = `token ${githubPat}`
-  } else {
-    // Warn only once or less frequently if needed
+  if (!hasWarnedAboutPat) {
     console.warn(
-      '[GitHub Service] GITHUB_PAT not found. Making unauthenticated requests (likely to be rate limited).'
+      '[GitHub Service] Making unauthenticated requests (likely to be rate limited). Login to unlock better limits.'
     )
+    hasWarnedAboutPat = true
   }
   return headers
 }
 
-const githubService = {
-  fetchFileContent: async (
+export const useGithubService = () => {
+  const { user, fetchGithubData } = useL0g1n()
+
+  const safeFetch = async <T>(apiUrl: string): Promise<T> => {
+    // If logged in via L0G1n SDK, proxy through Firebase Functions
+    if (user) {
+      try {
+        return await fetchGithubData<T>(apiUrl)
+      } catch (err: any) {
+        console.error("L0G1n Proxy fetch failed, falling back to direct fetch", err)
+      }
+    }
+
+    // Fallback: direct unauthenticated fetch
+    const res = await fetch(apiUrl, { headers: getHeaders() })
+    const contentType = res.headers.get('content-type') || ''
+    
+    if (contentType.includes('application/json')) {
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.message || `Failed to fetch: ${apiUrl}`)
+      return data
+    } else {
+      const text = await res.text()
+      if (!res.ok) throw new Error(`Failed to fetch: ${apiUrl} (${res.status})`)
+      return {
+        content: typeof window !== 'undefined'
+          ? window.btoa(unescape(encodeURIComponent(text)))
+          : btoa(text)
+      } as unknown as T
+    }
+  }
+
+  const fetchFileContent = async (
     owner: string = defaultOwner || '',
     repo: string = defaultRepo || '',
     path: string,
     branch: string = defaultBranchSha
   ): Promise<ResFileType> => {
-    if (!owner || !repo) {
-      throw new Error('GitHub owner or repo not configured/provided.')
-    }
+    if (!owner || !repo) throw new Error('GitHub owner or repo not configured/provided.')
     const cleanPath = path.startsWith('/') ? path.substring(1) : path
-    if (!cleanPath) {
-      throw new Error('Cannot fetch content for empty path (repository root).')
-    }
+    if (!cleanPath) throw new Error('Cannot fetch content for empty path (repository root).')
+    
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${cleanPath}?ref=${branch}`
-    const res = await fetch(apiUrl, { headers: getHeaders() }) // Add headers
-    const data: ResFileType = await res.json()
-    if (!res.ok) {
-      console.error(
-        `[GitHub Service] Error fetching file content (${res.status}) for ${owner}/${repo}/${cleanPath}: ${data.message}`
-      )
-      throw new Error(data.message || `Failed to fetch file content: ${path}`)
-    }
-    return data
-  },
+    return safeFetch<ResFileType>(apiUrl)
+  }
 
-  fetchRepoTree: async (
+  const fetchRepoTree = async (
     owner: string = defaultOwner || '',
     repo: string = defaultRepo || '',
     branch: string = defaultBranchSha
   ): Promise<ResTreeFileType[]> => {
-    if (!owner || !repo) {
-      throw new Error('GitHub owner or repo not configured/provided.')
-    }
+    if (!owner || !repo) throw new Error('GitHub owner or repo not configured/provided.')
+    
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`
-    const res = await fetch(apiUrl, { headers: getHeaders() }) // Add headers
-    const data = await res.json()
-
-    if (!res.ok) {
-      console.error(
-        `[GitHub Service] Error fetching repo tree (${res.status}) for ${owner}/${repo}: ${data.message}`
-      )
-      return [] // Return empty on error
+    try {
+      const data: any = await safeFetch(apiUrl)
+      if (data.truncated) {
+        console.warn(`[GitHub Service] Warning: Fetched tree for ${repo} was truncated. Some files may be missing.`)
+      }
+      return data.tree || []
+    } catch (e) {
+      return []
     }
-
-    if (data.truncated) {
-      console.warn(
-        `[GitHub Service] Warning: Fetched tree for ${repo} was truncated. Some files may be missing.`
-      )
-    }
-
-    const rawTree: ResTreeFileType[] = data.tree || []
-    return rawTree
-  },
-
-  fetchUserRepos: async (username: string): Promise<ResRepoType[]> => {
-    if (!username) {
-      throw new Error('GitHub username not provided.')
-    }
-    const apiUrl = `https://api.github.com/users/${username}/repos?type=public&sort=updated&per_page=100`
-    const res = await fetch(apiUrl, { headers: getHeaders() }) // Add headers
-
-    if (!res.ok) {
-      const errorData = await res
-        .json()
-        .catch(() => ({ message: 'Failed to parse error response' }))
-      console.error(
-        `[GitHub Service] Error fetching user repos (${res.status}): ${errorData.message}`
-      )
-      return [] // Return empty on error
-    }
-    const data: ResRepoType[] = await res.json()
-    return data
   }
+
+  const fetchUserRepos = async (username: string): Promise<ResRepoType[]> => {
+    if (!username) throw new Error('GitHub username not provided.')
+    
+    const apiUrl = `https://api.github.com/users/${username}/repos?type=public&sort=updated&per_page=100`
+    try {
+      const data: any = await safeFetch(apiUrl)
+      return data || []
+    } catch (e) {
+      return []
+    }
+  }
+
+  return { fetchFileContent, fetchRepoTree, fetchUserRepos }
 }
 
-export default githubService
+// Temporary fallback for anywhere that can't use hooks (e.g. getServerSideProps)
+const legacyGithubService = {
+  fetchFileContent: async () => ({ content: '' } as ResFileType),
+  fetchRepoTree: async () => [] as ResTreeFileType[],
+  fetchUserRepos: async () => [] as ResRepoType[]
+}
+export default legacyGithubService

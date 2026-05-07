@@ -15,6 +15,7 @@ const FileTile: React.FC<FileTileProps> = ({ filePath, folder, open }) => {
   const file = files.find(file => file.path === filePath)
   const Icon = extractIcon(filePath, open, folder)
   const { diff, isDiff } = file ?? {}
+  const fileName = file?.name || filePath.split('/').pop() || filePath
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     e.dataTransfer.setData('file', JSON.stringify(filePath))
@@ -36,7 +37,7 @@ const FileTile: React.FC<FileTileProps> = ({ filePath, folder, open }) => {
         {folder && <ArrowIcon height="10px" width="10px" open={open} />}
       </ArrowContainer>
       <Icon height="14px" width="14px" />
-      <Text size={14}>{file?.name}</Text>
+      <Text size={14}>{fileName}</Text>
       {isDiff && <Text size={13}>(Working Tree)</Text>}
       {diff && <Text size={13}>M</Text>}
     </Container>

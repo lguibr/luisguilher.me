@@ -47,11 +47,14 @@ export const StyledPanel = styled(Panel)`
   overflow: hidden;
 `
 
-export const StyledResizeHandle = styled(PanelResizeHandle)`
-  width: 2px;
+export const StyledResizeHandle = styled(PanelResizeHandle)<{
+  $isVertical?: boolean
+}>`
+  width: ${({ $isVertical }) => ($isVertical ? '100%' : '2px')};
+  height: ${({ $isVertical }) => ($isVertical ? '2px' : '100%')};
   background-color: transparent;
   transition: background-color 0.2s;
-  cursor: col-resize;
+  cursor: ${({ $isVertical }) => ($isVertical ? 'row-resize' : 'col-resize')};
   z-index: 10;
 
   &:hover,

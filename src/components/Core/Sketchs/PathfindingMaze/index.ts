@@ -11,9 +11,9 @@ import { drawFoundPath, reconstructPath } from './found'
 const GOOGLE_COLORS = ['#4285F4', '#DB4437', '#F4B400', '#0F9D58']
 const TARGET_CELLS_ON_SHORTER_AXIS = 15
 const PADDING = 1
-const FRAME_RATE = 30
-const CARVING_STEPS_PER_FRAME = 3
-const SEARCH_STEPS_PER_FRAME = 2
+const FRAME_RATE = 60
+const CARVING_STEPS_PER_FRAME = 9
+const SEARCH_STEPS_PER_FRAME = 6
 const COLOR_CHANGE_SPEED = 0.01
 const VISITED_ALPHA = 40
 const WALL_WEIGHT_FACTOR = 0.1

@@ -6,7 +6,7 @@ import DoublePendulumSketch from 'src/components/Core/Sketchs/DoublePendulum'
 import HexagonCollisionSketch from 'src/components/Core/Sketchs/HexagonCollision'
 import StarfieldSketch from 'src/components/Core/Sketchs/Starfield'
 import PathfindingMazeSketch from 'src/components/Core/Sketchs/PathfindingMaze'
-import HypercubeSketch from 'src/components/Core/Sketchs/Hypercube'
+
 // Updated import path
 import NoiseFlowFieldSketch from 'src/components/Core/Sketchs/NoiseFlowField'
 import BoidsSimulationSketch from 'src/components/Core/Sketchs/BoidsSimulation'
@@ -21,7 +21,7 @@ export const sketchFactoryMap: { [key: string]: SketchFactory } = {
   HexagonCollision: HexagonCollisionSketch,
   Starfield: StarfieldSketch,
   PathfindingMaze: PathfindingMazeSketch,
-  Hypercube: HypercubeSketch,
+
   // Updated key and value
   NoiseFlowField: NoiseFlowFieldSketch,
   BoidsSimulation: BoidsSimulationSketch,

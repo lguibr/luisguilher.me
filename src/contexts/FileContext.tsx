@@ -14,7 +14,7 @@ import fileReducer, {
   FileType as FileT,
   ActionType
 } from 'src/reducers/FileReducer'
-import githubService from 'src/services/github'
+import { useGithubService } from 'src/services/github'
 
 import readmeContent from '../../README.md'
 import curriculumContent from '../../CURRICULUM.md'
@@ -44,6 +44,7 @@ export const FileProvider: React.FC = ({ children }) => {
   const ownerName = process.env.OWNER || 'lguibr'
   const githubUsername = process.env.GITHUB_USERNAME || 'lguibr'
   const { build } = useTree()
+  const githubService = useGithubService()
 
   const initialFlatState: FileType[] = [
     {

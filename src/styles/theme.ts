@@ -99,68 +99,66 @@ export default {
 
   'vs-dark': {
     colors: {
-      // Rich, deep backgrounds instead of flat black
-      editorBackground:
-        'linear-gradient(135deg, #0f0c29 0%, #14121f 50%, #0a0a0f 100%)',
-      menuBackground: 'rgba(20, 18, 31, 0.95)',
-      listDropBackground: 'rgba(30, 27, 43, 0.95)',
-      topBarBackground:
-        'linear-gradient(180deg, rgba(15, 12, 41, 0.98) 0%, rgba(20, 18, 31, 0.95) 100%)',
+      // Classic VS Code neutral backgrounds
+      editorBackground: '#1e1e1e',
+      menuBackground: '#252526',
+      listDropBackground: '#2d2d30',
+      topBarBackground: '#333333',
 
-      // Interactive states with vibrant accents
-      sideHighlight: 'rgba(88, 75, 130, 0.3)',
-      sideHighlightHover: 'rgba(102, 126, 234, 0.25)',
-      tileBorder: 'rgba(102, 126, 234, 0.2)',
-      negativeHighlight: 'rgba(15, 12, 41, 0.5)',
+      // Interactive states with clean accents
+      sideHighlight: '#2a2d2e',
+      sideHighlightHover: '#37373d',
+      tileBorder: '#3c3c3c',
+      negativeHighlight: '#1e1e1e',
 
-      // Vibrant accent colors for dark mode
-      accentColor: '#FF6B9D',
-      accentSecondary: '#00F5FF',
-      accentTertiary: '#C6F6D5',
+      // Primary accent colors (VS Code Blue)
+      accentColor: '#007acc',
+      accentSecondary: '#005a9e',
+      accentTertiary: '#0098ff',
 
-      // Navigation with subtle gradients
-      navigationFile: 'rgba(20, 18, 31, 0.8)',
-      selectedNavigationFile:
-        'linear-gradient(90deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%)',
-      fileLine: 'rgba(102, 126, 234, 0.3)',
-      queryString: 'rgba(251, 191, 36, 0.3)',
+      // Navigation
+      navigationFile: '#252526',
+      selectedNavigationFile: '#37373d',
+      fileLine: '#3c3c3c',
+      queryString: '#d7ba7d',
 
-      // Inputs with glass effect
-      inputBackground: 'rgba(30, 27, 43, 0.6)',
-      selectedBlue: 'rgba(79, 172, 254, 0.3)',
+      // Inputs
+      inputBackground: '#3c3c3c',
+      selectedBlue: 'rgba(0, 122, 204, 0.3)',
 
-      // Text with better contrast
-      text: '#E2E8F0',
-      subString: '#94A3B8',
-      vsBlue: '#60A5FA',
-      white: '#F8FAFC',
-      black: '#0F0C29',
-      shortCut: 'rgba(30, 27, 43, 0.9)',
+      // Text with sharp contrast
+      text: '#cccccc',
+      subString: '#858585',
+      vsBlue: '#4fc1ff',
+      white: '#ffffff',
+      black: '#000000',
+      shortCut: '#858585',
 
-      // Glassmorphism for dark mode
-      glassBackground: 'rgba(20, 18, 31, 0.7)',
-      glassBorder: 'rgba(102, 126, 234, 0.2)',
+      // Glassmorphism - disabled in brutalist IDE
+      glassBackground: 'transparent',
+      glassBorder: 'transparent',
 
-      // Vibrant gradients for accents
-      gradientPrimary: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      gradientSecondary: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      gradientAccent: 'linear-gradient(135deg, #00F5FF 0%, #00D9FF 100%)',
-      gradientBackground:
-        'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
+      // Clean gradients for accents
+      gradientPrimary: '#007acc',
+      gradientSecondary: '#005a9e',
+      gradientAccent: '#007acc',
+      gradientBackground: '#1e1e1e',
 
-      // Enhanced shadows for depth
-      shadowSm: '0 1px 2px 0 rgba(0, 0, 0, 0.5)',
-      shadowMd:
-        '0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3)',
-      shadowLg:
-        '0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4)',
-      shadowXl:
-        '0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5)',
-      shadowGlow:
-        '0 0 20px rgba(102, 126, 234, 0.4), 0 0 40px rgba(118, 75, 162, 0.2)'
+      // Shadows removed for flatness
+      shadowSm: 'none',
+      shadowMd: 'none',
+      shadowLg: 'none',
+      shadowXl: 'none',
+      shadowGlow: 'none'
     },
     spacing,
-    borderRadius,
+    borderRadius: {
+      sm: '0px',
+      md: '0px',
+      lg: '0px',
+      xl: '0px',
+      round: '0px'
+    },
     transitions,
     breakpoints
   }

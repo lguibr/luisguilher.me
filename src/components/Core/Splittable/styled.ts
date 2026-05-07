@@ -30,11 +30,10 @@ export const StyledPanel = styled(Panel)`
 export const StyledResizeHandle = styled(PanelResizeHandle)<{
   direction: Direction
 }>`
-  background-color: #aaa;
+  background-color: ${({ theme }) => theme.colors.tileBorder};
   z-index: 10;
   cursor: ${({ direction }) =>
     direction === 'horizontal' ? 'col-resize' : 'row-resize'};
   width: ${({ direction }) => (direction === 'horizontal' ? '1px' : '100%')};
   height: ${({ direction }) => (direction === 'horizontal' ? '100%' : '1px')};
-  opacity: 0.2;
 `
