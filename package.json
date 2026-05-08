@@ -32,7 +32,7 @@
     "@vercel/speed-insights": "^1.2.0",
     "firebase": "^9.23.0",
     "idb": "^8.0.3",
-    "l0g1n-sdk": "1.0.2",
+    "l0g1n-sdk": "^1.0.3",
     "mermaid": "^9.4.3",
     "monaco-editor": "0.55.1",
     "next": "11.1.0",
