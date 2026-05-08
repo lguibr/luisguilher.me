@@ -12,7 +12,7 @@ import {
   clearConversation,
   Conversation
 } from '../services/db'
-import { generateChatResponse, OpenFileContext } from '../services/ai'
+import { generateChatResponse, generateChatTitle, OpenFileContext } from '../services/ai'
 import { FileContext } from './FileContext'
 import { FileViewsContext, FileViewsContextType } from './FileViewContext'
 import { useL0g1n } from 'l0g1n-sdk'
@@ -182,12 +182,11 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     setMessages(newMessages)
     setIsLoading(true)
 
-    // Determine title for new conversation
-    const title =
-      messages.length === 0
-        ? text.slice(0, 30) + '...'
-        : conversations.find(c => c.id === activeConversationId)?.title ||
-          'New Chat'
+    // Determine title for new conversation concurrently
+    let titlePromise: Promise<string> | null = null
+    if (messages.length === 0) {
+      titlePromise = generateChatTitle(activeApiKey, model, text)
+    }
 
     try {
       const openFiles = getOpenFiles()
@@ -200,6 +199,13 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
         mentionedFiles
       )
 
+      let finalTitle =
+        conversations.find(c => c.id === activeConversationId)?.title ||
+        'New Chat'
+      if (titlePromise) {
+        finalTitle = await titlePromise
+      }
+
       if (aiResponse && aiResponse.text) {
         const aiMsg: ChatMessage = {
           id: (Date.now() + 1).toString(),
@@ -211,7 +217,7 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
         }
         const updatedMessages = [...newMessages, aiMsg]
         setMessages(updatedMessages)
-        await saveConversation(activeConversationId, title, updatedMessages)
+        await saveConversation(activeConversationId, finalTitle, updatedMessages)
         loadConversations(activeConversationId) // Refresh list
       }
     } catch (err: any) {
@@ -228,6 +234,13 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
         toast.error(`Chat Error: ${err.message || 'Unknown error occurred'}`)
       }
 
+      let finalTitle =
+        conversations.find(c => c.id === activeConversationId)?.title ||
+        'New Chat'
+      if (titlePromise) {
+        finalTitle = await titlePromise
+      }
+
       const errorMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'system',
@@ -236,7 +249,7 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
       }
       const updatedMessages = [...newMessages, errorMsg]
       setMessages(updatedMessages)
-      await saveConversation(activeConversationId, title, updatedMessages)
+      await saveConversation(activeConversationId, finalTitle, updatedMessages)
       loadConversations(activeConversationId)
     } finally {
       setIsLoading(false)

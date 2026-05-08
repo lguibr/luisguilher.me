@@ -151,6 +151,15 @@ export const MessageBubble = styled.div<{ isUser: boolean }>`
   border: none;
   box-shadow: none;
   position: relative;
+
+  a {
+    color: ${({ theme }) => theme.colors.vsBlue || theme.colors.accentColor};
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `
 
 export const InputContainer = styled.form`

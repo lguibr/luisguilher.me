@@ -39,6 +39,30 @@ export interface OpenFileContext {
   content: string
 }
 
+export const generateChatTitle = async (
+  apiKey: string,
+  model: string,
+  firstMessage: string
+): Promise<string> => {
+  if (!apiKey || !firstMessage.trim()) return firstMessage.slice(0, 30) + '...'
+
+  try {
+    const ai = new GoogleGenAI({ apiKey })
+    const response = await ai.models.generateContent({
+      model: 'gemini-flash-latest',
+      contents: `You are a conversation titler. Generate a short, concise, and professional title (maximum 4 words) for the following chat message. Do not include quotes or markdown formatting. Message: "${firstMessage}"`
+    })
+
+    if (response.text) {
+      return response.text.trim().replace(/^["']|["']$/g, '')
+    }
+  } catch (error) {
+    console.error('Failed to generate chat title:', error)
+  }
+
+  return firstMessage.slice(0, 30) + '...'
+}
+
 export const generateChatResponse = async (
   apiKey: string,
   model: string,

@@ -24,19 +24,19 @@ export const Row = styled.div<Pick<Props, 'isCurrent'>>`
       : '1px solid transparent'};
   border-bottom: 1px solid transparent;
 
-  div :last-child {
+  > div:last-child {
     display: none;
   }
 
   :hover {
     background-color: ${({ theme }) => theme.colors.selectedNavigationFile};
-    div :last-child {
+    > div:last-child {
       display: grid;
     }
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.medium}) {
-    div :last-child {
+    > div:last-child {
       display: grid;
     }
   }
