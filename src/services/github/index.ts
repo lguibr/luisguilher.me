@@ -1,6 +1,5 @@
 // File: src/services/github/index.ts
 /* eslint-disable camelcase */
-import { useL0g1n } from 'l0g1n-sdk'
 import { toast } from 'sonner'
 
 const defaultBranchSha = process.env.SHA_BRANCH || 'main'
@@ -32,36 +31,68 @@ type ResRepoType = {
 
 let hasWarnedAboutPat = false
 
-const getHeaders = (): HeadersInit => {
+const getHeaders = (token?: string | null): HeadersInit => {
   const headers: HeadersInit = {
     Accept: 'application/vnd.github.v3+json'
   }
-  if (!hasWarnedAboutPat) {
-    console.warn(
-      '[GitHub Service] Making unauthenticated requests (likely to be rate limited). Login to unlock better limits.'
-    )
-    hasWarnedAboutPat = true
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  } else {
+    if (!hasWarnedAboutPat) {
+      console.warn(
+        '[GitHub Service] Making unauthenticated requests (likely to be rate limited). Login to unlock better limits.'
+      )
+      hasWarnedAboutPat = true
+    }
   }
   return headers
 }
 
 export const useGithubService = () => {
-  const { user, fetchGithubData } = useL0g1n()
-
   const safeFetch = async <T>(apiUrl: string): Promise<T> => {
-    // If logged in via L0G1n SDK, proxy through Firebase Functions
-    if (user) {
-      try {
-        return await fetchGithubData<T>(apiUrl)
-      } catch (err: any) {
-        console.error(
-          'L0G1n Proxy fetch failed, falling back to direct fetch',
-          err
-        )
+    const localToken =
+      typeof window !== 'undefined'
+        ? localStorage.getItem('GIG_GITHUB_TOKEN')
+        : null
+
+    // 1. Direct GitHub fetch with token (Preferred)
+    if (localToken) {
+      console.log(
+        `[GitHub Service] Using local GIG_GITHUB_TOKEN: ${localToken.substring(
+          0,
+          5
+        )}...`
+      )
+      const res = await fetch(apiUrl, { headers: getHeaders(localToken) })
+
+      if (res.ok) {
+        const contentType = res.headers.get('content-type') || ''
+        if (contentType.includes('application/json')) {
+          return await res.json()
+        }
+        const text = await res.text()
+        return {
+          content: window.btoa(unescape(encodeURIComponent(text)))
+        } as unknown as T
       }
+
+      const errorText = await res.text()
+      console.error(
+        `[GitHub Service] Token-based fetch failed (${res.status}):`,
+        errorText
+      )
+
+      if (res.status === 403 || res.status === 429) {
+        toast.error(
+          `GitHub API Error: ${res.status}. Your token might be rate-limited or invalid.`
+        )
+        throw new Error(`GitHub Token Error: ${res.status}`)
+      }
+      // If it's not a rate limit but still failed, fall through to unauthenticated as a last resort
     }
 
-    // Fallback: direct unauthenticated fetch
+    // 2. Direct unauthenticated fetch (Fallback, rate limited)
+    // console.log(`[GitHub Service] Falling back to unauthenticated fetch for: ${apiUrl}`);
     const res = await fetch(apiUrl, { headers: getHeaders() })
 
     if (res.status === 403 || res.status === 429) {
@@ -108,29 +139,29 @@ export const useGithubService = () => {
   const fetchRepoTree = async (
     owner: string = defaultOwner || '',
     repo: string = defaultRepo || '',
-    branch: string = defaultBranchSha
+    branch: string = defaultBranchSha,
+    recursive: boolean = true
   ): Promise<ResTreeFileType[]> => {
     if (!owner || !repo)
       throw new Error('GitHub owner or repo not configured/provided.')
 
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`
-    try {
-      const data: any = await safeFetch(apiUrl)
-      if (data.truncated) {
-        console.warn(
-          `[GitHub Service] Warning: Fetched tree for ${repo} was truncated. Some files may be missing.`
-        )
-      }
-      return data.tree || []
-    } catch (e) {
-      return []
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}${
+      recursive ? '?recursive=1' : ''
+    }`
+    const data: any = await safeFetch(apiUrl)
+    if (data.truncated) {
+      console.warn(
+        `[GitHub Service] Warning: Fetched tree for ${repo} was truncated. Some files may be missing.`
+      )
     }
+    return data.tree || []
   }
 
   const fetchUserRepos = async (username: string): Promise<ResRepoType[]> => {
     if (!username) throw new Error('GitHub username not provided.')
 
-    const apiUrl = `https://api.github.com/users/${username}/repos?type=public&sort=updated&per_page=100`
+    const apiUrl = `https://api.github.com/users/${username}/repos?sort=updated&per_page=100`
+
     try {
       const data: any = await safeFetch(apiUrl)
       return data || []

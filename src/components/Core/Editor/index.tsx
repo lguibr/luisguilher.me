@@ -25,8 +25,8 @@ const Editor: React.FC<EditorProps> = ({
   const { selectedTheme } = useContextTheme()
   const { isMedium } = useWindow()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleEditorDidMount = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (monaco: Monaco, editor: any) => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const tsLanguages = monaco.languages.typescript as any
@@ -112,6 +112,7 @@ const Editor: React.FC<EditorProps> = ({
     <MonacoEditor
       height="100%"
       width="100%"
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       options={options as any}
       language={currentExt}
       value={currentContent}

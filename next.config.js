@@ -31,5 +31,19 @@ module.exports = {
       'cytoscape/dist/cytoscape.umd.js': path.resolve(__dirname, 'node_modules', 'cytoscape', 'dist', 'cytoscape.cjs.js')
     };
     return config
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin-allow-popups'
+          }
+        ]
+      }
+    ]
   }
 }
+

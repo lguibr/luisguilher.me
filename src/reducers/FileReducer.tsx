@@ -1,16 +1,7 @@
 // File: src/reducers/FileReducer.tsx
 
 // --- Helper ---
-import { useTree } from 'src/hooks/useTree'
-
-type RawTreeNode = {
-  path: string
-  mode?: string
-  type?: string // 'blob' or 'tree'
-  sha?: string
-  size?: number
-  url?: string
-}
+import { buildTree, flatTree } from 'src/utils/treeUtils'
 
 export type FileType = {
   name?: string
@@ -21,7 +12,6 @@ export type FileType = {
   highLighted?: boolean
   current?: boolean
   image?: JSX.Element
-  // undefined: not fetched/not applicable(file). []: fetched, possibly empty. FileType[]: fetched with children.
   children?: FileType[] | undefined
   index?: number
   diff?: boolean
@@ -35,10 +25,17 @@ export type FileType = {
     | 'root-file'
     | 'root-dir'
   sha?: string
-  // childrenFetched?: boolean; // Removed this flag
+  defaultBranch?: string
 }
 
-// --- Action Types ---
+type RawTreeNode = {
+  path: string
+  mode?: string
+  type?: string
+  sha?: string
+  size?: number
+  url?: string
+}
 
 type SingleTargetAction = {
   type:
@@ -56,7 +53,7 @@ type SetFilesAction = { type: 'SET_FILES'; payload: FileType[] }
 
 type AddRepoPlaceholdersAction = {
   type: 'ADD_REPO_PLACEHOLDERS'
-  payload: { repoNames: string[] }
+  payload: { repos: { name: string; defaultBranch: string }[] }
 }
 
 type MergeTreeAction = {
@@ -75,8 +72,6 @@ export type ActionType =
   | MergeTreeAction
 
 const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
-  const { build, flatTree } = useTree()
-
   switch (action.type) {
     // --- Existing Actions ---
     case 'SET_CURRENT':
@@ -148,7 +143,8 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
 
     // --- New/Modified Actions ---
     case 'ADD_REPO_PLACEHOLDERS': {
-      const { repoNames } = action.payload
+      const { repos } = action.payload
+
       const newState = [...state]
       const repositoriesRootPath = 'repositories'
       let repoRoot = newState.find(f => f.path === repositoriesRootPath)
@@ -158,19 +154,19 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
           name: 'repositories',
           type: 'repo-root',
           children: []
-        } // Start with empty array
+        }
         newState.push(repoRoot)
       }
       repoRoot.children = repoRoot.children ?? []
-      repoNames.forEach(name => {
+      repos.forEach(({ name, defaultBranch }) => {
         const repoPath = `${repositoriesRootPath}/${name}`
         if (!newState.some(f => f.path === repoPath)) {
           newState.push({
             path: repoPath,
             name: name,
             type: 'placeholder-repo-root',
-            children: undefined // Explicitly undefined for unfetched
-            // childrenFetched: false // Removed
+            defaultBranch,
+            children: undefined
           })
         }
       })
@@ -189,7 +185,7 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
           ...node,
           path: prefix ? `${prefix}${node.path}` : node.path
         })) ?? []
-      const newNodesHierarchical = build(treeWithCorrectPaths)
+      const newNodesHierarchical = buildTree(treeWithCorrectPaths)
       const newNodesFlat = flatTree(newNodesHierarchical)
 
       // 2. Find or create the root node being updated
@@ -198,7 +194,6 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
       let updatedRootNode: FileType | undefined
 
       if (repoType === 'main') {
-        // Remove all previous root-level files/dirs (excluding resume/repositories)
         stateWithoutOldData = state.filter(
           f =>
             f.path === 'resume' ||
@@ -208,20 +203,17 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
             f.path === 'CURRICULUM.md' ||
             f.path === 'README.md'
         )
-        // No explicit root node needed for main repo
       } else {
-        // 'other' repo type
         if (existingRootIndex !== -1) {
           const existingRoot = state[existingRootIndex]
           stateWithoutOldData = state.filter(
             file =>
               !file.path.startsWith(rootPath + '/') && file.path !== rootPath
           )
-          // Create the updated root node, setting children to [] to signify fetch occurred
           updatedRootNode = {
             ...existingRoot,
             type: 'repo-root',
-            children: [] /* childrenFetched: true */
+            children: []
           }
         } else {
           console.warn(
@@ -235,7 +227,7 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
             path: rootPath,
             name: repoName,
             type: 'repo-root',
-            children: [] /* childrenFetched: true */
+            children: []
           }
         }
       }
@@ -254,23 +246,20 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
       // 4. Combine
       const mergedState = [
         ...stateWithoutOldData,
-        ...(updatedRootNode ? [updatedRootNode] : []), // Add updated root only for 'other' repos
+        ...(updatedRootNode ? [updatedRootNode] : []),
         ...newNodesFlat,
         ...newDiffNodes
       ]
 
       // 5. Ensure uniqueness
-      const finalUniqueState = mergedState.filter(
+      return mergedState.filter(
         (file, index, self) =>
           index === self.findIndex(f => f.path === file.path)
       )
-
-      return finalUniqueState
     }
 
     default:
       return state
   }
 }
-
 export default fileReducer

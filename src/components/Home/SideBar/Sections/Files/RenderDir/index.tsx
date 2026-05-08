@@ -44,12 +44,20 @@ const RenderDirectory: React.FC<RenderDirectoryProps> = ({
       const needsFetching =
         file.children === undefined && file.type === 'placeholder-repo-root'
 
+      console.log(`[RenderDir] handleClick: ${file.path}`, {
+        type: file.type,
+        childrenCount: file.children?.length ?? 'undefined',
+        needsFetching
+      })
+
       // Always toggle the visual state first
       setOpen(prevOpen => ({ ...prevOpen, [file.path]: !prevOpen[file.path] }))
 
       // Fetch if needed (and not the main 'repositories' folder itself)
       if (needsFetching && file.name && file.path !== 'repositories') {
+        console.log(`[RenderDir] Triggering fetch for: ${file.name}`)
         setLoading(true)
+
         try {
           await fetchAndMergeRepoTree(file.name)
           // No need to setOpen again, context update triggers re-render

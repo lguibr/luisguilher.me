@@ -9,7 +9,11 @@ import useFileViewsContext from 'src/hooks/useContextFileView'
 import useContextPrint from 'src/hooks/useContextPrint'
 import { useState, useEffect } from 'react' // Import hooks
 import AgentManager from 'src/components/Agent/AgentManager'
-import { FloatingWrapper, BubbleButton, TooltipPreview } from 'src/components/Agent/styled'
+import {
+  FloatingWrapper,
+  BubbleButton,
+  TooltipPreview
+} from 'src/components/Agent/styled'
 
 import useWindowSize from 'src/hooks/useWindow' // Import useWindowSize
 
@@ -91,7 +95,9 @@ const Home: React.FC = () => {
                     overflow: 'hidden'
                   }}
                 >
-                  {isClient && <AgentManager onClose={() => setIsAgentOpen(false)} />}
+                  {isClient && (
+                    <AgentManager onClose={() => setIsAgentOpen(false)} />
+                  )}
                 </Panel>
               </>
             )}
@@ -101,6 +107,7 @@ const Home: React.FC = () => {
             <FloatingWrapper>
               <BubbleButton onClick={() => setIsAgentOpen(true)}>
                 <TooltipPreview>Preview</TooltipPreview>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/icons/chat.svg" alt="AI Agent Chat" />
               </BubbleButton>
             </FloatingWrapper>

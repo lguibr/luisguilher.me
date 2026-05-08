@@ -104,26 +104,44 @@ export const generateChatResponse = async (
     }
   }
 
-  const searchCodebaseTool = {
-    name: 'search_codebase',
+  const grepCodebaseTool = {
+    name: 'grep_codebase',
     description:
-      'Search across the entire codebase using regex or simple text matching. Returns snippets of files containing the query.',
+      'Search for a text pattern or regex within the contents of all loaded files. Use this to find where specific functions, variables, or strings are defined or used. Equivalent to "grep -r".',
     parameters: {
       type: 'OBJECT',
       properties: {
         query: {
           type: 'STRING',
-          description: 'The string or regex pattern to search for.'
+          description:
+            'The text or regex pattern to search for within file contents.'
         }
       },
       required: ['query']
     }
   }
 
+  const findFilesTool = {
+    name: 'find_files',
+    description:
+      'Search for files by name or path pattern across the entire project. Use this when you know part of a filename but not its full path. Equivalent to "find . -name".',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        pattern: {
+          type: 'STRING',
+          description:
+            'The filename or path pattern to search for (e.g. "index.tsx" or "components/").'
+        }
+      },
+      required: ['pattern']
+    }
+  }
+
   const listDirectoryTool = {
     name: 'list_directory',
     description:
-      'List all files in a repository or directory. If exploring a new repository that is not yet loaded, use path like "repositories/repoName" to fetch its file tree. This acts like "find" or "ls".',
+      'List all files in a specific directory or repository. Use this to explore the project structure level by level. Equivalent to "ls -R".',
     parameters: {
       type: 'OBJECT',
       properties: {
@@ -162,8 +180,9 @@ You are pair programming with the user.
 You have access to the following tools:
 1. 'get_open_files_content': Read the files the user currently has open. Use it when the user asks about "this file" or "my code".
 2. 'read_file_content': Read any specific file from the project tree.
-3. 'search_codebase': Search all files using a text/regex query.
-4. 'list_directory': List files in a path or fetch the file tree of a repository. Use this to find files before reading them.
+3. 'grep_codebase': Search for text/regex INSIDE files. Use this to find definitions or usages of code symbols.
+4. 'find_files': Search for files by NAME. Use this to locate files when you don't know the exact path.
+5. 'list_directory': List files in a path or fetch the file tree of a repository. Use this to explore the project structure.
 
 Before taking any action or responding to the user, you MUST think step-by-step and enclose your internal reasoning within <thought> and </thought> tags.
 
@@ -194,7 +213,8 @@ Respond concisely and format your code properly.`
             functionDeclarations: [
               getOpenFilesTool as any,
               readFileContentTool as any,
-              searchCodebaseTool as any,
+              grepCodebaseTool as any,
+              findFilesTool as any,
               listDirectoryTool as any
             ]
           }
@@ -267,7 +287,7 @@ Respond concisely and format your code properly.`
               error: `File not found: ${targetPath}`
             }
           }
-        } else if (call.name === 'search_codebase') {
+        } else if (call.name === 'grep_codebase') {
           const query = call.args?.query as string
           const snippets: any[] = []
           try {
@@ -287,12 +307,20 @@ Respond concisely and format your code properly.`
                 })
               }
             })
-            resultSummary = `Searched for "${query}" (found ${snippets.length} matches)`
+            resultSummary = `Grepped for "${query}" (found ${snippets.length} matches)`
             toolResponseData = { snippets: snippets.slice(0, 50) } // Limit to 50
           } catch (e: any) {
-            resultSummary = `Search failed for "${query}"`
+            resultSummary = `Grep failed for "${query}"`
             toolResponseData = { error: e.message }
           }
+        } else if (call.name === 'find_files') {
+          const pattern = (call.args?.pattern as string) || ''
+          const matchedPaths = allFiles
+            .filter(f => f.path.toLowerCase().includes(pattern.toLowerCase()))
+            .map(f => f.path)
+
+          resultSummary = `Found ${matchedPaths.length} files matching "${pattern}"`
+          toolResponseData = { files: matchedPaths.slice(0, 100) }
         } else if (call.name === 'list_directory') {
           const targetPath = (call.args?.path as string) || ''
           const parsed = parsePath(targetPath)
@@ -398,7 +426,8 @@ Respond concisely and format your code properly.`
               functionDeclarations: [
                 getOpenFilesTool as any,
                 readFileContentTool as any,
-                searchCodebaseTool as any,
+                grepCodebaseTool as any,
+                findFilesTool as any,
                 listDirectoryTool as any
               ]
             }

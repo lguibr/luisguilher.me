@@ -9,14 +9,16 @@ import {
   useRef,
   useMemo
 } from 'react'
-import useTree from 'src/hooks/useTree'
+import { buildTree } from 'src/utils/treeUtils'
 import fileReducer, {
   FileType as FileT,
   ActionType
 } from 'src/reducers/FileReducer'
 import { useGithubService } from 'src/services/github'
+import { useL0g1n } from 'l0g1n-sdk'
 
 import readmeContent from '../../README.md'
+
 import curriculumContent from '../../CURRICULUM.md'
 
 export type FileType = FileT
@@ -43,8 +45,9 @@ export const FileProvider: React.FC = ({ children }) => {
   const repoName = process.env.REPO || 'luisguilher.me'
   const ownerName = process.env.OWNER || 'lguibr'
   const githubUsername = process.env.GITHUB_USERNAME || 'lguibr'
-  const { build } = useTree()
+  const { user } = useL0g1n()
   const githubService = useGithubService()
+  const fetchedReposRef = useRef<Record<string, boolean>>({})
 
   const initialFlatState: FileType[] = [
     {
@@ -54,20 +57,8 @@ export const FileProvider: React.FC = ({ children }) => {
       children: []
     },
     {
-      path: 'repositories/lguibr',
-      name: 'lguibr',
-      type: 'placeholder-repo-root',
-      children: undefined
-    },
-    {
-      path: 'repositories/lguibr/README.md',
-      name: 'README.md',
-      type: 'blob',
-      content: undefined,
-      newContent: undefined
-    },
-    {
       path: 'README.md',
+
       name: 'README.md',
       type: 'blob',
       content: readmeContent,
@@ -98,8 +89,41 @@ export const FileProvider: React.FC = ({ children }) => {
     }
   ]
 
+  const CACHE_KEY = 'GIG_FILES_CACHE_V3'
+
   const [files, dispatch]: [files: FileType[], dispatch: Dispatch<ActionType>] =
     useReducer(fileReducer, initialFlatState)
+  const filesRef = useRef(files)
+  useEffect(() => {
+    filesRef.current = files
+  }, [files])
+
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  // Load from cache on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(CACHE_KEY)
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved)
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            dispatch({ type: 'SET_FILES', payload: parsed })
+          }
+        } catch (e) {
+          console.error('[FileContext] Failed to parse file cache')
+        }
+      }
+    }
+    setIsLoaded(true)
+  }, [])
+
+  // Save to cache when files change
+  useEffect(() => {
+    if (isLoaded && files.length > initialFlatState.length) {
+      localStorage.setItem(CACHE_KEY, JSON.stringify(files))
+    }
+  }, [files, isLoaded])
 
   const mainTreeFetched = useRef(false)
   const otherReposListFetched = useRef(false) // Renamed for clarity
@@ -151,32 +175,16 @@ export const FileProvider: React.FC = ({ children }) => {
       console.error('[FileContext] Error fetching main repo tree:', error)
       return false // Indicate failure
     }
-  }, [repoName, ownerName])
-
-  const fetchRepoListCallback = useCallback(async () => {
-    if (!githubUsername) return
-    // console.log('[FileContext] Fetching repo list for user:', githubUsername);
-    try {
-      const repos = await githubService.fetchUserRepos(githubUsername)
-      const repoNames = repos
-        .filter(repo => repo.name !== repoName)
-        .map(repo => repo.name)
-      if (repoNames.length > 0) {
-        dispatch({ type: 'ADD_REPO_PLACEHOLDERS', payload: { repoNames } })
-      }
-      // console.log(`[FileContext] Added placeholders for ${repoNames.length} other repos.`);
-    } catch (error) {
-      console.error('[FileContext] Error fetching user repos list:', error)
-    }
-  }, [githubUsername, repoName])
+  }, [repoName, ownerName, githubService])
 
   const fetchAndMergeRepoTree = useCallback(
-    async (repoToFetch: string) => {
+    async (repoToFetch: string, recursive = true) => {
       const repoPath = `repositories/${repoToFetch}`
-      const existingNode = files.find(f => f.path === repoPath)
+      const existingNode = filesRef.current.find(f => f.path === repoPath)
 
+      // If we already have children and we are not asking for a recursive refresh, skip
       if (
-        existingNode?.children !== undefined ||
+        (existingNode?.children !== undefined && !recursive) ||
         fetchingReposRef.current[repoToFetch]
       ) {
         return
@@ -188,16 +196,18 @@ export const FileProvider: React.FC = ({ children }) => {
         return
       }
 
-      // console.log(`[FileContext] Demand fetch triggered for: ${repoToFetch}`);
+      // console.log(`[FileContext] Demand fetch triggered for: ${repoToFetch} (recursive=${recursive})`);
       fetchingReposRef.current[repoToFetch] = true
 
       try {
         const owner = githubUsername
-        const branch = 'main'
+        const branch = existingNode?.defaultBranch || 'main'
+
         const rawTree = await githubService.fetchRepoTree(
           owner,
           repoToFetch,
-          branch
+          branch,
+          recursive
         )
         dispatch({
           type: 'MERGE_FETCHED_TREE',
@@ -208,20 +218,37 @@ export const FileProvider: React.FC = ({ children }) => {
           `[FileContext] Error fetching tree for ${repoToFetch} on demand:`,
           error
         )
-        dispatch({
-          type: 'MERGE_FETCHED_TREE',
-          payload: {
-            repoType: 'other',
-            repoName: `${repoToFetch} (Error)`,
-            rawTree: []
-          }
-        })
       } finally {
         fetchingReposRef.current[repoToFetch] = false
       }
     },
-    [files, githubUsername]
+    [githubUsername, githubService]
   )
+
+  const fetchRepoListCallback = useCallback(async () => {
+    if (!githubUsername) return
+    // console.log('[FileContext] Fetching repo list for user:', githubUsername);
+    try {
+      const repos = await githubService.fetchUserRepos(githubUsername)
+      console.log(
+        `[FileContext] Fetched ${repos.length} repos for user: ${githubUsername}`
+      )
+      const repoData = repos
+        .filter(repo => repo.name !== repoName)
+        .map(repo => ({ name: repo.name, defaultBranch: repo.default_branch }))
+      if (repoData.length > 0) {
+        console.log(
+          `[FileContext] Adding placeholders for ${repoData.length} other repos.`
+        )
+        dispatch({
+          type: 'ADD_REPO_PLACEHOLDERS',
+          payload: { repos: repoData }
+        })
+      }
+    } catch (error) {
+      console.error('[FileContext] Error fetching user repos list:', error)
+    }
+  }, [githubUsername, repoName, githubService, fetchAndMergeRepoTree])
 
   // --- Effects to Trigger Initial Fetches Sequentially ---
   useEffect(() => {
@@ -236,7 +263,7 @@ export const FileProvider: React.FC = ({ children }) => {
         if (didCancel) return // Check if unmounted after await
       }
 
-      // Then fetch Repo List (only if main fetch didn't cancel)
+      // Then fetch Repo List (main fetch didn't cancel)
       if (!otherReposListFetched.current) {
         otherReposListFetched.current = true
         // console.log("Fetching repo list...");
@@ -246,7 +273,8 @@ export const FileProvider: React.FC = ({ children }) => {
 
       // Pre-fetch the profile repository (lguibr/lguibr) so README is available
       const profileRepo = 'lguibr'
-      if (githubUsername && !fetchingReposRef.current[profileRepo]) {
+      if (githubUsername && !fetchedReposRef.current[profileRepo]) {
+        fetchedReposRef.current[profileRepo] = true
         // console.log(`[FileContext] Pre-fetching profile repo: ${profileRepo}`);
         await fetchAndMergeRepoTree(profileRepo)
       }
@@ -258,15 +286,21 @@ export const FileProvider: React.FC = ({ children }) => {
     return () => {
       didCancel = true
     }
-    // Run only once on mount
-  }, [fetchMainTreeCallback, fetchRepoListCallback])
+    // Run when dependencies change (e.g. user logs in)
+  }, [
+    fetchMainTreeCallback,
+    fetchRepoListCallback,
+    fetchAndMergeRepoTree,
+    githubUsername,
+    user
+  ])
 
   // --- Derive treeFiles for UI using useMemo ---
   const treeFiles = useMemo(() => {
     const nonDiffFiles = files.filter(f => !f.isDiff)
-    const builtTree = build(nonDiffFiles)
+    const builtTree = buildTree(nonDiffFiles)
     return builtTree
-  }, [files, build])
+  }, [files])
 
   // --- findTreeFile (searches derived tree) ---
   const findTreeFile = useCallback(
@@ -292,9 +326,8 @@ export const FileProvider: React.FC = ({ children }) => {
   // --- Other State ---
 
   const diffFiles = files.filter(({ isDiff, diff }) => isDiff && diff)
-  const [focusedFile, setFocusedFile] = useState<string | null>(
-    'repositories/lguibr/README.md'
-  )
+  const [focusedFile, setFocusedFile] = useState<string | null>('README.md')
+
   const [focusedFileView, setFocusedFileView] = useState<number>(0)
 
   // --- Provider Value ---

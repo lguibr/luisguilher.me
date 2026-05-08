@@ -196,6 +196,7 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
         parsedPathInfo.branch
       )
         .then(data => {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const currentFileData = findTreeFile(currentFilePath) || fileData!
 
           const isImage = /\.(png|jpg|jpeg|ico)$/i.test(parsedPathInfo.path)
@@ -241,14 +242,14 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
               setImage(currentFileData, undefined)
           }
         })
-        .catch((error: any) => {
+        .catch((error: unknown) => {
           console.error(
             `[CurrentFile] Error fetching content for ${currentFilePath}:`,
             error
           )
           const errorMsg = `// Error loading file: ${
             fileData?.name || currentFilePath
-          }\n// ${error.message || error}`
+          }\n// ${(error as Error).message || error}`
           if (displayContent !== errorMsg) setDisplayContent(errorMsg)
           const currentFileData = findTreeFile(currentFilePath)
           if (currentFileData?.image) setImage(currentFileData, undefined)

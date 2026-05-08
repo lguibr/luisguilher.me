@@ -57,7 +57,8 @@ export const TooltipPreview = styled.div`
   animation: bounce 2s infinite;
 
   @keyframes bounce {
-    0%, 100% {
+    0%,
+    100% {
       transform: translateY(0);
     }
     50% {
@@ -72,7 +73,8 @@ export const TooltipPreview = styled.div`
     right: 32px;
     border-width: 4px 4px 0;
     border-style: solid;
-    border-color: ${({ theme }) => theme.colors.accentColor || '#007acc'} transparent transparent transparent;
+    border-color: ${({ theme }) => theme.colors.accentColor || '#007acc'}
+      transparent transparent transparent;
   }
 `
 

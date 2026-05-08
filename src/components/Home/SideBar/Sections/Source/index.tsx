@@ -14,13 +14,12 @@ import {
   Ballon,
   ArrowIcon
 } from './styled'
-import { useTree } from 'src/hooks/useTree'
+import { buildTree, rebuildPaths } from 'src/utils/treeUtils'
 
 import { FileType } from 'src/contexts/FileContext'
 import { useState } from 'react'
 
 const Files: React.FC = () => {
-  const { build, rebuildPaths } = useTree()
   const { diffFiles } = useContextFile()
 
   const [type, setType] = useState<'tree' | 'list'>('list')
@@ -28,7 +27,7 @@ const Files: React.FC = () => {
 
   const repo = process.env.REPO || 'luisguilher.me'
   const splittedDiffFiles = rebuildPaths(diffFiles)
-  const absoluteDiffTree = build(splittedDiffFiles)
+  const absoluteDiffTree = buildTree(splittedDiffFiles)
 
   const resumeFiles = absoluteDiffTree.filter(({ path }) => path === 'resume')
   const repoFiles = absoluteDiffTree.filter(({ path }) => path !== 'resume')

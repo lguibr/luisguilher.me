@@ -93,6 +93,7 @@ const DiffEditorComponent: React.FC<EditorProps> = ({
 
   return (
     <DiffEditor
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       options={options as any}
       language={currentExt}
       original={currentContent}
