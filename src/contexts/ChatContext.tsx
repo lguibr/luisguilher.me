@@ -15,6 +15,8 @@ import {
 import { generateChatResponse, OpenFileContext } from '../services/ai'
 import { FileContext } from './FileContext'
 import { FileViewsContext, FileViewsContextType } from './FileViewContext'
+import { useL0g1n } from 'l0g1n-sdk'
+import { toast } from 'sonner'
 
 export type ChatContextType = {
   conversations: Conversation[]
@@ -25,6 +27,7 @@ export type ChatContextType = {
   model: string
   setModel: (model: string) => void
   sendMessage: (text: string, mentionedFiles?: string[]) => Promise<void>
+  revertToMessage: (id: string) => Promise<string | null>
   createNewConversation: () => void
   switchConversation: (id: string) => void
   deleteConversation: (id: string) => void
@@ -44,6 +47,7 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
 
   const { files } = useContext(FileContext)
   const fileViewsContext = useContext(FileViewsContext)
+  const { user } = useL0g1n()
 
   const loadConversations = async (currentId: string) => {
     const all = await getAllConversations()
@@ -145,8 +149,24 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     return openFilesContext
   }
 
+  const revertToMessage = async (id: string): Promise<string | null> => {
+    const idx = messages.findIndex(m => m.id === id)
+    if (idx === -1) return null
+
+    const messageToEdit = messages[idx]
+    const updatedMessages = messages.slice(0, idx)
+    setMessages(updatedMessages)
+    
+    const title = conversations.find(c => c.id === activeConversationId)?.title || 'New Chat'
+    await saveConversation(activeConversationId, title, updatedMessages)
+    loadConversations(activeConversationId)
+    
+    return messageToEdit.text
+  }
+
   const sendMessage = async (text: string, mentionedFiles: string[] = []) => {
-    if (!text.trim() || !apiKey) return
+    const activeApiKey = apiKey || (user ? process.env.NEXT_PUBLIC_DEFAULT_GEMINI_API_KEY : '')
+    if (!text.trim() || !activeApiKey) return
 
     const userMsg: ChatMessage = {
       id: Date.now().toString(),
@@ -169,7 +189,7 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     try {
       const openFiles = getOpenFiles()
       const aiResponse = await generateChatResponse(
-        apiKey,
+        activeApiKey,
         model,
         newMessages.map(m => ({ role: m.role as any, text: m.text })),
         openFiles,
@@ -191,12 +211,21 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
         await saveConversation(activeConversationId, title, updatedMessages)
         loadConversations(activeConversationId) // Refresh list
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err)
+      
+      let errorMsgText = 'Error generating response. Please check your API key.'
+      if (err?.message?.includes('429') || err?.status === 429) {
+        errorMsgText = 'API rate limit reached. Please wait a moment and try again.'
+        toast.error('AI API Rate Limit Reached! Please wait before sending more messages.')
+      } else {
+        toast.error(`Chat Error: ${err.message || 'Unknown error occurred'}`)
+      }
+
       const errorMsg: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'system',
-        text: 'Error generating response. Please check your API key.',
+        text: errorMsgText,
         timestamp: Date.now()
       }
       const updatedMessages = [...newMessages, errorMsg]
@@ -219,6 +248,7 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
         model,
         setModel: handleSetModel,
         sendMessage,
+        revertToMessage,
         createNewConversation,
         switchConversation,
         deleteConversation,

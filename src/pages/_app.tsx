@@ -15,6 +15,7 @@ import P5Preloader from 'src/components/Core/P5Preloader' // Import the preloade
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { ChatProvider } from 'src/contexts/ChatContext'
 import { L0g1nProvider } from 'l0g1n-sdk'
+import { Toaster } from 'sonner'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSy...",
@@ -49,6 +50,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
                           <Component {...pageProps} />
                           <SpeedInsights />
                           <Analytics />
+                          <Toaster theme="dark" position="bottom-right" />
                         </Shell>
                       </GuideTourProvider>
                     </LoadingProvider>

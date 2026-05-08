@@ -7874,8 +7874,10 @@ kleur@^4.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-4.1.5.tgz#95106101795f7050c6c650f350c683febddb1780"
   integrity sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==
 
-"l0g1n-sdk@file:../l0g1n/sdk":
-  version "1.0.0"
+l0g1n-sdk@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmmirror.com/l0g1n-sdk/-/l0g1n-sdk-1.0.2.tgz#1342c98010e8f53894bafab7bcce4868a7280272"
+  integrity sha512-Pn8OosW8yd2DeWlvmhJxe/lL50EzHTZ9QGQXSgEkC1+OI0I3st1YTS4izA6LA/L2aeKZ4Pc++M+1WMYTEU3Arw==
   dependencies:
     firebase "^10.12.0"
 
@@ -10240,6 +10242,11 @@ slice-ansi@^4.0.0:
     ansi-styles "^4.0.0"
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
+
+sonner@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.npmmirror.com/sonner/-/sonner-2.0.7.tgz#810c1487a67ec3370126e0f400dfb9edddc3e4f6"
+  integrity sha512-W6ZN4p58k8aDKA4XPcx2hpIQXBRAgyiWVkYhT7CvK6D3iAu7xjvVyhQHg2/iaKJZ1XVJ4r7XuwGL+WGEK37i9w==
 
 source-map-support@0.5.13:
   version "0.5.13"
