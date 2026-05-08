@@ -28,6 +28,7 @@ module.exports = {
       ...config.resolve.alias,
       react: path.resolve(__dirname, '.', 'node_modules', 'react'),
       'react-dom': path.resolve(__dirname, '.', 'node_modules', 'react-dom'),
+      'cytoscape/dist/cytoscape.umd.js': path.resolve(__dirname, 'node_modules', 'cytoscape', 'dist', 'cytoscape.cjs.js')
     };
     return config
   }

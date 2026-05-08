@@ -7,7 +7,7 @@ import theme from 'src/styles/theme'
 import type P5 from 'p5'
 import { sketchFactoryMap } from './factoryMap' // Import the map from the new file
 
-type Theme = typeof theme['vs-dark']
+type Theme = (typeof theme)['vs-dark']
 
 interface AnimationOverlayProps {
   sketchName: string | null

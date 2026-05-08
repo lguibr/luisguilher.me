@@ -15,14 +15,12 @@ const SideBar: React.FC = () => {
   const { open, setOpen, selectedSection } = useSideBar()
   const { isMedium } = useWindowSize()
 
-  const sections: Partial<
-    {
-      [name in SelectedSectionType]: {
-        component?: React.FC | undefined
-        onClick?: () => void
-      }
+  const sections: Partial<{
+    [name in SelectedSectionType]: {
+      component?: React.FC | undefined
+      onClick?: () => void
     }
-  > = {
+  }> = {
     files: { component: Files }, // NOTE : Core/Editor
     source: { component: Source }, // NOTE : Releases/Features/Commits
     debug: {}, // NOTE :  Play the sketchs

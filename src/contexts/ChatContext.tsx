@@ -156,16 +156,19 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
     const messageToEdit = messages[idx]
     const updatedMessages = messages.slice(0, idx)
     setMessages(updatedMessages)
-    
-    const title = conversations.find(c => c.id === activeConversationId)?.title || 'New Chat'
+
+    const title =
+      conversations.find(c => c.id === activeConversationId)?.title ||
+      'New Chat'
     await saveConversation(activeConversationId, title, updatedMessages)
     loadConversations(activeConversationId)
-    
+
     return messageToEdit.text
   }
 
   const sendMessage = async (text: string, mentionedFiles: string[] = []) => {
-    const activeApiKey = apiKey || (user ? process.env.NEXT_PUBLIC_DEFAULT_GEMINI_API_KEY : '')
+    const activeApiKey =
+      apiKey || (user ? process.env.NEXT_PUBLIC_DEFAULT_GEMINI_API_KEY : '')
     if (!text.trim() || !activeApiKey) return
 
     const userMsg: ChatMessage = {
@@ -213,11 +216,14 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (err: any) {
       console.error(err)
-      
+
       let errorMsgText = 'Error generating response. Please check your API key.'
       if (err?.message?.includes('429') || err?.status === 429) {
-        errorMsgText = 'API rate limit reached. Please wait a moment and try again.'
-        toast.error('AI API Rate Limit Reached! Please wait before sending more messages.')
+        errorMsgText =
+          'API rate limit reached. Please wait a moment and try again.'
+        toast.error(
+          'AI API Rate Limit Reached! Please wait before sending more messages.'
+        )
       } else {
         toast.error(`Chat Error: ${err.message || 'Unknown error occurred'}`)
       }

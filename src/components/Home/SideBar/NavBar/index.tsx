@@ -138,7 +138,9 @@ const NavBar: React.FC = () => {
           onClick: () => toggleTheme()
         },
         {
-          labels: user ? [`Logged in: ${user.email}`] : ['Login via GitHub (Bypass API Limits)'],
+          labels: user
+            ? [`Logged in: ${user.email}`]
+            : ['Login via GitHub (Bypass API Limits)'],
           onClick: () => {
             if (!user) {
               signInWithGithub()

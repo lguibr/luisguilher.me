@@ -3,7 +3,6 @@
 import { useL0g1n } from 'l0g1n-sdk'
 import { toast } from 'sonner'
 
-
 const defaultBranchSha = process.env.SHA_BRANCH || 'main'
 const defaultRepo = process.env.REPO
 const defaultOwner = process.env.OWNER
@@ -55,20 +54,25 @@ export const useGithubService = () => {
       try {
         return await fetchGithubData<T>(apiUrl)
       } catch (err: any) {
-        console.error("L0G1n Proxy fetch failed, falling back to direct fetch", err)
+        console.error(
+          'L0G1n Proxy fetch failed, falling back to direct fetch',
+          err
+        )
       }
     }
 
     // Fallback: direct unauthenticated fetch
     const res = await fetch(apiUrl, { headers: getHeaders() })
-    
+
     if (res.status === 403 || res.status === 429) {
-      toast.error('GitHub API Rate Limit Reached! Please login with GitHub to increase your limits.')
+      toast.error(
+        'GitHub API Rate Limit Reached! Please login with GitHub to increase your limits.'
+      )
       throw new Error(`Rate limit reached: ${res.status}`)
     }
 
     const contentType = res.headers.get('content-type') || ''
-    
+
     if (contentType.includes('application/json')) {
       const data = await res.json()
       if (!res.ok) throw new Error(data.message || `Failed to fetch: ${apiUrl}`)
@@ -77,9 +81,10 @@ export const useGithubService = () => {
       const text = await res.text()
       if (!res.ok) throw new Error(`Failed to fetch: ${apiUrl} (${res.status})`)
       return {
-        content: typeof window !== 'undefined'
-          ? window.btoa(unescape(encodeURIComponent(text)))
-          : btoa(text)
+        content:
+          typeof window !== 'undefined'
+            ? window.btoa(unescape(encodeURIComponent(text)))
+            : btoa(text)
       } as unknown as T
     }
   }
@@ -90,10 +95,12 @@ export const useGithubService = () => {
     path: string,
     branch: string = defaultBranchSha
   ): Promise<ResFileType> => {
-    if (!owner || !repo) throw new Error('GitHub owner or repo not configured/provided.')
+    if (!owner || !repo)
+      throw new Error('GitHub owner or repo not configured/provided.')
     const cleanPath = path.startsWith('/') ? path.substring(1) : path
-    if (!cleanPath) throw new Error('Cannot fetch content for empty path (repository root).')
-    
+    if (!cleanPath)
+      throw new Error('Cannot fetch content for empty path (repository root).')
+
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${cleanPath}?ref=${branch}`
     return safeFetch<ResFileType>(apiUrl)
   }
@@ -103,13 +110,16 @@ export const useGithubService = () => {
     repo: string = defaultRepo || '',
     branch: string = defaultBranchSha
   ): Promise<ResTreeFileType[]> => {
-    if (!owner || !repo) throw new Error('GitHub owner or repo not configured/provided.')
-    
+    if (!owner || !repo)
+      throw new Error('GitHub owner or repo not configured/provided.')
+
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`
     try {
       const data: any = await safeFetch(apiUrl)
       if (data.truncated) {
-        console.warn(`[GitHub Service] Warning: Fetched tree for ${repo} was truncated. Some files may be missing.`)
+        console.warn(
+          `[GitHub Service] Warning: Fetched tree for ${repo} was truncated. Some files may be missing.`
+        )
       }
       return data.tree || []
     } catch (e) {
@@ -119,7 +129,7 @@ export const useGithubService = () => {
 
   const fetchUserRepos = async (username: string): Promise<ResRepoType[]> => {
     if (!username) throw new Error('GitHub username not provided.')
-    
+
     const apiUrl = `https://api.github.com/users/${username}/repos?type=public&sort=updated&per_page=100`
     try {
       const data: any = await safeFetch(apiUrl)
@@ -145,7 +155,9 @@ const legacyGithubService = {
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${cleanPath}?ref=${branch}`
     const res = await fetch(apiUrl, { headers: getHeaders() })
     if (res.status === 403 || res.status === 429) {
-      toast.error('GitHub API Rate Limit Reached! AI cannot read more files right now.')
+      toast.error(
+        'GitHub API Rate Limit Reached! AI cannot read more files right now.'
+      )
       return { content: '' }
     }
     const contentType = res.headers.get('content-type') || ''
@@ -155,7 +167,12 @@ const legacyGithubService = {
       return data as ResFileType
     }
     const text = await res.text()
-    return { content: typeof window !== 'undefined' ? window.btoa(unescape(encodeURIComponent(text))) : btoa(text) } as ResFileType
+    return {
+      content:
+        typeof window !== 'undefined'
+          ? window.btoa(unescape(encodeURIComponent(text)))
+          : btoa(text)
+    } as ResFileType
   },
   fetchRepoTree: async (
     owner: string = defaultOwner || '',
@@ -166,7 +183,9 @@ const legacyGithubService = {
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`
     const res = await fetch(apiUrl, { headers: getHeaders() })
     if (res.status === 403 || res.status === 429) {
-      toast.error('GitHub API Rate Limit Reached! AI cannot read repository trees right now.')
+      toast.error(
+        'GitHub API Rate Limit Reached! AI cannot read repository trees right now.'
+      )
       return []
     }
     const data = await res.json()

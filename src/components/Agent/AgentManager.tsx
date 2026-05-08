@@ -9,7 +9,6 @@ import { useL0g1n } from 'l0g1n-sdk'
 import { useExtension } from 'src/hooks/useExtension'
 import { toast } from 'sonner'
 
-
 import {
   Container,
   Header,
@@ -148,7 +147,13 @@ const AgentManager: React.FC = () => {
         </Header>
         <ApiKeyInput>
           <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontSize: '13px', margin: '0 0 10px 0', lineHeight: 1.4 }}>
+            <p
+              style={{
+                fontSize: '13px',
+                margin: '0 0 10px 0',
+                lineHeight: 1.4
+              }}
+            >
               <strong>Login to unlock AI Chat</strong>
               <br />
               Log in with GitHub or Google to access the AI agent.
@@ -198,7 +203,8 @@ const AgentManager: React.FC = () => {
           <p style={{ fontSize: '13px', margin: 0, lineHeight: 1.4 }}>
             <strong>Welcome! Provide your Gemini API Key</strong>
             <br />
-            Stored exclusively in your browser's local storage and sent directly to Google's API.
+            Stored exclusively in your browser&apos;s local storage and sent
+            directly to Google&apos;s API.
             <br />
             <a
               href="https://aistudio.google.com/app/apikey"
@@ -221,7 +227,12 @@ const AgentManager: React.FC = () => {
             onChange={e => setTempKey(e.target.value)}
             style={{ marginTop: '10px' }}
           />
-          <button onClick={() => setApiKey(tempKey)} style={{ marginTop: '10px' }}>Save Key</button>
+          <button
+            onClick={() => setApiKey(tempKey)}
+            style={{ marginTop: '10px' }}
+          >
+            Save Key
+          </button>
         </ApiKeyInput>
       </Container>
     )
@@ -287,49 +298,55 @@ const AgentManager: React.FC = () => {
                 {msg.text}
               </ReactMarkdown>
 
-              {msg.role !== 'user' && msg.toolCalls && msg.toolCalls.length > 0 && (
-                <ToolActionList>
-                  {msg.toolCalls.map((tc, idx) =>
-                    tc.readFiles && tc.readFiles.length > 0 ? (
-                      tc.readFiles.map((file, fIdx) => {
-                        const FileIcon = extractIcon(file, false, false)
-                        return (
-                          <ToolBadge
-                            key={`${idx}-${fIdx}`}
-                            clickable
-                            onClick={() => handleOpenFile(file)}
-                            title={`Open ${file}`}
-                          >
-                            <span
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                marginRight: '6px'
-                              }}
+              {msg.role !== 'user' &&
+                msg.toolCalls &&
+                msg.toolCalls.length > 0 && (
+                  <ToolActionList>
+                    {msg.toolCalls.map((tc, idx) =>
+                      tc.readFiles && tc.readFiles.length > 0 ? (
+                        tc.readFiles.map((file, fIdx) => {
+                          const FileIcon = extractIcon(file, false, false)
+                          return (
+                            <ToolBadge
+                              key={`${idx}-${fIdx}`}
+                              clickable
+                              onClick={() => handleOpenFile(file)}
+                              title={`Open ${file}`}
                             >
-                              <FileIcon width="14px" height="14px" />
-                            </span>
-                            Read: {file}
-                          </ToolBadge>
-                        )
-                      })
-                    ) : (
-                      <ToolBadge key={idx}>
-                        <span
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            marginRight: '6px'
-                          }}
-                        >
-                          <Icon variant="settings" width="14px" height="14px" />
-                        </span>
-                        {tc.resultSummary || `Used tool: ${tc.name}`}
-                      </ToolBadge>
-                    )
-                  )}
-                </ToolActionList>
-              )}
+                              <span
+                                style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  marginRight: '6px'
+                                }}
+                              >
+                                <FileIcon width="14px" height="14px" />
+                              </span>
+                              Read: {file}
+                            </ToolBadge>
+                          )
+                        })
+                      ) : (
+                        <ToolBadge key={idx}>
+                          <span
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              marginRight: '6px'
+                            }}
+                          >
+                            <Icon
+                              variant="settings"
+                              width="14px"
+                              height="14px"
+                            />
+                          </span>
+                          {tc.resultSummary || `Used tool: ${tc.name}`}
+                        </ToolBadge>
+                      )
+                    )}
+                  </ToolActionList>
+                )}
 
               {msg.tokenUsage && (
                 <TokenBadge>
@@ -400,35 +417,74 @@ const AgentManager: React.FC = () => {
             disabled={isLoading}
             autoComplete="off"
           />
-          <button type="submit" disabled={isLoading || !input.trim()} title="Send Message" style={{ color: '#fff' }}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16px" height="16px">
+          <button
+            type="submit"
+            disabled={isLoading || !input.trim()}
+            title="Send Message"
+            style={{ color: '#fff' }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              width="16px"
+              height="16px"
+            >
               <line x1="22" y1="2" x2="11" y2="13"></line>
               <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
             </svg>
           </button>
         </InputContainer>
         <Footer>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '4px', opacity: 0.6, fontSize: '11px', flexShrink: 0 }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              opacity: 0.6,
+              fontSize: '11px',
+              flexShrink: 0
+            }}
+          >
             <span>+</span>
-            <select value={model} onChange={e => setModel(e.target.value)} style={{ background: 'transparent', color: 'inherit', border: 'none', cursor: 'pointer', outline: 'none', fontFamily: 'monospace' }}>
+            <select
+              value={model}
+              onChange={e => setModel(e.target.value)}
+              style={{
+                background: 'transparent',
+                color: 'inherit',
+                border: 'none',
+                cursor: 'pointer',
+                outline: 'none',
+                fontFamily: 'monospace'
+              }}
+            >
               <option value="gemini-flash-latest">Gemini Flash</option>
               <option value="gemini-pro-latest">Gemini Pro</option>
-              <option value="gemini-flash-lite-latest">Gemini Flash Lite</option>
+              <option value="gemini-flash-lite-latest">
+                Gemini Flash Lite
+              </option>
             </select>
           </div>
           {user && (
             <UserProfileBadge title={user.email || 'Logged In'}>
               {user.photoURL && <img src={user.photoURL} alt="Avatar" />}
-              <span>{user.displayName || user.email?.split('@')[0] || 'User'}</span>
+              <span>
+                {user.displayName || user.email?.split('@')[0] || 'User'}
+              </span>
               <div
                 onClick={logOut}
                 title="Logout"
-                style={{ 
-                  cursor: 'pointer', 
+                style={{
+                  cursor: 'pointer',
                   backgroundColor: '#ff4444',
                   color: '#ffffff',
-                  display: 'flex', 
-                  alignItems: 'center', 
+                  display: 'flex',
+                  alignItems: 'center',
                   justifyContent: 'center',
                   marginLeft: 'auto',
                   flexShrink: 0,
@@ -437,10 +493,20 @@ const AgentManager: React.FC = () => {
                   borderRadius: '50%',
                   transition: 'opacity 0.2s'
                 }}
-                onMouseEnter={e => e.currentTarget.style.opacity = '0.7'}
-                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+                onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
+                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="12px" height="12px">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  width="12px"
+                  height="12px"
+                >
                   <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
                   <line x1="12" y1="2" x2="12" y2="12"></line>
                 </svg>

@@ -159,7 +159,7 @@ Respond concisely and format your code properly.`
   }
 
   try {
-    let currentFormattedMessages = [...formattedMessages]
+    const currentFormattedMessages = [...formattedMessages]
     let currentResponse = await ai.models.generateContent({
       model,
       contents: currentFormattedMessages,
