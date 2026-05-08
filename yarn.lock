@@ -1222,17 +1222,6 @@
     idb "7.1.1"
     tslib "^2.1.0"
 
-"@firebase/app@^0.9.13":
-  version "0.9.29"
-  resolved "https://registry.npmmirror.com/@firebase/app/-/app-0.9.29.tgz#444280f0ddf1da4b2a974c86a6a8c6405d950fb7"
-  integrity sha512-HbKTjfmILklasIu/ij6zKnFf3SgLYXkBDVN7leJfVGmohl+zA7Ig+eXM1ZkT1pyBJ8FTYR+mlOJer/lNEnUCtw==
-  dependencies:
-    "@firebase/component" "0.6.5"
-    "@firebase/logger" "0.4.0"
-    "@firebase/util" "1.9.4"
-    idb "7.1.1"
-    tslib "^2.1.0"
-
 "@firebase/auth-compat@0.5.14":
   version "0.5.14"
   resolved "https://registry.npmmirror.com/@firebase/auth-compat/-/auth-compat-0.5.14.tgz#d3bcb8e1bd992eb1850a025240397d94461ea179"
@@ -1265,14 +1254,6 @@
     "@firebase/util" "1.10.0"
     tslib "^2.1.0"
     undici "6.19.7"
-
-"@firebase/component@0.6.5":
-  version "0.6.5"
-  resolved "https://registry.npmmirror.com/@firebase/component/-/component-0.6.5.tgz#8cc7334f2081d700f2769caaa8dae3ac4c1fe37e"
-  integrity sha512-2tVDk1ixi12sbDmmfITK8lxSjmcb73BMF6Qwc3U44hN/J1Fi1QY/Hnnb6klFlbB9/G16a3J3d4nXykye2EADTw==
-  dependencies:
-    "@firebase/util" "1.9.4"
-    tslib "^2.1.0"
 
 "@firebase/component@0.6.9":
   version "0.6.9"
@@ -1411,13 +1392,6 @@
     idb "7.1.1"
     tslib "^2.1.0"
 
-"@firebase/logger@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.npmmirror.com/@firebase/logger/-/logger-0.4.0.tgz#15ecc03c452525f9d47318ad9491b81d1810f113"
-  integrity sha512-eRKSeykumZ5+cJPdxxJRgAC3G5NknY2GwEbKfymdnXtnT0Ucm4pspfR6GT4MUQEDuJwRVbVcSx85kgJulMoFFA==
-  dependencies:
-    tslib "^2.1.0"
-
 "@firebase/logger@0.4.2":
   version "0.4.2"
   resolved "https://registry.npmmirror.com/@firebase/logger/-/logger-0.4.2.tgz#74dfcfeedee810deb8a7080d5b7eba56aa16ffa2"
@@ -1538,13 +1512,6 @@
   version "1.10.0"
   resolved "https://registry.npmmirror.com/@firebase/util/-/util-1.10.0.tgz#9ec8ab54da82bfc31baff0c43cb281998cbeddab"
   integrity sha512-xKtx4A668icQqoANRxyDLBLz51TAbDP9KRfpbKGxiCAW346d0BeJe5vN6/hKxxmWwnZ0mautyv39JxviwwQMOQ==
-  dependencies:
-    tslib "^2.1.0"
-
-"@firebase/util@1.9.4":
-  version "1.9.4"
-  resolved "https://registry.npmmirror.com/@firebase/util/-/util-1.9.4.tgz#68eee380ab7e7828ec0d8684c46a1abed2d7e334"
-  integrity sha512-WLonYmS1FGHT97TsUmRN3qnTh5TeeoJp1Gg5fithzuAgdZOUtsYECfy7/noQ3llaguios8r5BuXSEiK82+UrxQ==
   dependencies:
     tslib "^2.1.0"
 

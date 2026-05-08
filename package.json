@@ -21,7 +21,6 @@
     }
   },
   "dependencies": {
-    "@firebase/app": "^0.9.13",
     "@google/genai": "^1.52.0",
     "@monaco-editor/react": "4.7.0",
     "@svgr/core": "^5.5.0",
