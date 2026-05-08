@@ -8,7 +8,9 @@
     "start": "NODE_OPTIONS='--openssl-legacy-provider' next start",
     "lint": "NODE_OPTIONS='--openssl-legacy-provider' next lint && prettier --write ./src && yarn typecheck",
     "lint:hook": "yarn typecheck && eslint --fix ./src && pretty-quick --staged",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write ./src",
+    "test": "jest"
   },
   "engines": {
     "node": "22.x"
