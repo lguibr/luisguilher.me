@@ -9,6 +9,7 @@ import useFileViewsContext from 'src/hooks/useContextFileView'
 import useContextPrint from 'src/hooks/useContextPrint'
 import { useState, useEffect } from 'react' // Import hooks
 import AgentManager from 'src/components/Agent/AgentManager'
+import { FloatingWrapper, BubbleButton, TooltipPreview } from 'src/components/Agent/styled'
 
 import useWindowSize from 'src/hooks/useWindow' // Import useWindowSize
 
@@ -17,6 +18,7 @@ const Home: React.FC = () => {
   const rootId = getRootId()
   const { Printable } = useContextPrint()
   const [isClient, setIsClient] = useState(false) // State to track client-side mount
+  const [isAgentOpen, setIsAgentOpen] = useState(false)
   const { isMedium } = useWindowSize() // Get window size
 
   useEffect(() => {
@@ -73,23 +75,36 @@ const Home: React.FC = () => {
               {/* Only render FileViewComponent on the client */}
               {isClient && <FileViewComponent id={rootId} />}
             </Panel>
-            <StyledResizeHandle id="handle-agent" $isVertical={isMedium} />
-            <Panel
-              defaultSize={isMedium ? 40 : 25}
-              minSize={20}
-              maxSize={isMedium ? 80 : 40}
-              order={3}
-              id="agent"
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-                overflow: 'hidden'
-              }}
-            >
-              {isClient && <AgentManager />}
-            </Panel>
+            {isAgentOpen && (
+              <>
+                <StyledResizeHandle id="handle-agent" $isVertical={isMedium} />
+                <Panel
+                  defaultSize={isMedium ? 40 : 25}
+                  minSize={20}
+                  maxSize={isMedium ? 80 : 40}
+                  order={3}
+                  id="agent"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    overflow: 'hidden'
+                  }}
+                >
+                  {isClient && <AgentManager onClose={() => setIsAgentOpen(false)} />}
+                </Panel>
+              </>
+            )}
           </PanelGroup>
+
+          {!isAgentOpen && isClient && (
+            <FloatingWrapper>
+              <BubbleButton onClick={() => setIsAgentOpen(true)}>
+                <TooltipPreview>Preview</TooltipPreview>
+                <img src="/icons/chat.svg" alt="AI Agent Chat" />
+              </BubbleButton>
+            </FloatingWrapper>
+          )}
         </Content>
         <Footer />
       </Container>

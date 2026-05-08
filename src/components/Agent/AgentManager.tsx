@@ -23,11 +23,16 @@ import {
   MentionPopup,
   MentionItem,
   ConversationSelect,
+  ModelSelect,
   UserProfileBadge,
   Footer
 } from './styled'
 
-const AgentManager: React.FC = () => {
+interface AgentManagerProps {
+  onClose?: () => void
+}
+
+const AgentManager: React.FC<AgentManagerProps> = ({ onClose }) => {
   const {
     conversations,
     activeConversationId,
@@ -139,13 +144,21 @@ const AgentManager: React.FC = () => {
     openFile(path, getRootId())
   }
 
-  if (!user) {
-    return (
-      <Container id="ai-agent-tour">
-        <Header>
-          <h3>AI Agent</h3>
-        </Header>
-        <ApiKeyInput>
+  const renderContent = () => {
+    if (!user) {
+      return (
+        <Container id="ai-agent-tour">
+          <Header>
+            <h3>AI Agent</h3>
+            <Controls>
+              {onClose && (
+                <button onClick={onClose} title="Close Chat">
+                  X
+                </button>
+              )}
+            </Controls>
+          </Header>
+          <ApiKeyInput>
           <div style={{ marginBottom: '20px' }}>
             <p
               style={{
@@ -279,6 +292,13 @@ const AgentManager: React.FC = () => {
       <Container id="ai-agent-tour">
         <Header>
           <h3>AI Agent</h3>
+          <Controls>
+            {onClose && (
+              <button onClick={onClose} title="Close Chat">
+                X
+              </button>
+            )}
+          </Controls>
         </Header>
         <ApiKeyInput>
           <p style={{ fontSize: '13px', margin: 0, lineHeight: 1.4 }}>
@@ -292,7 +312,7 @@ const AgentManager: React.FC = () => {
               target="_blank"
               rel="noreferrer"
               style={{
-                color: 'var(--primary-color, #00ff00)',
+                color: '#007acc',
                 textDecoration: 'underline',
                 marginTop: '4px',
                 display: 'inline-block'
@@ -347,6 +367,11 @@ const AgentManager: React.FC = () => {
           >
             Del
           </button>
+          {onClose && (
+            <button onClick={onClose} title="Close Chat">
+              X
+            </button>
+          )}
         </Controls>
       </Header>
 
@@ -532,24 +557,16 @@ const AgentManager: React.FC = () => {
             }}
           >
             <span>+</span>
-            <select
+            <ModelSelect
               value={model}
               onChange={e => setModel(e.target.value)}
-              style={{
-                background: 'transparent',
-                color: 'inherit',
-                border: 'none',
-                cursor: 'pointer',
-                outline: 'none',
-                fontFamily: 'monospace'
-              }}
             >
               <option value="gemini-flash-latest">Gemini Flash</option>
               <option value="gemini-pro-latest">Gemini Pro</option>
               <option value="gemini-flash-lite-latest">
                 Gemini Flash Lite
               </option>
-            </select>
+            </ModelSelect>
           </div>
           {user && (
             <UserProfileBadge title={user.email || 'Logged In'}>
@@ -598,6 +615,9 @@ const AgentManager: React.FC = () => {
       </div>
     </Container>
   )
+  }
+
+  return renderContent()
 }
 
 export default AgentManager

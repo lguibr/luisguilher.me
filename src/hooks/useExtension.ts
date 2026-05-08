@@ -30,6 +30,8 @@ export type useExtension = {
 }
 
 export const useExtension = (): useExtension => {
+  const { files } = useContextFile()
+
   const extractExtension = (file: string): string => {
     const splittedPath = file?.split('.')
     const ext = !!splittedPath?.length && splittedPath[splittedPath.length - 1]
@@ -76,7 +78,6 @@ export const useExtension = (): useExtension => {
     open: boolean,
     folder: boolean
   ): React.FC => {
-    const { files } = useContextFile()
     const file = files.find(file => file.path === path)
     const icons = [
       { expression: /.png|.jpg|.jpeg|.svg|.ico/, icon: ImageIcon },

@@ -1,5 +1,81 @@
 import styled from 'styled-components'
 
+export const FloatingWrapper = styled.div`
+  position: absolute;
+  bottom: 30px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none; /* Let clicks pass through empty space */
+
+  > * {
+    pointer-events: auto; /* Re-enable clicks on actual elements */
+  }
+`
+
+export const BubbleButton = styled.button`
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.colors.accentColor || '#007acc'};
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+`
+
+export const TooltipPreview = styled.div`
+  position: absolute;
+  top: -40px;
+  right: -10px;
+  background: ${({ theme }) => theme.colors.accentColor || '#007acc'};
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  animation: bounce 2s infinite;
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    right: 32px;
+    border-width: 4px 4px 0;
+    border-style: solid;
+    border-color: ${({ theme }) => theme.colors.accentColor || '#007acc'} transparent transparent transparent;
+  }
+`
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -329,6 +405,27 @@ export const ConversationSelect = styled.select`
     background: ${({ theme }) => theme.colors.editorBackground};
     color: ${({ theme }) => theme.colors.text};
     padding: 8px;
+  }
+`
+
+export const ModelSelect = styled.select`
+  background: transparent;
+  color: inherit;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  font-family: monospace;
+  font-size: 11px;
+  appearance: none;
+  padding-right: 12px;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23999999%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+  background-repeat: no-repeat;
+  background-position: right top 50%;
+  background-size: 8px auto;
+
+  option {
+    background: ${({ theme }) => theme.colors.menuBackground};
+    color: ${({ theme }) => theme.colors.text};
   }
 `
 
