@@ -25,7 +25,7 @@ export const GuideTourProvider: React.FC = ({ children }) => {
         <Step
           title="Welcome"
           emoticon="❤️"
-          content={`Welcome! This site is my brain disguised as a code editor. Explore it like a VS Code workspace of my career. 🚀`}
+          content={`Welcome to my digital brain! This is a fully functional, IDE-like portfolio built entirely from scratch with Next.js and a custom Virtual File System.`}
         />
       )
     },
@@ -37,7 +37,7 @@ export const GuideTourProvider: React.FC = ({ children }) => {
         <Step
           title="About Me"
           emoticon="👨‍💻"
-          content={`I'm Luís Guilherme — AI systems engineer, physics enjoyer, and code architect. I’ve been shipping real stuff for ${totalExperience}+ years.`}
+          content={`I'm Luís Guilherme — Principal Full Stack Engineer, AI System Architect, and Physics graduate. I recently led AI infrastructure for a YC-backed startup, building autonomous agent networks and slashing LLM latency.`}
         />
       )
     },
@@ -51,7 +51,34 @@ export const GuideTourProvider: React.FC = ({ children }) => {
         <Step
           title="File Explorer"
           emoticon="📁"
-          content={`Everything starts here. Projects, resume, experiments — treat it as the root folder of my career.`}
+          content={`Everything starts here. Treat this like a VS Code workspace—open projects, inspect my architecture, and explore ${totalExperience}+ years of software engineering history.`}
+        />
+      )
+    },
+    {
+      selector: '[data-tut="nav3"]',
+      action: () => {
+        setOpen(true)
+        setSelectedSection('debug')
+      },
+      content: (
+        <Step
+          title="Interactive Sketches"
+          emoticon="✨"
+          content={`Click here to trigger my WebGL/Three.js interactive sketches! They demonstrate procedural generation, physics engines, and complex system simulations stemming from my Physics background.`}
+        />
+      )
+    },
+    {
+      selector: '#ai-agent-tour',
+      action: () => {
+        setOpen(false)
+      },
+      content: (
+        <Step
+          title="AI Agent"
+          emoticon="🤖"
+          content={`Meet the embedded AI Agent on the right. It has full context of my entire repository and history. Ask it to explain my code, search for my work with LangGraph, or summarize my architectural decisions.`}
         />
       )
     },
@@ -65,7 +92,7 @@ export const GuideTourProvider: React.FC = ({ children }) => {
         <Step
           title="Resume / Source Code"
           emoticon="📔"
-          content={`Prefer a classic PDF? Click here to download my resume. Otherwise, explore my career as Markdown files right here in the editor.`}
+          content={`Need a standard PDF? Download my resume here. Otherwise, keep exploring the codebase!`}
         />
       )
     },
@@ -78,7 +105,7 @@ export const GuideTourProvider: React.FC = ({ children }) => {
         <Step
           title="Thank You!"
           emoticon="👋"
-          content={`That's it! Open anything, read freely. If something sparks an idea, hit me up! I’m open for new projects 💭`}
+          content={`Enjoy your stay! If my work sparks an idea or you're looking for a lead architect, let's connect. 💭`}
         />
       )
     }

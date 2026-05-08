@@ -25,11 +25,7 @@ export const sketchs = [
     description: 'Visualizes the A* pathfinding algorithm in a random maze.',
     icon: '/icons/maze.png'
   },
-  {
-    name: 'Hypercube',
-    description: 'Renders a rotating 4D hypercube (tesseract) in 3D space.',
-    icon: '/icons/hypercube.png'
-  },
+
   {
     // Updated name and description
     name: 'NoiseFlowField',

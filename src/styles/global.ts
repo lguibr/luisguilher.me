@@ -18,8 +18,8 @@ export default createGlobalStyle`
   /* Beautiful Custom Scrollbars */
   * {
     ::-webkit-scrollbar {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
     }
 
     ::-webkit-scrollbar-track {
@@ -27,49 +27,49 @@ export default createGlobalStyle`
     }
 
     ::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border-radius: 6px;
+      background: #3f3f46;
+      border-radius: 5px;
       border: 2px solid transparent;
       background-clip: padding-box;
       transition: all 0.3s ease;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(135deg, #7c8ff0 0%, #8a5db0 100%);
-      border-radius: 6px;
+      background: #52525b;
+      border-radius: 5px;
       border: 2px solid transparent;
       background-clip: padding-box;
-      box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
     }
 
     ::-webkit-scrollbar-thumb:active {
-      background: linear-gradient(135deg, #5568d3 0%, #5f3d8a 100%);
+      background: #71717a;
     }
 
     /* Firefox Scrollbar */
     scrollbar-width: thin;
-    scrollbar-color: #667eea transparent;
+    scrollbar-color: #3f3f46 transparent;
   }
 
   /* Body with Modern Typography */
   body {
-    color: #E2E8F0;
+    color: #fafafa;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.5;
     overflow: hidden;
     min-height: 100vh;
-    background: #0f0c29;
-    letter-spacing: -0.01em;
+    background: #0f1115;
+    letter-spacing: 0;
   }
 
   /* Typography Hierarchy */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Outfit', 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
     line-height: 1.2;
+    color: #ffffff;
   }
 
   code, pre, .monaco-editor {
@@ -80,7 +80,7 @@ export default createGlobalStyle`
 
   /* Smooth Transitions */
   a, button, input, select, textarea {
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Focus States */
@@ -89,21 +89,21 @@ export default createGlobalStyle`
   input:focus-visible,
   select:focus-visible,
   textarea:focus-visible {
-    outline: 2px solid #667eea;
+    outline: 2px solid #0070f3;
     outline-offset: 2px;
   }
 
   /* Selection */
   ::selection {
-    background: rgba(102, 126, 234, 0.3);
-    color: #F8FAFC;
+    background: rgba(0, 112, 243, 0.3);
+    color: #ffffff;
   }
 
   /* Global Animations */
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(4px);
     }
     to {
       opacity: 1;
@@ -114,7 +114,7 @@ export default createGlobalStyle`
   @keyframes slideIn {
     from {
       opacity: 0;
-      transform: translateX(-20px);
+      transform: translateX(-10px);
     }
     to {
       opacity: 1;
@@ -127,7 +127,7 @@ export default createGlobalStyle`
       opacity: 1;
     }
     50% {
-      opacity: 0.5;
+      opacity: 0.7;
     }
   }
 
@@ -142,10 +142,10 @@ export default createGlobalStyle`
 
   @keyframes glow {
     0%, 100% {
-      box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+      box-shadow: 0 0 5px rgba(0, 112, 243, 0.2);
     }
     50% {
-      box-shadow: 0 0 20px rgba(102, 126, 234, 0.8), 0 0 40px rgba(118, 75, 162, 0.4);
+      box-shadow: 0 0 15px rgba(0, 112, 243, 0.4), 0 0 30px rgba(0, 112, 243, 0.2);
     }
   }
   @media print {

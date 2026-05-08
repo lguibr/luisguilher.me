@@ -14,29 +14,29 @@ export const Row = styled.div<Pick<Props, 'isCurrent'>>`
   display: grid;
   place-items: center;
   grid-template-columns: 1fr 10px;
-  padding: 5px;
-  padding-right: 8px;
+  padding: 8px 12px;
   background-color: ${({ isCurrent, theme }) =>
+    isCurrent ? theme.colors.editorBackground : theme.colors.menuBackground};
+  border-right: 1px solid ${({ theme }) => theme.colors.menuBackground};
+  border-top: ${({ isCurrent, theme }) =>
     isCurrent
-      ? theme.colors.selectedNavigationFile
-      : theme.colors.navigationFile};
-  border-right: 1px solid ${({ theme }) => theme.colors.tileBorder};
-  border-bottom: ${({ isCurrent, theme }) =>
-    isCurrent ? `1px solid ${theme.colors.accentColor}` : 'none'};
+      ? `1px solid ${theme.colors.accentColor}`
+      : '1px solid transparent'};
+  border-bottom: 1px solid transparent;
 
-  div :last-child {
+  > div:last-child {
     display: none;
   }
 
   :hover {
     background-color: ${({ theme }) => theme.colors.selectedNavigationFile};
-    div :last-child {
+    > div:last-child {
       display: grid;
     }
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.medium}) {
-    div :last-child {
+    > div:last-child {
       display: grid;
     }
   }

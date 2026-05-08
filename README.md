@@ -95,6 +95,10 @@ graph TD
 
 # ✨ Features
 
+### 🤖 Embedded AI Agent
+
+An integrated AI assistant (powered by Google Gemini) resides in the right sidebar. It has full context of this repository, meaning you can ask it to explain the codebase architecture, search for specific technologies I've used, or query my professional experience in real-time.
+
 ### 📄 Interactive Curriculum
 
 My resume is a live markdown file (`CURRICULUM.md`). You can read it, edit it (in memory), and interact with it just like code.

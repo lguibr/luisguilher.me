@@ -10,7 +10,7 @@ module.exports = {
     GITHUB_USERNAME: 'lguibr',
     // Expose the PAT from the build environment (e.g., .env.local)
     // For Vercel deployment, set this as an Environment Variable in the project settings.
-    GITHUB_PAT: process.env.GITHUB_PAT
+    // REMOVED: We now use L0G1n SDK to securely proxy GitHub requests without leaking PATs.
   },
   reactStrictMode: true,
   webpack(config) {
@@ -22,6 +22,14 @@ module.exports = {
       test: /\.md$/,
       use: ['raw-loader']
     })
+    // Force Next.js to use the same React instance for local symlinked packages
+    const path = require('path');
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      react: path.resolve(__dirname, '.', 'node_modules', 'react'),
+      'react-dom': path.resolve(__dirname, '.', 'node_modules', 'react-dom'),
+      'cytoscape/dist/cytoscape.umd.js': path.resolve(__dirname, 'node_modules', 'cytoscape', 'dist', 'cytoscape.cjs.js')
+    };
     return config
   }
 }

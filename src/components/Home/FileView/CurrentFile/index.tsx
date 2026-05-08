@@ -1,6 +1,6 @@
 // File: src/components/Home/FileView/CurrentFile/index.tsx
 import { useEffect, useState, useRef, useMemo, useCallback } from 'react'
-import githubService from 'src/services/github'
+import { useGithubService } from 'src/services/github'
 import useExtension from 'src/hooks/useExtension'
 import useContextLoading from 'src/hooks/useLoading'
 import useContextFile from 'src/hooks/useContextFile'
@@ -59,7 +59,7 @@ const parsePath = (
 }
 
 const Editor: React.FC<{ id: number }> = ({ id }) => {
-  const { fetchFileContent } = githubService
+  const { fetchFileContent } = useGithubService()
   const { extractExtension } = useExtension()
   const { loading, setLoading } = useContextLoading()
   const { files, findTreeFile, setContent, setNewContent, setImage } =
@@ -103,22 +103,22 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
       return
     }
 
-    const fileData = findTreeFile(currentFilePath)
-
-    if (fileData?.path !== currentFileObject?.path) {
-      setCurrentFileObject(fileData)
-    }
+    let fileData = findTreeFile(currentFilePath)
 
     if (!fileData) {
       console.warn(
-        `[CurrentFile] File data not found via findTreeFile for path: ${currentFilePath}`
+        `[CurrentFile] File data not found via findTreeFile for path: ${currentFilePath}. Creating temporary blob for dynamic fetching.`
       )
-      const errorMsg = `// Error: File data not found for ${currentFilePath}`
-      if (displayContent !== errorMsg) setDisplayContent(errorMsg)
-      if (isPreview) setIsPreview(false)
-      if (isCurrentDirectory) setIsCurrentDirectory(false)
-      if (loading) setLoading(false)
-      return
+      fileData = {
+        path: currentFilePath,
+        name: currentFilePath.split('/').pop() || currentFilePath,
+        type: 'blob',
+        content: undefined
+      }
+    }
+
+    if (fileData.path !== currentFileObject?.path) {
+      setCurrentFileObject(fileData)
     }
 
     const isDirectory =
@@ -196,8 +196,7 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
         parsedPathInfo.branch
       )
         .then(data => {
-          const currentFileData = findTreeFile(currentFilePath)
-          if (!currentFileData) return
+          const currentFileData = findTreeFile(currentFilePath) || fileData!
 
           const isImage = /\.(png|jpg|jpeg|ico)$/i.test(parsedPathInfo.path)
           if (isImage) {
@@ -225,18 +224,21 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
                 />{' '}
               </div>
             )
-            if (!currentFileData.image) setImage(currentFileData, imageElement)
+            if (!currentFileData.image && findTreeFile(currentFilePath))
+              setImage(currentFileData, imageElement)
             if (displayContent !== '') setDisplayContent('')
             if (isPreview) setIsPreview(false)
           } else {
             const rawFile = decodeURIComponent(
               escape(window.atob(data.content))
             )
-            setContent(currentFileData, rawFile)
+            if (findTreeFile(currentFilePath))
+              setContent(currentFileData, rawFile)
             const fetchedIsMd = extractExtension(currentFilePath) === 'markdown'
             if (displayContent !== rawFile) setDisplayContent(rawFile)
             if (isPreview !== fetchedIsMd) setIsPreview(fetchedIsMd)
-            if (currentFileData.image) setImage(currentFileData, undefined)
+            if (currentFileData.image && findTreeFile(currentFilePath))
+              setImage(currentFileData, undefined)
           }
         })
         .catch((error: any) => {
@@ -244,9 +246,9 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
             `[CurrentFile] Error fetching content for ${currentFilePath}:`,
             error
           )
-          const errorMsg = `// Error loading file: ${fileData.name}\n// ${
-            error.message || error
-          }`
+          const errorMsg = `// Error loading file: ${
+            fileData?.name || currentFilePath
+          }\n// ${error.message || error}`
           if (displayContent !== errorMsg) setDisplayContent(errorMsg)
           const currentFileData = findTreeFile(currentFilePath)
           if (currentFileData?.image) setImage(currentFileData, undefined)
@@ -315,13 +317,11 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
     return null
   }
 
-  const fileDataFromContext = files.find(f => f.path === currentFilePath)
-
-  if (!fileDataFromContext) {
-    console.error(
-      `[CurrentFile Render] File data missing from flat 'files' state for path: ${currentFilePath} `
-    )
-    return <div>Error: File data missing.</div>
+  const fileDataFromContext = files.find(f => f.path === currentFilePath) || {
+    path: currentFilePath,
+    name: currentFilePath.split('/').pop() || currentFilePath,
+    type: 'blob' as const,
+    content: undefined
   }
 
   if (isCurrentDirectory) {

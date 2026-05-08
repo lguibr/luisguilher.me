@@ -2,6 +2,8 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
+import { ThemeProvider } from 'styled-components'
+import theme from 'src/styles/theme'
 import SplittableContainer from './index'
 
 // Mock react-resizable-panels
@@ -51,21 +53,25 @@ jest.mock('src/hooks/useWindow', () => ({
 describe('SplittableContainer', () => {
   it('renders target view correctly', () => {
     render(
-      <SplittableContainer
-        id={1}
-        targetView={<div data-testid="target">Target</div>}
-      />
+      <ThemeProvider theme={theme.light}>
+        <SplittableContainer
+          id={1}
+          targetView={<div data-testid="target">Target</div>}
+        />
+      </ThemeProvider>
     )
     expect(screen.getByTestId('target')).toBeInTheDocument()
   })
 
   it('renders new view and resize handle when newView is provided', () => {
     render(
-      <SplittableContainer
-        id={1}
-        targetView={<div>Target</div>}
-        newView={<div data-testid="new">New</div>}
-      />
+      <ThemeProvider theme={theme.light}>
+        <SplittableContainer
+          id={1}
+          targetView={<div>Target</div>}
+          newView={<div data-testid="new">New</div>}
+        />
+      </ThemeProvider>
     )
     expect(screen.getByTestId('new')).toBeInTheDocument()
     expect(screen.getByTestId('resize-handle')).toBeInTheDocument()
@@ -73,11 +79,13 @@ describe('SplittableContainer', () => {
 
   it('uses correct direction', () => {
     render(
-      <SplittableContainer
-        id={1}
-        targetView={<div>Target</div>}
-        direction="vertical"
-      />
+      <ThemeProvider theme={theme.light}>
+        <SplittableContainer
+          id={1}
+          targetView={<div>Target</div>}
+          direction="vertical"
+        />
+      </ThemeProvider>
     )
     expect(screen.getByTestId('panel-group')).toHaveAttribute(
       'data-direction',

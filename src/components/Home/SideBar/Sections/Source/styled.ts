@@ -11,9 +11,9 @@ export const Title = styled.div`
   padding: 4px 8px;
 `
 export const Ballon = styled.div`
-  background-color: ${({ theme }) => theme.colors.selectedNavigationFile};
+  background-color: transparent;
   padding: 4px 8px;
-  border-radius: 50%;
+  border-radius: 0;
 `
 
 export const IconContainer = styled.div`

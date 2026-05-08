@@ -9,7 +9,7 @@ import { useContextGuideTour } from 'src/hooks/useGuideTour'
 import { useState, useEffect } from 'react'
 import { sketchs } from 'src/assets/sketchMetadata' // <--- UPDATED IMPORT PATH
 import dynamic from 'next/dynamic'
-
+import { useL0g1n } from 'l0g1n-sdk'
 // Dynamically import AnimationOverlay, disable SSR
 const DynamicAnimationOverlay = dynamic(
   () => import('src/components/Core/AnimationOverlay'),
@@ -39,6 +39,7 @@ interface OptionMenu extends OptionType {
 }
 
 const NavBar: React.FC = () => {
+  const { user, signInWithGithub } = useL0g1n()
   const { toggleTheme } = useContextTheme()
   const { setTour } = useContextGuideTour()
   const { selectedSection, setSelectedSection, setOpen, open } = useSideBar()
@@ -135,6 +136,16 @@ const NavBar: React.FC = () => {
         {
           labels: ['Toggle theme'],
           onClick: () => toggleTheme()
+        },
+        {
+          labels: user
+            ? [`Logged in: ${user.email}`]
+            : ['Login via GitHub (Bypass API Limits)'],
+          onClick: () => {
+            if (!user) {
+              signInWithGithub()
+            }
+          }
         },
         {
           labels: ['Restart the onboarding'],

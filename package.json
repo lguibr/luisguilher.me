@@ -8,7 +8,9 @@
     "start": "NODE_OPTIONS='--openssl-legacy-provider' next start",
     "lint": "NODE_OPTIONS='--openssl-legacy-provider' next lint && prettier --write ./src && yarn typecheck",
     "lint:hook": "yarn typecheck && eslint --fix ./src && pretty-quick --staged",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write ./src",
+    "test": "jest"
   },
   "engines": {
     "node": "22.x"
@@ -19,6 +21,8 @@
     }
   },
   "dependencies": {
+    "@firebase/app": "^0.9.13",
+    "@google/genai": "^1.52.0",
     "@monaco-editor/react": "4.7.0",
     "@svgr/core": "^5.5.0",
     "@types/p5": "^1.3.0",
@@ -26,6 +30,9 @@
     "@types/yaml": "^1.9.7",
     "@vercel/analytics": "^1.2.2",
     "@vercel/speed-insights": "^1.2.0",
+    "firebase": "^9.23.0",
+    "idb": "^8.0.3",
+    "l0g1n-sdk": "1.0.2",
     "mermaid": "^9.4.3",
     "monaco-editor": "0.55.1",
     "next": "11.1.0",
@@ -40,6 +47,7 @@
     "rehype-raw": "6.1.1",
     "remark-gfm": "3.0.1",
     "sharp": "^0.29.0",
+    "sonner": "^2.0.7",
     "styled-components": "^5.3.0",
     "yaml": "^1.10.2"
   },
@@ -53,7 +61,7 @@
     "@testing-library/react": "12.1.5",
     "@types/jest": "^30.0.0",
     "@types/react": "17.0.17",
-    "@types/styled-components": "^5.1.12",
+    "@types/styled-components": "5.1.26",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
     "babel-jest": "^30.2.0",
@@ -74,5 +82,9 @@
     "pretty-quick": "^3.1.1",
     "typescript": "4.9.5"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
+  "resolutions": {
+    "@types/react": "17.0.17",
+    "@types/styled-components": "5.1.26"
+  }
 }

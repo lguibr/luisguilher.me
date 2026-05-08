@@ -5,7 +5,7 @@ import theme from 'src/styles/theme'
 import type { SketchFactory } from 'src/components/Core/Sketchs'
 import type P5 from 'p5' // Import P5 type only
 
-type Theme = typeof theme['vs-dark']
+type Theme = (typeof theme)['vs-dark']
 
 interface CanvasProps {
   sketchCanvas?: SketchFactory
