@@ -12,7 +12,11 @@ import {
   clearConversation,
   Conversation
 } from '../services/db'
-import { generateChatResponse, generateChatTitle, OpenFileContext } from '../services/ai'
+import {
+  generateChatResponse,
+  generateChatTitle,
+  OpenFileContext
+} from '../services/ai'
 import { FileContext } from './FileContext'
 import { FileViewsContext, FileViewsContextType } from './FileViewContext'
 import { useL0g1n } from 'l0g1n-sdk'
@@ -217,7 +221,11 @@ export const ChatProvider = ({ children }: { children: ReactNode }) => {
         }
         const updatedMessages = [...newMessages, aiMsg]
         setMessages(updatedMessages)
-        await saveConversation(activeConversationId, finalTitle, updatedMessages)
+        await saveConversation(
+          activeConversationId,
+          finalTitle,
+          updatedMessages
+        )
         loadConversations(activeConversationId) // Refresh list
       }
     } catch (err: any) {

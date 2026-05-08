@@ -41,7 +41,7 @@ export interface OpenFileContext {
 
 export const generateChatTitle = async (
   apiKey: string,
-  model: string,
+  _model: string,
   firstMessage: string
 ): Promise<string> => {
   if (!apiKey || !firstMessage.trim()) return firstMessage.slice(0, 30) + '...'
