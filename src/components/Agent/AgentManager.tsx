@@ -24,11 +24,190 @@ import {
   TokenBadge,
   MentionPopup,
   MentionItem,
-  ConversationSelect,
   ModelSelect,
   UserProfileBadge,
   Footer
 } from './styled'
+
+const SearchableDropdown = ({
+  options,
+  value,
+  onChange,
+  placeholder = 'Select...'
+}: {
+  options: { id: string; title: string }[]
+  value: string
+  onChange: (val: string) => void
+  placeholder?: string
+}) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const containerRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const selected = options.find(o => o.id === value)
+  const filtered = options.filter(o =>
+    o.title.toLowerCase().includes(search.toLowerCase())
+  )
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [isOpen])
+
+  return (
+    <div
+      ref={containerRef}
+      style={{ position: 'relative', flex: 1, maxWidth: '220px' }}
+    >
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '6px 10px',
+          backgroundColor: 'transparent',
+          border: '1px solid #333',
+          cursor: 'pointer',
+          fontSize: '12px',
+          color: '#e6edf3',
+          fontFamily: 'monospace',
+          transition: 'border-color 0.2s',
+          height: '28px'
+        }}
+        onMouseEnter={e => (e.currentTarget.style.borderColor = '#007acc')}
+        onMouseLeave={e =>
+          (e.currentTarget.style.borderColor = isOpen ? '#007acc' : '#333')
+        }
+      >
+        <span
+          style={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
+        >
+          {selected?.title || placeholder}
+        </span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="10"
+          height="10"
+          fill="currentColor"
+          viewBox="0 0 16 16"
+          style={{
+            marginLeft: '8px',
+            flexShrink: 0,
+            transform: isOpen ? 'rotate(180deg)' : 'none',
+            transition: 'transform 0.2s'
+          }}
+        >
+          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+        </svg>
+      </div>
+
+      {isOpen && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            right: 0,
+            marginTop: '4px',
+            backgroundColor: '#1e1e1e',
+            border: '1px solid #333',
+            zIndex: 100,
+            maxHeight: '200px',
+            display: 'flex',
+            flexDirection: 'column',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+          }}
+        >
+          <div style={{ padding: '6px', borderBottom: '1px solid #333' }}>
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Search chats..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '4px',
+                border: 'none',
+                backgroundColor: 'transparent',
+                color: '#fff',
+                outline: 'none',
+                fontSize: '12px',
+                fontFamily: 'monospace'
+              }}
+            />
+          </div>
+          <div style={{ overflowY: 'auto' }}>
+            {filtered.length > 0 ? (
+              filtered.map(o => (
+                <div
+                  key={o.id}
+                  onClick={() => {
+                    onChange(o.id)
+                    setIsOpen(false)
+                    setSearch('')
+                  }}
+                  style={{
+                    padding: '8px 10px',
+                    fontSize: '12px',
+                    cursor: 'pointer',
+                    color: o.id === value ? '#fff' : '#ccc',
+                    backgroundColor: o.id === value ? '#007acc' : 'transparent',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    fontFamily: 'monospace'
+                  }}
+                  onMouseEnter={e => {
+                    if (o.id !== value)
+                      e.currentTarget.style.backgroundColor = '#2a2d2e'
+                  }}
+                  onMouseLeave={e => {
+                    if (o.id !== value)
+                      e.currentTarget.style.backgroundColor = 'transparent'
+                  }}
+                >
+                  {o.title}
+                </div>
+              ))
+            ) : (
+              <div
+                style={{
+                  padding: '8px 10px',
+                  fontSize: '12px',
+                  color: '#666',
+                  fontFamily: 'monospace'
+                }}
+              >
+                No chats found
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 interface AgentManagerProps {
   onClose?: () => void
@@ -360,34 +539,69 @@ const AgentManager: React.FC<AgentManagerProps> = ({ onClose }) => {
     return (
       <Container id="ai-agent-tour">
         <Header>
-          <ConversationSelect
-            value={activeConversationId}
-            onChange={e => switchConversation(e.target.value)}
-            title="Select Conversation"
-          >
-            {conversations.map(c => (
-              <option key={c.id} value={c.id}>
-                {c.title}
-              </option>
-            ))}
-            {conversations.length === 0 && (
-              <option value="default">New Chat</option>
-            )}
-          </ConversationSelect>
+          <SearchableDropdown
+            options={
+              conversations.length > 0
+                ? conversations.map(c => ({ id: c.id, title: c.title }))
+                : [{ id: 'default', title: 'New Chat' }]
+            }
+            value={activeConversationId || 'default'}
+            onChange={val => switchConversation(val)}
+            placeholder="Select Conversation"
+          />
           <Controls>
             <button onClick={createNewConversation} title="New Chat">
-              +
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
             </button>
             <button
               onClick={() => deleteConversation(activeConversationId)}
               title="Delete Current Chat"
               style={{ color: '#ff4444' }}
             >
-              Del
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
             </button>
             {onClose && (
               <button onClick={onClose} title="Close Chat">
-                X
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
               </button>
             )}
           </Controls>
