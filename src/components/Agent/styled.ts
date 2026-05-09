@@ -95,6 +95,7 @@ export const Header = styled.div`
   padding: 12px 16px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.tileBorder};
   background: ${({ theme }) => theme.colors.menuBackground};
+  flex-shrink: 0;
 
   h3 {
     margin: 0;
@@ -251,6 +252,7 @@ export const InputContainer = styled.form`
   border-radius: 24px;
   padding: 4px 8px;
   margin: 16px 16px 8px 16px;
+  flex-shrink: 0;
 
   input {
     flex: 1;
