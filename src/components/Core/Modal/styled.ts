@@ -8,7 +8,7 @@ export const Container = styled.div<PropsContainer>`
   display: ${({ open }) => (open ? 'flex' : 'none')};
   position: fixed;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   z-index: 9999;
   animation: ${({ open }) => (open ? 'fadeIn 0.3s ease-out' : 'none')};
 `

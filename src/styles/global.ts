@@ -58,7 +58,7 @@ export default createGlobalStyle`
     font-weight: 400;
     line-height: 1.5;
     overflow: hidden;
-    min-height: 100vh;
+    min-height: 100dvh;
     background: #0f1115;
     letter-spacing: 0;
   }

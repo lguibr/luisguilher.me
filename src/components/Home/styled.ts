@@ -12,8 +12,8 @@ export const Container = styled.div`
   box-sizing: border-box;
   grid-template-rows: 30px 1fr 1.5rem;
   background: ${({ theme }) => theme.colors.editorBackground};
-  max-height: 100vh;
-  height: 100vh;
+  max-height: 100dvh;
+  height: 100dvh;
   overflow: hidden;
   @media print {
     display: none;
