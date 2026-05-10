@@ -48,7 +48,17 @@ const getHeaders = (token?: string | null): HeadersInit => {
   return headers
 }
 
+import { useL0g1n } from 'l0g1n-sdk'
+
 export const useGithubService = () => {
+  let signInWithGithub: (() => Promise<void>) | undefined
+  try {
+    const l0g1n = useL0g1n()
+    signInWithGithub = l0g1n.signInWithGithub
+  } catch (e) {
+    // Might be called outside a React tree, handle gracefully
+  }
+
   const safeFetch = async <T>(apiUrl: string): Promise<T> => {
     const localToken =
       typeof window !== 'undefined'
@@ -96,9 +106,14 @@ export const useGithubService = () => {
     const res = await fetch(apiUrl, { headers: getHeaders() })
 
     if (res.status === 403 || res.status === 429) {
-      toast.error(
-        'GitHub API Rate Limit Reached! Please login with GitHub to increase your limits.'
-      )
+      toast.error('GitHub API Rate Limit Reached!', {
+        id: 'github-rate-limit',
+        description: 'Please login with GitHub to increase your limits.',
+        action: {
+          label: 'Login',
+          onClick: () => signInWithGithub && signInWithGithub()
+        }
+      })
       throw new Error(`Rate limit reached: ${res.status}`)
     }
 
@@ -187,7 +202,8 @@ const legacyGithubService = {
     const res = await fetch(apiUrl, { headers: getHeaders() })
     if (res.status === 403 || res.status === 429) {
       toast.error(
-        'GitHub API Rate Limit Reached! AI cannot read more files right now.'
+        'GitHub API Rate Limit Reached! AI cannot read more files right now.',
+        { id: 'github-rate-limit-legacy' }
       )
       return { content: '' }
     }
@@ -215,7 +231,8 @@ const legacyGithubService = {
     const res = await fetch(apiUrl, { headers: getHeaders() })
     if (res.status === 403 || res.status === 429) {
       toast.error(
-        'GitHub API Rate Limit Reached! AI cannot read repository trees right now.'
+        'GitHub API Rate Limit Reached! AI cannot read repository trees right now.',
+        { id: 'github-rate-limit-legacy-tree' }
       )
       return []
     }

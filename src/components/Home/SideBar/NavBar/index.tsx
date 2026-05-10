@@ -5,7 +5,8 @@ import FloatMenu from 'src/components/Core/FloatMenu'
 import useContextTheme from 'src/hooks/useContextTheme'
 import useContextFile from 'src/hooks/useContextFile'
 import { useContextPrint } from 'src/hooks/useContextPrint'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { ChatContext } from 'src/contexts/ChatContext'
 import { sketchs } from 'src/assets/sketchMetadata' // <--- UPDATED IMPORT PATH
 import dynamic from 'next/dynamic'
 import { useL0g1n } from 'l0g1n-sdk'
@@ -41,6 +42,7 @@ interface OptionMenu extends OptionType {
 
 const NavBar: React.FC = () => {
   const { user, signInWithGithub, auth, logOut } = useL0g1n()
+  const { setApiKey } = useContext(ChatContext)
   const { toggleTheme } = useContextTheme()
   const { selectedSection, setSelectedSection, setOpen, open } = useSideBar()
   const { diffFiles } = useContextFile()
@@ -103,6 +105,10 @@ const NavBar: React.FC = () => {
       variant: 'profile',
       options: [
         {
+          labels: ['Toggle theme'],
+          onClick: () => toggleTheme()
+        },
+        {
           labels: ['Send me a Email'],
           onClick: () => {
             window.open(
@@ -130,109 +136,19 @@ const NavBar: React.FC = () => {
         },
         ...(user
           ? [
-              {
-                labels: [`Logged in: ${user.email}`],
-                onClick: () => undefined
-              },
-              {
-                labels: [
-                  typeof window !== 'undefined' &&
-                  localStorage.getItem('GIG_GITHUB_TOKEN')
-                    ? 'GitHub: Connected'
-                    : 'Connect GitHub (API)'
-                ],
-                onClick: async () => {
-                  if (auth) {
-                    try {
-                      const provider = new GithubAuthProvider()
-                      // provider.addScope('repo')
-                      const result = await signInWithPopup(auth, provider)
-
-                      console.log('[NavBar] GitHub Connection Result:', result)
-                      const credential =
-                        GithubAuthProvider.credentialFromResult(result)
-                      if (credential?.accessToken) {
-                        localStorage.setItem(
-                          'GIG_GITHUB_TOKEN',
-                          credential.accessToken
-                        )
-                        console.log(
-                          '[NavBar] GIG_GITHUB_TOKEN saved to localStorage'
-                        )
-                        window.location.reload()
-                      } else {
-                        console.warn(
-                          '[NavBar] No accessToken found in credential'
-                        )
-                      }
-                    } catch (error: unknown) {
-                      console.error('[NavBar] GitHub Auth Error:', error)
-                      toast.error(
-                        `Auth failed: ${
-                          (error as Error).message || 'Unknown error'
-                        }`
-                      )
+              ...(user.email || user.displayName
+                ? [
+                    {
+                      labels: [`Logged in: ${user.email || user.displayName}`],
+                      onClick: () => undefined
                     }
-                  }
-                }
-              },
+                  ]
+                : []),
               {
-                labels: ['Logout'],
-                onClick: async () => {
-                  await logOut()
-                  localStorage.removeItem('GIG_GITHUB_TOKEN')
-                }
-              }
-            ]
-          : [])
-      ]
-    },
-
-    {
-      variant: 'settings',
-      options: [
-        {
-          labels: ['Toggle theme'],
-          onClick: () => toggleTheme()
-        },
-        ...(user
-          ? [
-              {
-                labels: [`Logged in: ${user.email}`],
-                onClick: () => undefined
-              },
-              {
-                labels: [
-                  typeof window !== 'undefined' &&
-                  localStorage.getItem('GIG_GITHUB_TOKEN')
-                    ? 'GitHub: Connected'
-                    : 'Connect GitHub (API)'
-                ],
-                onClick: async () => {
-                  if (auth) {
-                    try {
-                      const provider = new GithubAuthProvider()
-                      // provider.addScope('repo')
-                      const result = await signInWithPopup(auth, provider)
-                      const credential =
-                        GithubAuthProvider.credentialFromResult(result)
-                      if (credential?.accessToken) {
-                        localStorage.setItem(
-                          'GIG_GITHUB_TOKEN',
-                          credential.accessToken
-                        )
-                        console.log('[NavBar] GitHub Token captured and saved.')
-                        window.location.reload() // Reload to refresh service state
-                      }
-                    } catch (error: unknown) {
-                      console.error('[NavBar] GitHub Auth Error:', error)
-                      toast.error(
-                        `Auth failed: ${
-                          (error as Error).message || 'Unknown error'
-                        }`
-                      )
-                    }
-                  }
+                labels: ['Set API Key'],
+                onClick: () => {
+                  const key = prompt('Enter your Gemini API Key:')
+                  if (key) setApiKey(key)
                 }
               },
               {
@@ -245,12 +161,18 @@ const NavBar: React.FC = () => {
             ]
           : [
               {
+                labels: ['Set API Key'],
+                onClick: () => {
+                  const key = prompt('Enter your Gemini API Key:')
+                  if (key) setApiKey(key)
+                }
+              },
+              {
                 labels: ['Login via GitHub (Bypass API Limits)'],
                 onClick: async () => {
                   if (auth) {
                     try {
                       const provider = new GithubAuthProvider()
-                      // provider.addScope('repo')
                       const result = await signInWithPopup(auth, provider)
                       const credential =
                         GithubAuthProvider.credentialFromResult(result)
@@ -286,6 +208,10 @@ const NavBar: React.FC = () => {
   ]
 
   const handleClick = (selection: Variant): void => {
+    if (selection === 'debug') {
+      return
+    }
+
     const isSameSection = selectedSection === selection
 
     isSameSection && setOpen(!open)
@@ -323,7 +249,20 @@ const NavBar: React.FC = () => {
             >
               {option.options ? (
                 <FloatMenu options={option?.options}>
-                  <Icon variant={option.variant} height="30px" width="30px" />
+                  {option.variant === 'profile' && user?.photoURL ? (
+                    <img
+                      src={user.photoURL}
+                      alt="User Profile"
+                      style={{
+                        width: '30px',
+                        height: '30px',
+                        borderRadius: '50%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  ) : (
+                    <Icon variant={option.variant} height="30px" width="30px" />
+                  )}
                 </FloatMenu>
               ) : (
                 <div

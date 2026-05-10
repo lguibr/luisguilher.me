@@ -30,11 +30,20 @@ const Files: React.FC = () => {
   const absoluteDiffTree = buildTree(splittedDiffFiles)
 
   const resumeFiles = absoluteDiffTree.filter(({ path }) => path === 'resume')
-  const repoFiles = absoluteDiffTree.filter(({ path }) => path !== 'resume')
+  const repositoriesFiles = absoluteDiffTree.filter(
+    ({ path }) => path === 'repositories'
+  )
+  const repoFiles = absoluteDiffTree.filter(
+    ({ path }) => path !== 'resume' && path !== 'repositories'
+  )
 
   const relativeDiffTree: FileType[] = repoFiles.length
-    ? [{ path: repo, name: repo, children: repoFiles }, ...resumeFiles]
-    : [...resumeFiles]
+    ? [
+        { path: repo, name: repo, children: repoFiles },
+        ...resumeFiles,
+        ...repositoriesFiles
+      ]
+    : [...resumeFiles, ...repositoriesFiles]
 
   const sourceFiles = type === 'tree' ? relativeDiffTree : diffFiles
   const totalChanges = JSON.stringify(diffFiles.length || 0)

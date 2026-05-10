@@ -103,7 +103,9 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
       return
     }
 
-    let fileData = findTreeFile(currentFilePath)
+    let fileData =
+      findTreeFile(currentFilePath) ||
+      files.find(f => f.path === currentFilePath)
 
     if (!fileData) {
       console.warn(

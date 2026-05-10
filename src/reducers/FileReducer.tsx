@@ -201,7 +201,9 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
             f.path === 'repositories' ||
             f.path.startsWith('repositories/') ||
             f.path === 'CURRICULUM.md' ||
-            f.path === 'README.md'
+            f.path === 'README.md' ||
+            f.path === 'CURRICULUM.md__working__tree__' ||
+            f.path === 'README.md__working__tree__'
         )
       } else {
         if (existingRootIndex !== -1) {

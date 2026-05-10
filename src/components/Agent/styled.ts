@@ -234,6 +234,21 @@ export const MessageBubble = styled.div<{ isUser: boolean }>`
   box-shadow: none;
   position: relative;
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  li,
+  strong,
+  em,
+  span,
+  div {
+    color: ${({ theme }) => theme.colors.text};
+  }
+
   a {
     color: ${({ theme }) => theme.colors.vsBlue || theme.colors.accentColor};
     text-decoration: none;
@@ -447,5 +462,69 @@ export const UserProfileBadge = styled.div`
     &:hover {
       text-decoration: underline;
     }
+  }
+`
+
+export const DropdownTrigger = styled.div<{ isOpen?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background-color: transparent;
+  border: 1px solid
+    ${({ theme, isOpen }) =>
+      isOpen ? theme.colors.accentColor : theme.colors.tileBorder};
+  cursor: pointer;
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.text};
+  font-family: monospace;
+  transition: border-color 0.2s;
+  height: 28px;
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.accentColor};
+  }
+`
+
+export const DropdownPopup = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background: ${({ theme }) => theme.colors.menuBackground};
+  border: 1px solid ${({ theme }) => theme.colors.tileBorder};
+  z-index: 100;
+  max-height: 200px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+`
+
+export const DropdownInput = styled.input`
+  width: 100%;
+  padding: 4px;
+  background-color: ${({ theme }) => theme.colors.editorBackground};
+  color: ${({ theme }) => theme.colors.text};
+  border: 1px solid ${({ theme }) => theme.colors.tileBorder};
+  border-radius: 4px;
+  font-size: 12px;
+  outline: none;
+
+  &:focus {
+    border-color: ${({ theme }) => theme.colors.accentColor};
+  }
+`
+
+export const DropdownOption = styled.div<{ active?: boolean }>`
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: ${({ active, theme }) =>
+    active ? theme.colors.editorBackground : 'transparent'};
+  color: ${({ theme }) => theme.colors.text};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.editorBackground};
   }
 `

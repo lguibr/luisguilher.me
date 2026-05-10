@@ -89,7 +89,7 @@ export const FileProvider: React.FC = ({ children }) => {
     }
   ]
 
-  const CACHE_KEY = 'GIG_FILES_CACHE_V3'
+  const CACHE_KEY = 'GIG_FILES_CACHE_V4'
 
   const [files, dispatch]: [files: FileType[], dispatch: Dispatch<ActionType>] =
     useReducer(fileReducer, initialFlatState)
