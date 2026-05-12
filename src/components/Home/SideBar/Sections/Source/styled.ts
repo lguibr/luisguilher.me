@@ -32,6 +32,24 @@ export const Row = styled.div`
   justify-content: space-between;
 `
 
+export const ActionRow = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 8px 4px 8px;
+`
+
+export const ActionButton = styled.div`
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background-color: ${({ theme }) => theme.colors.menuBackground};
+  border: 1px solid ${({ theme }) => theme.colors.tileBorder};
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.sideHighlightHover};
+  }
+`
+
 export const ArrowIcon = styled(Arrow)`
   transform: ${({ open }) => !open && 'rotate(-90deg)'};
   fill: ${({ theme }) => theme.colors.text};

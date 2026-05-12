@@ -315,16 +315,28 @@ const Editor: React.FC<{ id: number }> = ({ id }) => {
     [currentFileObject, isCurrentDirectory, setNewContent]
   )
 
+  const fileDataFromContext = files.find(f => f.path === currentFilePath) || {
+    path: currentFilePath || '',
+    name: currentFilePath?.split('/').pop() || currentFilePath || '',
+    type: 'blob' as const,
+    content: undefined,
+    newContent: undefined,
+    image: undefined,
+    isDiff: false
+  }
+
+  useEffect(() => {
+    if (
+      fileDataFromContext.newContent !== undefined &&
+      displayContent !== fileDataFromContext.newContent
+    ) {
+      setDisplayContent(fileDataFromContext.newContent)
+    }
+  }, [fileDataFromContext.newContent])
+
   // --- Render Logic ---
   if (!currentFilePath) {
     return null
-  }
-
-  const fileDataFromContext = files.find(f => f.path === currentFilePath) || {
-    path: currentFilePath,
-    name: currentFilePath.split('/').pop() || currentFilePath,
-    type: 'blob' as const,
-    content: undefined
   }
 
   if (isCurrentDirectory) {

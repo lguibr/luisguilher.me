@@ -37,6 +37,8 @@ export type FileContextType = {
   setFocusedFileView: (file: number) => void
   fetchAndMergeRepoTree: (repoName: string) => Promise<void>
   setFiles: (files: FileType[]) => void
+  undoAll: () => void
+  resetAll: () => void
 }
 
 export const FileContext = createContext({} as FileContextType)
@@ -118,12 +120,15 @@ export const FileProvider: React.FC = ({ children }) => {
     setIsLoaded(true)
   }, [])
 
-  // Save to cache when files change
+  const [shouldSave, setShouldSave] = useState(false)
+
+  // Save to cache ONLY when explicitly requested (e.g. Stage All)
   useEffect(() => {
-    if (isLoaded && files.length > initialFlatState.length) {
+    if (shouldSave && isLoaded && files.length > initialFlatState.length) {
       localStorage.setItem(CACHE_KEY, JSON.stringify(files))
+      setShouldSave(false)
     }
-  }, [files, isLoaded])
+  }, [files, isLoaded, shouldSave])
 
   const mainTreeFetched = useRef(false)
   const otherReposListFetched = useRef(false) // Renamed for clarity
@@ -155,6 +160,16 @@ export const FileProvider: React.FC = ({ children }) => {
     },
     []
   )
+
+
+  const undoAll = useCallback(() => {
+    dispatch({ type: 'UNDO_ALL' })
+  }, [])
+
+  const resetAll = useCallback(() => {
+    localStorage.removeItem(CACHE_KEY)
+    window.location.reload()
+  }, [])
 
   // --- Stable Fetch Logic ---
   const fetchMainTreeCallback = useCallback(async () => {
@@ -346,7 +361,9 @@ export const FileProvider: React.FC = ({ children }) => {
         focusedFileView,
         setFocusedFileView,
         fetchAndMergeRepoTree,
-        setFiles
+        setFiles,
+        undoAll,
+        resetAll
       }}
     >
       {children}

@@ -65,11 +65,16 @@ type MergeTreeAction = {
   }
 }
 
+type StageAllAction = { type: 'STAGE_ALL' }
+type UndoAllAction = { type: 'UNDO_ALL' }
+
 export type ActionType =
   | SingleTargetAction
   | SetFilesAction
   | AddRepoPlaceholdersAction
   | MergeTreeAction
+  | StageAllAction
+  | UndoAllAction
 
 const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
   switch (action.type) {
@@ -258,6 +263,19 @@ const fileReducer = (state: FileType[], action: ActionType): FileType[] => {
         (file, index, self) =>
           index === self.findIndex(f => f.path === file.path)
       )
+    }
+
+    case 'UNDO_ALL': {
+      return state.map(file => {
+        if (file.diff) {
+          return {
+            ...file,
+            newContent: file.content,
+            diff: false
+          }
+        }
+        return file
+      })
     }
 
     default:

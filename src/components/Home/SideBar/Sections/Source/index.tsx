@@ -4,6 +4,7 @@ import Text from 'src/components/Core/Text'
 
 import List from 'public/icons/list.svg'
 import Tree from 'public/icons/tree.svg'
+import Refresh from 'public/icons/refresh.svg'
 
 import {
   Container,
@@ -12,7 +13,9 @@ import {
   RowClickable,
   IconContainer,
   Ballon,
-  ArrowIcon
+  ArrowIcon,
+  ActionRow,
+  ActionButton
 } from './styled'
 import { buildTree, rebuildPaths } from 'src/utils/treeUtils'
 
@@ -20,32 +23,38 @@ import { FileType } from 'src/contexts/FileContext'
 import { useState } from 'react'
 
 const Files: React.FC = () => {
-  const { diffFiles } = useContextFile()
+  const { diffFiles, undoAll } = useContextFile()
 
   const [type, setType] = useState<'tree' | 'list'>('list')
-  const [open, setOpen] = useState<boolean>(true)
+  const [openChanges, setOpenChanges] = useState<boolean>(true)
 
   const repo = process.env.REPO || 'luisguilher.me'
-  const splittedDiffFiles = rebuildPaths(diffFiles)
-  const absoluteDiffTree = buildTree(splittedDiffFiles)
 
-  const resumeFiles = absoluteDiffTree.filter(({ path }) => path === 'resume')
-  const repositoriesFiles = absoluteDiffTree.filter(
-    ({ path }) => path === 'repositories'
-  )
-  const repoFiles = absoluteDiffTree.filter(
-    ({ path }) => path !== 'resume' && path !== 'repositories'
-  )
+  const buildRelativeTree = (fileList: FileType[]) => {
+    const splittedFiles = rebuildPaths(fileList)
+    const absoluteTree = buildTree(splittedFiles)
 
-  const relativeDiffTree: FileType[] = repoFiles.length
-    ? [
-        { path: repo, name: repo, children: repoFiles },
-        ...resumeFiles,
-        ...repositoriesFiles
-      ]
-    : [...resumeFiles, ...repositoriesFiles]
+    const resumeFiles = absoluteTree.filter(({ path }) => path === 'resume')
+    const repositoriesFiles = absoluteTree.filter(
+      ({ path }) => path === 'repositories'
+    )
+    const repoFiles = absoluteTree.filter(
+      ({ path }) => path !== 'resume' && path !== 'repositories'
+    )
+
+    return repoFiles.length
+      ? [
+          { path: repo, name: repo, children: repoFiles },
+          ...resumeFiles,
+          ...repositoriesFiles
+        ]
+      : [...resumeFiles, ...repositoriesFiles]
+  }
+
+  const relativeDiffTree = buildRelativeTree(diffFiles)
 
   const sourceFiles = type === 'tree' ? relativeDiffTree : diffFiles
+
   const totalChanges = JSON.stringify(diffFiles.length || 0)
 
   const toggleTypeList = () => {
@@ -63,16 +72,27 @@ const Files: React.FC = () => {
             {type === 'list' ? <Tree /> : <List />}
           </IconContainer>
         </Row>
-        <RowClickable onClick={() => setOpen(!open)}>
+        <RowClickable onClick={() => setOpenChanges(!openChanges)}>
           <Row>
-            <ArrowIcon height="10px" width="10px" open={open} />
+            <ArrowIcon height="10px" width="10px" open={openChanges} />
             <Text size={12}>Changes </Text>
           </Row>
           <Ballon>
             <Text size={12}>{totalChanges} </Text>
           </Ballon>
         </RowClickable>
-        {open && <RenderDir embedded={0} files={sourceFiles} />}
+        {openChanges && diffFiles.length > 0 && (
+          <ActionRow>
+            <ActionButton
+              onClick={undoAll}
+              style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+            >
+              <Refresh width="10px" height="10px" fill="#fafafa" />
+              <Text size={10}>Undo Changes</Text>
+            </ActionButton>
+          </ActionRow>
+        )}
+        {openChanges && <RenderDir embedded={0} files={sourceFiles} />}
       </Container>
     )
   )
